@@ -1,3 +1,56 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:778342090140e5dc234547fc2c72ebf57a6e54bb5cfe5ae0dc55a1b42641bc41
-size 600
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Rotate_CW
+  - Rotate_ACW
+  - Move_Forward
+  - For_Loop
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Board
+    uniqueID: 2300232485
+    locked: 0
+  - name: Blocks
+    uniqueID: 929181157
+    locked: 0
+  - name: Player
+    uniqueID: 3510236055
+    locked: 0

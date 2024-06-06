@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3d736abe1814a9ea8ef428fe6aa2025e6ed8e2644916413348250d1d6a5a9fc8
-size 322
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Interactable : Entity
+{
+    private List<string> inventory;
+
+    public List<string> getInventory() {
+        return inventory;
+    }
+
+    public override string getName() {
+        return "interactable";
+    }
+}

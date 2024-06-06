@@ -1,3 +1,39 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:fa44b6d3b1284d6a4d8a75e6534aa94d9d98386bb3ff8c529bdc4bc7bd566595
-size 1057
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Dragable : MonoBehaviour
+{
+    public delegate void DragEndedDelegate(Dragable dragableObject);
+
+    public DragEndedDelegate dragEndedCallback;
+
+    private bool isDragged = false;
+    private Vector3 mouseDragStartPosition;
+    private Vector3 spriteDragStartPosition;
+    private Vector3 objectDragStartPosition;
+
+
+    private void OnMouseDown()
+    {
+        isDragged = true;
+        mouseDragStartPosition = Input.mousePosition;
+        objectDragStartPosition = transform.position;
+    }
+
+    private void OnMouseDrag()
+    {
+        if (isDragged)
+        {
+            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mouseWorldPosition.z = objectDragStartPosition.z; // Maintain the same z position
+            transform.position = mouseWorldPosition;
+        }
+    }
+
+    private void OnMouseUp()
+    {
+        isDragged = false;
+        dragEndedCallback(this);
+    }
+}

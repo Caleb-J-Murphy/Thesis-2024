@@ -48,8 +48,7 @@ public class GameController : MonoBehaviour
                 }
                 else if (cell == 'M')
                 {
-                    GameObject mine = Instantiate(minePrefab, position, Quaternion.identity);
-                    board.AddEntity(mine.GetComponent<Mine>(), new Vector2(x, -y));
+                    CreateMine(board, position, x, -y);
                 }
                 else if (cell == 'H')
                 {
@@ -61,6 +60,14 @@ public class GameController : MonoBehaviour
         }
 
         return board;
+    }
+
+    private void CreateMine(Board board, Vector2 position, int x, int y) {
+        GameObject mine = Instantiate(minePrefab, position, Quaternion.identity);
+        int damage = 5;
+        mine.GetComponent<Mine>().Activate();
+        mine.GetComponent<Mine>().SetDamage(damage);
+        board.AddEntity(mine.GetComponent<Mine>(), new Vector2(x, y));
     }
 
     public Dictionary<string, Entity> createEntities(Board board) {
@@ -87,10 +94,16 @@ public class GameController : MonoBehaviour
     public Dictionary<string, Action<string>> createEntityFunctions() {
         Dictionary<string, Action<string>> entityFunctions = new Dictionary<string, Action<string>>()
         {
-            { "moveForward", (param) => inputProcessor.ExecuteEntityFunction("hero", hero => hero.moveForward(int.Parse(param))) },
-            { "moveUp", (param) => inputProcessor.ExecuteEntityFunction("hero", hero => hero.moveUp()) },
-            { "turnRight", (param) => inputProcessor.ExecuteEntityFunction("hero", hero => hero.turnRight()) },
-            { "turnLeft", (param) => inputProcessor.ExecuteEntityFunction("hero", hero => hero.turnLeft()) },
+            { "moveForward",    (param) => inputProcessor.ExecuteEntityFunction("hero", hero => 
+                hero.moveForward(int.Parse(param))) },
+            { "moveUp",         (param) => inputProcessor.ExecuteEntityFunction("hero", hero => 
+                hero.moveUp()) },
+            { "moveDown",       (param) => inputProcessor.ExecuteEntityFunction("hero", hero => 
+                hero.moveDown()) },
+            { "turnRight",      (param) => inputProcessor.ExecuteEntityFunction("hero", hero => 
+                hero.turnRight()) },
+            { "turnLeft",       (param) => inputProcessor.ExecuteEntityFunction("hero", hero => 
+                hero.turnLeft()) },
         };
         return entityFunctions;
     }

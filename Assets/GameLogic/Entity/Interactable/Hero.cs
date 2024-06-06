@@ -25,23 +25,21 @@ public class Hero : Interactable
         return "hero";
     }
 
-
-    public float stepSize = 1f;  // Size of one step
-
     public void moveUp() {
-        setPosition(getPosition() + Vector2.up * stepSize);
+        setPosition(getPosition() + Vector2.up);
     }
 
     public void moveDown() {
-        setPosition(getPosition() + Vector2.down * stepSize);
+        setPosition(getPosition() + Vector2.down);
+        Debug.Log("Moved player down");
     }
 
     public void moveLeft() {
-        setPosition(getPosition() + Vector2.left * stepSize);
+        setPosition(getPosition() + Vector2.left);
     }
 
     public void moveRight() {
-        setPosition(getPosition() + Vector2.right * stepSize);
+        setPosition(getPosition() + Vector2.right);
     }
 
     public void turnLeft() {

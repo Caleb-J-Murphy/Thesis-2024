@@ -6,14 +6,6 @@ public class Board : MonoBehaviour
 {
     public List<Entity> objects = new List<Entity>();
 
-    public void step() {
-        //Check that the there are heros on a mine that is a activated
-        List<Mine> mines = getEntities<Mine>();
-        List<Hero> heroes = getEntities<Hero>();
-
-        checkPlayerHitMines(mines, heroes);
-    }
-
     public void AddEntity(Entity entity, Vector2 position) {
         Hero specificEntity = entity as Hero;
         if (specificEntity != null) {
@@ -23,8 +15,15 @@ public class Board : MonoBehaviour
         objects.Add(entity);
     }
 
-    private void checkPlayerHitMines(List<Mine> mines, List<Hero> heroes)
+    public void UpdateBoard() {
+        Debug.Log("Updating Board");
+        checkPlayerHitMines();
+    }
+
+    public void checkPlayerHitMines()
     {
+        List<Mine> mines = getEntities<Mine>();
+        List<Hero> heroes = getEntities<Hero>();
         foreach (Mine mine in mines)
         {
             if (mine.isActivated)
@@ -33,7 +32,7 @@ public class Board : MonoBehaviour
                 {
                     if (hero.getPosition() == mine.getPosition())
                     {
-                        mine.Trigger(hero); // Assuming Trigger method takes a Hero parameter
+                        mine.Trigger(hero);
                     }
                 }
             }

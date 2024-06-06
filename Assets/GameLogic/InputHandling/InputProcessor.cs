@@ -35,6 +35,8 @@ public class InputProcessor : MonoBehaviour
                 }
             }
             hero.moveForward(1)
+            hero.moveDown()
+            hero.moveUp()
         ";
 
         StartCoroutine(ProcessInput(input));
@@ -172,6 +174,7 @@ public class InputProcessor : MonoBehaviour
         if (entities.ContainsKey(entityName) && entityFunctions.ContainsKey(commandName))
         {
             entityFunctions[commandName].Invoke(param);
+            board.UpdateBoard();
             yield return new WaitForSeconds(stepDelay);
         }
         else

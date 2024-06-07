@@ -57,6 +57,7 @@ public class InputProcessor : MonoBehaviour
                 hero.moveDown()
                 hero.moveDown()
             ";
+            
 
             StartCoroutine(ProcessInput(input));
         }

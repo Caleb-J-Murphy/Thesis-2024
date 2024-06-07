@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class Mine : Entity
 {
-    public bool isActivated;
-    public int damage;
+    public bool isActivated = true;
+    public int damage = 10;
 
-    public bool isBlownUp;
+    private SpriteRenderer spriteRenderer;
 
-    public Mine()
+    void Awake()
     {
-        isActivated = false;
-        damage = 10; // Default damage value, you can change it as needed.
+        // Get the SpriteRenderer component of the first child GameObject
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        if (spriteRenderer == null)
+        {
+            Debug.LogError("SpriteRenderer component not found in any child GameObject.");
+        }
     }
 
     public override string getName() {
@@ -23,6 +28,7 @@ public class Mine : Entity
     {
         isActivated = true;
         Debug.Log("Mine activated");
+        spriteRenderer.color = Color.red;
     }
 
     public void Deactivate()
@@ -43,6 +49,9 @@ public class Mine : Entity
         {
             Debug.Log("Mine triggered, dealing " + damage + " damage!");
             hero.TakeDamage(damage);
+            Deactivate();
+            //Somehow need to change the color of the sprite beneath it to be blue
+            spriteRenderer.color = Color.blue;
         }
     }
 }

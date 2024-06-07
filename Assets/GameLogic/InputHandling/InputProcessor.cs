@@ -21,8 +21,8 @@ public class InputProcessor : MonoBehaviour
             return;
         }
         string map = @"WWWW
-                       WM W
-                       WH W
+                       WMGD
+                       WHGW
                        WWWW";
         gameController.Initialise(map, out board, out entities, out entityFunctions);
         
@@ -45,17 +45,22 @@ public class InputProcessor : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && entities != null && entityFunctions != null)
         {
+            // string input = @"
+            //     int distance = 2
+            //     while(distance > 0) {
+            //         hero.moveForward(distance)
+            //         distance = distance - 1
+            //     }
+            //     hero.moveDown()
+            //     hero.moveDown()
+            //     hero.moveDown()
+            // ";
             string input = @"
-                int distance = 2
-                while(distance > 0) {
-                    hero.moveForward(distance)
-                    distance = distance - 1
-                }
-                hero.moveDown()
-                hero.moveDown()
-                hero.moveDown()
+                hero.moveRight()
+                hero.moveUp()
+                hero.useDoor()
             ";
             
 
@@ -620,6 +625,15 @@ public class InputProcessor : MonoBehaviour
             action(hero);
         } else {
             throw new InvalidOperationException("Only heroes can perform this action.");
+        }
+    }
+
+    public void ExecuteEntityFunctionDoor(string entityName, Action<Door> action)
+    {
+        if (entities[entityName] is Door door) {
+            action(door);
+        } else {
+            throw new InvalidOperationException("Only doors can perform this action.");
         }
     }
 

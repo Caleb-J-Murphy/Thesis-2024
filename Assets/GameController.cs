@@ -11,6 +11,8 @@ public class GameController : MonoBehaviour
     public GameObject wallPrefab;
     public GameObject heroPrefab;
     public GameObject minePrefab;
+    public GameObject gemPrefab;
+    public GameObject doorPrefab;
 
 
     private InputProcessor inputProcessor;
@@ -70,6 +72,14 @@ public class GameController : MonoBehaviour
                     GameObject hero = Instantiate(heroPrefab, position, Quaternion.identity);
                     hero.GetComponent<Hero>().Initialise(100, 50);
                     board.AddEntity(hero.GetComponent<Hero>(), new Vector2(x, -y));
+                } else if (cell == 'G')
+                {
+                    GameObject gem = Instantiate(gemPrefab, position, Quaternion.identity);
+                    board.AddEntity(gem.GetComponent<Gem>(), new Vector2(x, -y));
+                } else if (cell == 'D')
+                {
+                    GameObject door = Instantiate(doorPrefab, position, Quaternion.identity);
+                    board.AddEntity(door.GetComponent<Door>(), new Vector2(x, -y));
                 }
             }
         }
@@ -91,18 +101,19 @@ public class GameController : MonoBehaviour
         Dictionary<string, Entity> entities = new Dictionary<string, Entity>();
         foreach (var entity in entityList)
         {
+            if (entity.getName() == "hero" && entity is Hero heroEntity) {
+                heroEntity.board = board;
+            }
+            if (entity.getName() == "door" && entity is Door doorEntity) {
+                doorEntity.setBoard(board);
+            }
             entities[entity.getName()] = entity;
         }
 
-        if (entities["hero"] is Hero heroEntity)
-        {
-            heroEntity.board = board;
-        }
-
-        foreach (var kvp in entities)
-        {
-            // Debug.Log($"Entity Name: {kvp.Key}, Entity Type: {kvp.Value.GetType()}");
-        }
+        // foreach (var kvp in entities)
+        // {
+        //     // Debug.Log($"Entity Name: {kvp.Key}, Entity Type: {kvp.Value.GetType()}");
+        // }
         return entities;
     }
 
@@ -115,10 +126,16 @@ public class GameController : MonoBehaviour
                 hero.moveUp()) },
             { "moveDown",       (param) => inputProcessor.ExecuteEntityFunction("hero", hero => 
                 hero.moveDown()) },
+            { "moveRight",       (param) => inputProcessor.ExecuteEntityFunction("hero", hero => 
+                hero.moveRight()) },
+            { "moveLeft",       (param) => inputProcessor.ExecuteEntityFunction("hero", hero => 
+                hero.moveLeft()) },
             { "turnRight",      (param) => inputProcessor.ExecuteEntityFunction("hero", hero => 
                 hero.turnRight()) },
             { "turnLeft",       (param) => inputProcessor.ExecuteEntityFunction("hero", hero => 
                 hero.turnLeft()) },
+            { "useDoor",       (param) => inputProcessor.ExecuteEntityFunctionDoor("door", door => 
+                door.useDoor()) },
         };
         return entityFunctions;
     }

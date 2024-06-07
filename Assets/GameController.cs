@@ -16,12 +16,27 @@ public class GameController : MonoBehaviour
     private InputProcessor inputProcessor;
     void Start() {
         inputProcessor = GetComponent<InputProcessor>();
+
+        if (inputProcessor == null)
+        {
+            Debug.LogError("InputProcessor component not found!");
+        }
     }
 
     public void Initialise(string map, out Board board, out Dictionary<string, Entity> entities, out Dictionary<string, Action<string>> entityFunctions) {
         board = CreateBoardFromMap(map);
         entities = createEntities(board);
         entityFunctions = createEntityFunctions();
+
+        if (entities == null)
+        {
+            Debug.LogError("Entities dictionary is null!");
+        }
+
+        if (entityFunctions == null)
+        {
+            Debug.LogError("EntityFunctions dictionary is null!");
+        }
     }
 
     public Board CreateBoardFromMap(string map)

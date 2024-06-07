@@ -54,6 +54,7 @@ public class Hero : Interactable
 
     public void moveForward(int steps)
     {
+        Debug.Log("Running moveForward");
         for (int i = 0; i < steps; i++) {
             moveUp();
         }

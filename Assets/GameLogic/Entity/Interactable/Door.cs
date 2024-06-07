@@ -30,6 +30,18 @@ public class Door : Interactable
         return getID().Equals(other.getID());
     }
 
+    private SpriteRenderer spriteRenderer;
+    void Awake()
+    {
+        // Get the SpriteRenderer component of the first child GameObject
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        if (spriteRenderer == null)
+        {
+            Debug.LogError("SpriteRenderer component not found in any child GameObject.");
+        }
+    }
+
     private Board getBoard() {
         return board;
     }
@@ -38,17 +50,41 @@ public class Door : Interactable
         this.board = board;
     }
 
-    public bool useDoor() {
+    private bool unlocked;
+
+    public bool isUnlocked() {
+        return unlocked;
+    }
+
+    public void setUnlocked(bool unlocked) {
+        this.unlocked = unlocked;
+    }
+
+    private void OpenDoor() {
+        spriteRenderer.color = Color.green;
+        setUnlocked(true);
+    }
+
+    private void LockDoor() {
+        spriteRenderer.color = Color.red;
+        setUnlocked(false);
+    }
+
+    public void useDoor() {
         List<Hero> heros = getBoard().getEntities<Hero>();
         foreach (Hero hero in heros) {
             if (getDistance(hero.getPosition()) <= 1.1) {
                 //Check if the player has a key...
                 Collectable key = hero.TakeFromInventory("gem");
                 if (key != null) {
-                    return true;
+                    OpenDoor();
+                    return;
+                } else if (!isUnlocked()) {
+                    LockDoor();
+                    return;
                 }
             }
         }
-        return false;
+        return;
     }
 }

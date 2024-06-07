@@ -18,7 +18,23 @@ public class Board : MonoBehaviour
     public void UpdateBoard() {
         Debug.Log("Updating Board");
         checkPlayerHitMines();
+        checkPlayerPickup();
     }
+
+    public void checkPlayerPickup()
+    {
+        List<Collectable> collectables = getEntities<Collectable>();
+        List<Hero> heroes = getEntities<Hero>();
+        foreach (Collectable collectable in collectables) {
+            foreach (Hero hero in heroes) {
+                if (hero.getPosition() == collectable.getPosition()) {
+                    hero.AddToInventory(collectable);
+                    collectable.Pickup();
+                }
+            }
+        }
+    }
+
 
     public void checkPlayerHitMines()
     {

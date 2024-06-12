@@ -7,7 +7,8 @@ Used to control the game
 Hold all interactable objects to be then queried
 */
 public class GameController : MonoBehaviour
-{
+{  
+
     public GameObject wallPrefab;
     public GameObject heroPrefab;
     public GameObject minePrefab;
@@ -17,7 +18,11 @@ public class GameController : MonoBehaviour
     public TextAsset mapFile;
 
 
+    public GameObject gameHolder;
+
+
     private InputProcessor inputProcessor;
+
     void Start() {
         inputProcessor = GetComponent<InputProcessor>();
 
@@ -25,6 +30,11 @@ public class GameController : MonoBehaviour
         {
             Debug.LogError("InputProcessor component not found!");
         }
+
+        if (!gameHolder) {
+            Debug.LogError("Game holder not set");
+        }
+        
     }
 
     public string GetMap() {
@@ -54,6 +64,9 @@ public class GameController : MonoBehaviour
     public Board CreateBoardFromMap(string map)
     {
         GameObject boardGM = new GameObject("Board");
+        boardGM.transform.SetParent(gameHolder.transform);
+        boardGM.transform.localPosition = Vector3.zero;
+        Debug.Log($"Board Pos: {boardGM.transform.localPosition}");
         boardGM.AddComponent<Board>();
         Board board = boardGM.GetComponent<Board>();
 
@@ -67,11 +80,12 @@ public class GameController : MonoBehaviour
             {
                 char cell = line[x];
                 Vector3 position = new Vector3(x, -y, 0); // Assuming 2D grid with y-axis inverted
-
+                Debug.Log($"Board Pos: {boardGM.transform.position}");
                 if (cell == 'W')
                 {
-                    GameObject wall = Instantiate(wallPrefab, position, Quaternion.identity);
+                    GameObject wall = Instantiate(wallPrefab, position, Quaternion.identity, gameHolder.transform);
                     board.AddEntity(wall.GetComponent<Wall>(), new Vector2(x, -y));
+
                 }
                 else if (cell == 'M')
                 {
@@ -79,16 +93,16 @@ public class GameController : MonoBehaviour
                 }
                 else if (cell == 'H')
                 {
-                    GameObject hero = Instantiate(heroPrefab, position, Quaternion.identity);
+                    GameObject hero = Instantiate(heroPrefab, position, Quaternion.identity, gameHolder.transform);
                     hero.GetComponent<Hero>().Initialise(100, 50);
                     board.AddEntity(hero.GetComponent<Hero>(), new Vector2(x, -y));
                 } else if (cell == 'G')
                 {
-                    GameObject gem = Instantiate(gemPrefab, position, Quaternion.identity);
+                    GameObject gem = Instantiate(gemPrefab, position, Quaternion.identity, gameHolder.transform);
                     board.AddEntity(gem.GetComponent<Gem>(), new Vector2(x, -y));
                 } else if (cell == 'D')
                 {
-                    GameObject door = Instantiate(doorPrefab, position, Quaternion.identity);
+                    GameObject door = Instantiate(doorPrefab, position, Quaternion.identity, gameHolder.transform);
                     board.AddEntity(door.GetComponent<Door>(), new Vector2(x, -y));
                 }
             }
@@ -120,11 +134,6 @@ public class GameController : MonoBehaviour
             }
             entities[entity.getName()] = entity;
         }
-
-        // foreach (var kvp in entities)
-        // {
-        //     // Debug.Log($"Entity Name: {kvp.Key}, Entity Type: {kvp.Value.GetType()}");
-        // }
         return entities;
     }
 

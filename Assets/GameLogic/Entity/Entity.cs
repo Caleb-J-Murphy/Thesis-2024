@@ -21,7 +21,7 @@ public abstract class Entity : MonoBehaviour
     }
 
     void Start () {
-        position = transform.position;
+        position = transform.localPosition;
     }
 
     public Vector2 getPosition() {
@@ -34,7 +34,7 @@ public abstract class Entity : MonoBehaviour
     }
 
     private void updateTransform() {
-        transform.position = new Vector3(position.x, position.y, transform.position.z);
+        transform.localPosition = new Vector3(position.x, position.y, transform.localPosition.z);
     }
 
     public float getDistance(Vector2 position) {

@@ -15,6 +15,8 @@ public class GameController : MonoBehaviour
     public GameObject gemPrefab;
     public GameObject doorPrefab;
 
+    public GameObject winScreen;
+
     public String boardLevel;
 
     public Type boardLevelType;
@@ -94,6 +96,8 @@ public class GameController : MonoBehaviour
     public Board CreateBoardFromMap(string map)
     {
         Board board = CreateBoardWithComponent(boardLevelType);
+
+        board.winScreen = winScreen;
 
         string[] lines = map.Split('\n');
         int height = lines.Length;

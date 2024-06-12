@@ -11,6 +11,7 @@ public class BoardTest : Board
                 return false;
             }
         }
+        setWinScreen(true);
         return true;
     }
 }

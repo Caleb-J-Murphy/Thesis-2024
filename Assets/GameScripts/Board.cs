@@ -6,6 +6,8 @@ public class Board : MonoBehaviour
 {
     public List<Entity> objects = new List<Entity>();
 
+    public GameObject winScreen;
+
     public void AddEntity(Entity entity, Vector2 position) {
         Hero specificEntity = entity as Hero;
         if (specificEntity != null) {
@@ -82,6 +84,13 @@ public class Board : MonoBehaviour
 
     public virtual bool hasWon() {
         return false;
+    }
+
+    protected void setWinScreen(bool win) {
+        if (!winScreen) {
+            Debug.LogError("Win screen not set on the board");
+        }
+        winScreen.SetActive(win);
     }
 
     public void Reset() {

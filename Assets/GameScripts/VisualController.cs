@@ -7,6 +7,8 @@ public class VisualController : MonoBehaviour
 {
     public GameObject gameHolderVisual; // Reference to the visual child object
 
+    public UIController uIController;
+
     private Vector3 offset;
     private bool isDragging = false;
     private Camera mainCamera;
@@ -36,7 +38,7 @@ public class VisualController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit2D hit = Physics2D.Raycast(mainCamera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-            if (hit.collider != null && hit.collider.gameObject == gameObject)
+            if (hit.collider != null && hit.collider.gameObject == gameObject && !uIController.isUIBeingDragged())
             {
                 isDragging = true;
                 offset = gameHolderVisual.transform.position - GetMouseWorldPosition();

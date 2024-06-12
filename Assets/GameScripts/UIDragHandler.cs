@@ -34,6 +34,10 @@ public class UIDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         }
     }
 
+    public bool getDragging() {
+        return isDragging;
+    }
+
     public void OnPointerUp(PointerEventData eventData)
     {
         isDragging = false;

@@ -19,6 +19,10 @@ public class Hero : Controllable
     {
         health = initialHealth;
         stamina = initialStamina;
+
+        //Temporary and just for testing, will remove
+        Gem gem = new Gem();
+        AddToInventory(gem);
     }
 
     public override string getName() {

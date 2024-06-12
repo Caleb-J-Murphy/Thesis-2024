@@ -27,6 +27,7 @@ public class GameController : MonoBehaviour
 
     public GameObject gameHolder;
 
+    public InventoryVisualiser inventoryVisualiser;
 
     private InputProcessor inputProcessor;
 
@@ -64,7 +65,7 @@ public class GameController : MonoBehaviour
         board = CreateBoardFromMap(map);
         entities = createEntities(board);
         entityFunctions = createEntityFunctions();
-
+        setupInventoryVisualisation(board);
         if (entities == null)
         {
             Debug.LogError("Entities dictionary is null!");
@@ -74,6 +75,15 @@ public class GameController : MonoBehaviour
         {
             Debug.LogError("EntityFunctions dictionary is null!");
         }
+    }
+
+    public void setupInventoryVisualisation(Board board) {
+        if (inventoryVisualiser == null) {
+            Debug.LogError("Inventory Visualisation not set in the Game Controller");
+            return;
+        }
+        inventoryVisualiser.setUpVisualisation(board);
+
     }
 
     public Board CreateBoardWithComponent(Type boardType)

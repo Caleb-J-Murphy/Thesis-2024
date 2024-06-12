@@ -60,6 +60,7 @@ public class InputProcessor : MonoBehaviour
             string input = @"
                 hero.moveRight()
                 hero.moveUp()
+                hero.moveUp()
                 hero.useDoor()
             ";
             

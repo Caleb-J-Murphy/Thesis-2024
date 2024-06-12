@@ -25,21 +25,43 @@ public class Hero : Controllable
         return "hero";
     }
 
+    private bool isWallAtDirection(Vector2 direction) {
+        Vector2 pos = getPosition() + direction;
+        List<Entity>entities = board.getEntitisAt(pos);
+        foreach (Entity ent in entities) {
+            if (ent is Wall) {
+                return true;
+            }
+        }
+        return false;
+    }
     public override void moveUp() {
-        setPosition(getPosition() + Vector2.up);
+        if (!isWallAtDirection(Vector2.up)) {
+            setPosition(getPosition() + Vector2.up);
+        } else {
+            Debug.Log("You hit a wall...");
+        }
+        
     }
 
     public override void moveDown() {
-        setPosition(getPosition() + Vector2.down);
-        Debug.Log("Moved player down");
+        if (!isWallAtDirection(Vector2.down)) {
+            setPosition(getPosition() + Vector2.down);
+        }
     }
 
     public override void moveLeft() {
-        setPosition(getPosition() + Vector2.left);
+        if (!isWallAtDirection(Vector2.left)) {
+            setPosition(getPosition() + Vector2.left);
+        }
     }
 
     public override void moveRight() {
-        setPosition(getPosition() + Vector2.right);
+        if (!isWallAtDirection(Vector2.right)) {
+            setPosition(getPosition() + Vector2.right);
+        } else {
+            Debug.Log("You hit a wall");
+        }
     }
 
     public void turnLeft() {

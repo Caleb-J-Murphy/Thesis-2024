@@ -2,9 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class InputProcessor : MonoBehaviour
 {
+    public TMP_InputField textMeshProInputField;
+
     private Dictionary<string, Action<string>> entityFunctions;
     private Dictionary<string, Entity> entities;
     private Hero Hero;
@@ -40,6 +43,10 @@ public class InputProcessor : MonoBehaviour
         //     hero.moveDown()
         //     hero.moveUp()
         // ";
+
+        if (!textMeshProInputField) {
+            Debug.LogError("Script Editor not attached");
+        }
         
     }
 
@@ -57,19 +64,19 @@ public class InputProcessor : MonoBehaviour
             //     hero.moveDown()
             //     hero.moveDown()
             // ";
-            input = @"
-                hero.moveRight()
-                hero.moveUp()
-                hero.moveUp()
-                hero.useDoor()
-            ";
+            ResetPositions();
+            input = textMeshProInputField.text;
             
 
             StartCoroutine(ProcessInput(input));
         }
     }
 
-
+    void ResetPositions() {
+        foreach (KeyValuePair<string, Entity> kvp in entities) {
+            kvp.Value.setPosition(kvp.Value.getOrigin());
+        }
+    }
 
     void ListKeyValuePairs()
     {

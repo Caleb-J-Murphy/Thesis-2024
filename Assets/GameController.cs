@@ -111,6 +111,7 @@ public class GameController : MonoBehaviour
         Dictionary<string, Entity> entities = new Dictionary<string, Entity>();
         foreach (var entity in entityList)
         {
+            entity.setOrigin(entity.getPosition());
             if (entity.getName() == "hero" && entity is Hero heroEntity) {
                 heroEntity.board = board;
             }

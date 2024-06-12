@@ -27,20 +27,17 @@ public class Mine : Entity
     public void Activate()
     {
         isActivated = true;
-        Debug.Log("Mine activated");
         spriteRenderer.color = Color.red;
     }
 
     public void Deactivate()
     {
         isActivated = false;
-        Debug.Log("Mine deactivated");
     }
 
     public void SetDamage(int newDamage)
     {
         damage = newDamage;
-        Debug.Log("Mine damage set to: " + damage);
     }
 
     public void Trigger(Hero hero)

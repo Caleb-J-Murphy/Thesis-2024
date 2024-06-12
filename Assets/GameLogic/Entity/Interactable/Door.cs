@@ -78,6 +78,7 @@ public class Door : Interactable
                 Collectable key = hero.TakeFromInventory("gem");
                 if (key != null) {
                     OpenDoor();
+                    board.UpdateBoard();
                     return;
                 } else if (!isUnlocked()) {
                     LockDoor();
@@ -86,5 +87,10 @@ public class Door : Interactable
             }
         }
         return;
+    }
+
+    public override void Reset() {
+        base.Reset();
+        LockDoor();
     }
 }

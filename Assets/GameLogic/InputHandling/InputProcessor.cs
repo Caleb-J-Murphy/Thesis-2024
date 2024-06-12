@@ -72,7 +72,8 @@ public class InputProcessor : MonoBehaviour
     IEnumerator ExecuteSequentially(string input)
     {
         // Wait for ResetPositions to complete
-        yield return StartCoroutine(ResetPositions());
+        Debug.Log("Starting Reset");
+        yield return StartCoroutine(Reset());
 
         // Now run ProcessInput
         yield return StartCoroutine(ProcessInput(input));
@@ -83,12 +84,10 @@ public class InputProcessor : MonoBehaviour
         StartCoroutine(ExecuteSequentially(input));
     }
 
-    private IEnumerator ResetPositions()
+    private IEnumerator Reset()
     {
-        foreach (KeyValuePair<string, Entity> kvp in entities)
-        {
-            kvp.Value.setPosition(kvp.Value.getOrigin());
-        }
+        Debug.Log("Running Reset");
+        board.Reset();
         yield return new WaitForSeconds(stepDelay);
     }
 

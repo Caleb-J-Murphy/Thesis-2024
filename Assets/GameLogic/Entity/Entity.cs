@@ -6,7 +6,7 @@ public abstract class Entity : MonoBehaviour
 {
     private Vector2 position;
 
-    private Vector2 originalPosition;
+    protected Vector2 originalPosition;
 
     public abstract string getName();
 
@@ -41,6 +41,10 @@ public abstract class Entity : MonoBehaviour
         float deltaX = getPosition().x - position.x;
         float deltaY = getPosition().y - position.y;
         return Mathf.Sqrt(Mathf.Pow(deltaX, 2) + Mathf.Pow(deltaY, 2));
+    }
+
+    public virtual void Reset() {
+        setPosition(originalPosition);
     }
 
     public void setOrigin(Vector2 position) {

@@ -64,8 +64,8 @@ public class InputProcessor : MonoBehaviour
             //     hero.moveDown()
             //     hero.moveDown()
             // ";
-            input = textMeshProInputField.text;
-            StartExecution(input);
+            
+            StartExecution();
         }
     }
 
@@ -79,8 +79,9 @@ public class InputProcessor : MonoBehaviour
         yield return StartCoroutine(ProcessInput(input));
     }
 
-    private void StartExecution(string input)
+    public void StartExecution()
     {
+        input = textMeshProInputField.text;
         StartCoroutine(ExecuteSequentially(input));
     }
 

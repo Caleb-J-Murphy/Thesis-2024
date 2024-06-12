@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
     public GameObject minePrefab;
     public GameObject gemPrefab;
     public GameObject doorPrefab;
+    public GameObject floorPrefab;
 
     public GameObject winScreen;
 
@@ -115,23 +116,27 @@ public class GameController : MonoBehaviour
                     board.AddEntity(wall.GetComponent<Wall>(), new Vector2(x, -y));
 
                 }
-                else if (cell == 'M')
-                {
-                    CreateMine(board, position, x, -y);
-                }
-                else if (cell == 'H')
-                {
-                    GameObject hero = Instantiate(heroPrefab, position, Quaternion.identity, gameHolder.transform);
-                    hero.GetComponent<Hero>().Initialise(100, 50);
-                    board.AddEntity(hero.GetComponent<Hero>(), new Vector2(x, -y));
-                } else if (cell == 'G')
-                {
-                    GameObject gem = Instantiate(gemPrefab, position, Quaternion.identity, gameHolder.transform);
-                    board.AddEntity(gem.GetComponent<Gem>(), new Vector2(x, -y));
-                } else if (cell == 'D')
-                {
-                    GameObject door = Instantiate(doorPrefab, position, Quaternion.identity, gameHolder.transform);
-                    board.AddEntity(door.GetComponent<Door>(), new Vector2(x, -y));
+                else {
+                    GameObject floor = Instantiate(floorPrefab, position, Quaternion.identity, gameHolder.transform);
+                    floor.transform.localPosition = position;
+                    if (cell == 'M')
+                    {
+                        CreateMine(board, position, x, -y);
+                    }
+                    else if (cell == 'H')
+                    {
+                        GameObject hero = Instantiate(heroPrefab, position, Quaternion.identity, gameHolder.transform);
+                        hero.GetComponent<Hero>().Initialise(100, 50);
+                        board.AddEntity(hero.GetComponent<Hero>(), new Vector2(x, -y));
+                    } else if (cell == 'G')
+                    {
+                        GameObject gem = Instantiate(gemPrefab, position, Quaternion.identity, gameHolder.transform);
+                        board.AddEntity(gem.GetComponent<Gem>(), new Vector2(x, -y));
+                    } else if (cell == 'D')
+                    {
+                        GameObject door = Instantiate(doorPrefab, position, Quaternion.identity, gameHolder.transform);
+                        board.AddEntity(door.GetComponent<Door>(), new Vector2(x, -y));
+                    }
                 }
             }
         }

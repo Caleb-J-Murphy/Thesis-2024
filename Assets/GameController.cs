@@ -15,6 +15,12 @@ public class GameController : MonoBehaviour
     public GameObject gemPrefab;
     public GameObject doorPrefab;
 
+    public GameObject winScreen;
+
+    public String boardLevel;
+
+    public Type boardLevelType;
+
     public TextAsset mapFile;
 
 
@@ -22,6 +28,15 @@ public class GameController : MonoBehaviour
 
 
     private InputProcessor inputProcessor;
+
+    void Awake() {
+        boardLevelType = Type.GetType(boardLevel);
+        Debug.Log(boardLevelType);
+        if (boardLevelType == null || !typeof(Board).IsAssignableFrom(boardLevelType))
+        {
+            Debug.LogError($"Invalid board type: {boardLevel}");
+        }
+    }
 
     void Start() {
         inputProcessor = GetComponent<InputProcessor>();
@@ -34,7 +49,6 @@ public class GameController : MonoBehaviour
         if (!gameHolder) {
             Debug.LogError("Game holder not set");
         }
-        
     }
 
     public string GetMap() {
@@ -61,14 +75,29 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public Board CreateBoardFromMap(string map)
+    public Board CreateBoardWithComponent(Type boardType)
     {
         GameObject boardGM = new GameObject("Board");
         boardGM.transform.SetParent(gameHolder.transform);
         boardGM.transform.localPosition = Vector3.zero;
-        Debug.Log($"Board Pos: {boardGM.transform.localPosition}");
-        boardGM.AddComponent<Board>();
-        Board board = boardGM.GetComponent<Board>();
+
+        Component component = boardGM.AddComponent(boardType);
+
+        if (component == null)
+        {
+            Debug.LogError("Failed to add component");
+            return null;
+        }
+
+        // Return the added component, casted to Board
+        return component as Board;
+    }
+
+    public Board CreateBoardFromMap(string map)
+    {
+        Board board = CreateBoardWithComponent(boardLevelType);
+
+        board.winScreen = winScreen;
 
         string[] lines = map.Split('\n');
         int height = lines.Length;
@@ -79,8 +108,7 @@ public class GameController : MonoBehaviour
             for (int x = 0; x < line.Length; x++)
             {
                 char cell = line[x];
-                Vector3 position = new Vector3(x, -y, 0); // Assuming 2D grid with y-axis inverted
-                Debug.Log($"Board Pos: {boardGM.transform.position}");
+                Vector3 position = new Vector3(x, -y, 0);
                 if (cell == 'W')
                 {
                     GameObject wall = Instantiate(wallPrefab, position, Quaternion.identity, gameHolder.transform);
@@ -112,7 +140,7 @@ public class GameController : MonoBehaviour
     }
 
     private void CreateMine(Board board, Vector2 position, int x, int y) {
-        GameObject mine = Instantiate(minePrefab, position, Quaternion.identity);
+        GameObject mine = Instantiate(minePrefab, position, Quaternion.identity, gameHolder.transform);
         int damage = 5;
         mine.GetComponent<Mine>().Activate();
         mine.GetComponent<Mine>().SetDamage(damage);

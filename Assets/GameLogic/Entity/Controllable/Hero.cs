@@ -126,4 +126,6 @@ public class Hero : Controllable
     public int getStamina() {
         return stamina;
     }
+
+    
 }

@@ -41,7 +41,7 @@ public abstract class Collectable : Entity
     {
         if (spriteRenderer != null)
         {
-            spriteRenderer.enabled = false; // Disable the sprite renderer
+            spriteRenderer.enabled = false;
         }
         SetCollected(true);
     }
@@ -50,8 +50,13 @@ public abstract class Collectable : Entity
     {
         if (spriteRenderer != null)
         {
-            spriteRenderer.enabled = true; // Enable the sprite renderer
+            spriteRenderer.enabled = true;
         }
         SetCollected(false);
+    }
+
+    public override void Reset() {
+        base.Reset();
+        Drop();
     }
 }

@@ -64,18 +64,32 @@ public class InputProcessor : MonoBehaviour
             //     hero.moveDown()
             //     hero.moveDown()
             // ";
-            ResetPositions();
             input = textMeshProInputField.text;
-            
-
-            StartCoroutine(ProcessInput(input));
+            StartExecution(input);
         }
     }
 
-    void ResetPositions() {
-        foreach (KeyValuePair<string, Entity> kvp in entities) {
+    IEnumerator ExecuteSequentially(string input)
+    {
+        // Wait for ResetPositions to complete
+        yield return StartCoroutine(ResetPositions());
+
+        // Now run ProcessInput
+        yield return StartCoroutine(ProcessInput(input));
+    }
+
+    private void StartExecution(string input)
+    {
+        StartCoroutine(ExecuteSequentially(input));
+    }
+
+    private IEnumerator ResetPositions()
+    {
+        foreach (KeyValuePair<string, Entity> kvp in entities)
+        {
             kvp.Value.setPosition(kvp.Value.getOrigin());
         }
+        yield return new WaitForSeconds(stepDelay);
     }
 
     void ListKeyValuePairs()

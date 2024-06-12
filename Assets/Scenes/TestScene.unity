@@ -184,6 +184,8 @@ MonoBehaviour:
   wallPrefab: {fileID: 7221206422759878796, guid: a2636a66dcaa9e14998f16e8458a6883, type: 3}
   heroPrefab: {fileID: 748642435466843850, guid: 8af4225d6a6779647af9f510e7737b39, type: 3}
   minePrefab: {fileID: 5760153239992989808, guid: 176b69c00d3c15045a5d30e79a9f83c7, type: 3}
+  gemPrefab: {fileID: 2569971155093234610, guid: 11e581f445f94604aaf3eeb93c97d669, type: 3}
+  doorPrefab: {fileID: 4098264919594825145, guid: 81308005bdc3960458ba35b0c4fdabac, type: 3}
 --- !u!1 &1316776564
 GameObject:
   m_ObjectHideFlags: 0

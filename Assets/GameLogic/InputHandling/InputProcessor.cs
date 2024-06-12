@@ -12,6 +12,9 @@ public class InputProcessor : MonoBehaviour
     public float stepDelay = 1f; // Time delay between each step, adjustable in the inspector
     private GameController gameController;
 
+    private string input = "";
+    private string map = "";
+
     private Dictionary<string, object> variableValues = new Dictionary<string, object>();
 
     void Start()
@@ -20,10 +23,7 @@ public class InputProcessor : MonoBehaviour
         if (gameController == null) {
             return;
         }
-        string map = @"WWWW
-                       WMGD
-                       WHGW
-                       WWWW";
+        string map = gameController.GetMap();
         gameController.Initialise(map, out board, out entities, out entityFunctions);
         
         // string input = @"
@@ -57,7 +57,7 @@ public class InputProcessor : MonoBehaviour
             //     hero.moveDown()
             //     hero.moveDown()
             // ";
-            string input = @"
+            input = @"
                 hero.moveRight()
                 hero.moveUp()
                 hero.moveUp()

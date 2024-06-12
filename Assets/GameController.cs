@@ -14,6 +14,8 @@ public class GameController : MonoBehaviour
     public GameObject gemPrefab;
     public GameObject doorPrefab;
 
+    public TextAsset mapFile;
+
 
     private InputProcessor inputProcessor;
     void Start() {
@@ -23,6 +25,14 @@ public class GameController : MonoBehaviour
         {
             Debug.LogError("InputProcessor component not found!");
         }
+    }
+
+    public string GetMap() {
+        if (!mapFile) {
+            Debug.LogError("No map file given");
+            return string.Empty;
+        }
+        return mapFile.text;
     }
 
     public void Initialise(string map, out Board board, out Dictionary<string, Entity> entities, out Dictionary<string, Action<string>> entityFunctions) {

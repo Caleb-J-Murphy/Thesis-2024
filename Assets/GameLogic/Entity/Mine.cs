@@ -9,6 +9,9 @@ public class Mine : Entity
 
     private SpriteRenderer spriteRenderer;
 
+    public Sprite activated;
+    public Sprite deActivated;
+
     void Awake()
     {
         // Get the SpriteRenderer component of the first child GameObject
@@ -27,12 +30,23 @@ public class Mine : Entity
     public void Activate()
     {
         isActivated = true;
-        spriteRenderer.color = Color.red;
+        if (spriteRenderer != null && activated != null)
+        {
+            spriteRenderer.sprite = activated;
+        } else {
+            Debug.LogError("SpriteRenderer or sprite not assigned for the mine");
+        }
     }
 
     public void Deactivate()
     {
         isActivated = false;
+        if (spriteRenderer != null && deActivated != null)
+        {
+            spriteRenderer.sprite = deActivated;
+        } else {
+            Debug.LogError("SpriteRenderer or sprite not assigned for the mine");
+        }
     }
 
     public void SetDamage(int newDamage)

@@ -6,6 +6,9 @@ public class Door : Interactable
 {
     private int DoorID;
 
+    public Sprite openDoor;
+    public Sprite closedDoor;
+
     private Board board;
     public override string getName() {
         return "door";
@@ -61,12 +64,22 @@ public class Door : Interactable
     }
 
     private void OpenDoor() {
-        spriteRenderer.color = Color.green;
+        if (spriteRenderer != null && openDoor != null)
+        {
+            spriteRenderer.sprite = openDoor;
+        } else {
+            Debug.LogError("SpriteRenderer or sprite not assigned for the door");
+        }
         setUnlocked(true);
     }
 
     private void LockDoor() {
-        spriteRenderer.color = Color.red;
+        if (spriteRenderer != null && closedDoor != null)
+        {
+            spriteRenderer.sprite = closedDoor;
+        } else {
+            Debug.LogError("SpriteRenderer or sprite not assigned for the door");
+        }
         setUnlocked(false);
     }
 

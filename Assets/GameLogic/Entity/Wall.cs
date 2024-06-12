@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Wall : Entity
 {
+    
     public override string getName() {
         return "wall";
     }

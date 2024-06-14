@@ -18,6 +18,11 @@ public abstract class Collectable : Entity
         return getName().Equals(other.getName());
     }
 
+    public override int GetHashCode()
+    {
+        return getName().GetHashCode();
+    }
+
     void Awake()
     {
         // Get the SpriteRenderer component of the first child GameObject

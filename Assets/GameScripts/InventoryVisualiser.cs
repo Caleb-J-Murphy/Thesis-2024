@@ -1,32 +1,70 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class InventoryVisualiser : MonoBehaviour
 {
 
     private Board board;
 
+    public GameObject inventoryHolder;
+
+    public GameObject inventoryItemPrefab;
+    public Sprite gemImage;
+
+    public List<GameObject> items;
+
     private List<Controllable> controllables;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     public void setUpVisualisation(Board board) {
         this.board = board;
-        GetCollectables();
+        MakeItems();
+    }
+
+    private void HandleInventoryChanged(Dictionary<Collectable, int> inventory) {
+        setUpVisualisation(board);
     }
 
     //Get the inventory of the all of the heros
-    private void GetCollectables() {
-        controllables = board.getEntities<Controllable>();
-        foreach (Controllable con in controllables) {
-            Debug.Log(con.getName() + " added to list");
-            foreach (Collectable col in con.getInventory()) {
-                Debug.Log(col.getName() + " in the inventory of " + con.getName());
+    private void MakeItems()
+    {
+        // Clear existing items
+        foreach (var item in items)
+        {
+            Destroy(item);
+        }
+        items.Clear();
 
+        controllables = board.getEntities<Controllable>();
+        int itemNumber = 0;
+        foreach (Controllable con in controllables)
+        {
+            //Set up an update for the inventory when it's inventory changes
+            con.OnInventoryChanged += HandleInventoryChanged;
+            foreach (KeyValuePair<Collectable, int> entry in con.getInventory())
+            {
+                Collectable col = entry.Key;
+                int count = entry.Value;
+
+                if (col.getName() == "gem")
+                {
+                    GameObject gem = Instantiate(inventoryItemPrefab, Vector3.zero, Quaternion.identity, inventoryHolder.transform);
+                    items.Add(gem);
+                    gem.transform.localPosition = new Vector3(0, 165 - (itemNumber * 30), 0);
+                    //Now we need to set the image
+                    gem.GetComponentInChildren<Image>().sprite = gemImage;
+                    //Now we need to set the count
+                    string countText = "x " + count.ToString();
+                    // Get the TextMeshProUGUI component and set the text
+                    TextMeshProUGUI textComponent = gem.GetComponentInChildren<TextMeshProUGUI>();
+                    if (textComponent != null)
+                    {
+                        textComponent.text = countText;
+                    }
+                    itemNumber++;
+                }
             }
         }
     }

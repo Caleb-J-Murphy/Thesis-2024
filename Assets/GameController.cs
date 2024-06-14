@@ -12,7 +12,7 @@ public class GameController : MonoBehaviour
     public GameObject wallPrefab;
     public GameObject heroPrefab;
     public GameObject minePrefab;
-    public GameObject gemPrefab;
+    public GameObject coinPrefab;
     public GameObject doorPrefab;
     public GameObject floorPrefab;
 
@@ -33,7 +33,6 @@ public class GameController : MonoBehaviour
 
     void Awake() {
         boardLevelType = Type.GetType(boardLevel);
-        Debug.Log(boardLevelType);
         if (boardLevelType == null || !typeof(Board).IsAssignableFrom(boardLevelType))
         {
             Debug.LogError($"Invalid board type: {boardLevel}");
@@ -138,10 +137,10 @@ public class GameController : MonoBehaviour
                         GameObject hero = Instantiate(heroPrefab, position, Quaternion.identity, gameHolder.transform);
                         hero.GetComponent<Hero>().Initialise(100, 50);
                         board.AddEntity(hero.GetComponent<Hero>(), new Vector2(x, -y));
-                    } else if (cell == 'G')
+                    } else if (cell == 'C')
                     {
-                        GameObject gem = Instantiate(gemPrefab, position, Quaternion.identity, gameHolder.transform);
-                        board.AddEntity(gem.GetComponent<Gem>(), new Vector2(x, -y));
+                        GameObject coin = Instantiate(coinPrefab, position, Quaternion.identity, gameHolder.transform);
+                        board.AddEntity(coin.GetComponent<Coin>(), new Vector2(x, -y));
                     } else if (cell == 'D')
                     {
                         GameObject door = Instantiate(doorPrefab, position, Quaternion.identity, gameHolder.transform);

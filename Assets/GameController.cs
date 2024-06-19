@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     public GameObject coinPrefab;
     public GameObject doorPrefab;
     public GameObject floorPrefab;
+    public GameObject keyPrefab;
 
     public GameObject winScreen;
 
@@ -123,7 +124,6 @@ public class GameController : MonoBehaviour
                 {
                     GameObject wall = Instantiate(wallPrefab, position, Quaternion.identity, gameHolder.transform);
                     board.AddEntity(wall.GetComponent<Wall>(), new Vector2(x, -y));
-
                 }
                 else {
                     GameObject floor = Instantiate(floorPrefab, position, Quaternion.identity, gameHolder.transform);
@@ -145,6 +145,10 @@ public class GameController : MonoBehaviour
                     {
                         GameObject door = Instantiate(doorPrefab, position, Quaternion.identity, gameHolder.transform);
                         board.AddEntity(door.GetComponent<Door>(), new Vector2(x, -y));
+                    } else if (cell == 'K')
+                    {
+                        GameObject key = Instantiate(keyPrefab, position, Quaternion.identity, gameHolder.transform);
+                        board.AddEntity(key.GetComponent<Key>(), new Vector2(x, -y));
                     }
                 }
             }

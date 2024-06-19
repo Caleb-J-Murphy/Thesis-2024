@@ -13,6 +13,8 @@ public class InventoryVisualiser : MonoBehaviour
 
     public GameObject inventoryItemPrefab;
     public Sprite gemImage;
+    public Sprite coinImage;
+    public Sprite keyImage;
 
     public List<GameObject> items;
 
@@ -59,6 +61,37 @@ public class InventoryVisualiser : MonoBehaviour
                     string countText = "x " + count.ToString();
                     // Get the TextMeshProUGUI component and set the text
                     TextMeshProUGUI textComponent = gem.GetComponentInChildren<TextMeshProUGUI>();
+                    if (textComponent != null)
+                    {
+                        textComponent.text = countText;
+                    }
+                    itemNumber++;
+                } else if (col.getName() == "coin")
+                {
+                    GameObject coin = Instantiate(inventoryItemPrefab, Vector3.zero, Quaternion.identity, inventoryHolder.transform);
+                    items.Add(coin);
+                    coin.transform.localPosition = new Vector3(0, 165 - (itemNumber * 30), 0);
+                    //Now we need to set the image
+                    coin.GetComponentInChildren<Image>().sprite = coinImage;
+                    //Now we need to set the count
+                    string countText = "x " + count.ToString();
+                    // Get the TextMeshProUGUI component and set the text
+                    TextMeshProUGUI textComponent = coin.GetComponentInChildren<TextMeshProUGUI>();
+                    if (textComponent != null)
+                    {
+                        textComponent.text = countText;
+                    }
+                    itemNumber++;
+                } else if (col.getName() == "key") {
+                    GameObject key = Instantiate(inventoryItemPrefab, Vector3.zero, Quaternion.identity, inventoryHolder.transform);
+                    items.Add(key);
+                    key.transform.localPosition = new Vector3(0, 165 - (itemNumber * 30), 0);
+                    //Now we need to set the image
+                    key.GetComponentInChildren<Image>().sprite = keyImage;
+                    //Now we need to set the count
+                    string countText = "x " + count.ToString();
+                    // Get the TextMeshProUGUI component and set the text
+                    TextMeshProUGUI textComponent = key.GetComponentInChildren<TextMeshProUGUI>();
                     if (textComponent != null)
                     {
                         textComponent.text = countText;

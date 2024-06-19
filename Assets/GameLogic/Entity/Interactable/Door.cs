@@ -91,7 +91,7 @@ public class Door : Interactable
             if (getDistance(hero.getPosition()) <= 1.1)
             {
                 // Check if the player has a key...
-                Collectable key = hero.TakeFromInventory("coin");
+                Collectable key = hero.TakeFromInventory("key");
                 if (!key)
                 {
                     OpenDoor();

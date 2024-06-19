@@ -185,7 +185,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3318662320969591203, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 100.000244
+      value: 100.00007
+      objectReference: {fileID: 0}
+    - target: {fileID: 3860009830635493181, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
+      propertyPath: m_text
+      value: Level 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3860009830635493181, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4585689522144811791, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_AnchorMax.x
@@ -244,7 +252,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.09411766, g: 0.0627451, b: 0.09411766, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

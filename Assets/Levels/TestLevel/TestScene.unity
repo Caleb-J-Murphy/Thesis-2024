@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   draggableUI:
   - {fileID: 1973550418}
-  - {fileID: 800404707}
+  - {fileID: 1046242635}
 --- !u!4 &645264266
 Transform:
   m_ObjectHideFlags: 0
@@ -170,18 +170,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &800404707 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 343497766892490451, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
-  m_PrefabInstance: {fileID: 1436002687}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 554d2d0a4ffcc5340b0fbca4f8009e65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &800404710 stripped
+--- !u!114 &1046242633 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4462191683241807881, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
   m_PrefabInstance: {fileID: 1436002687}
@@ -190,6 +179,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d95b516f1e5d1049ba87ac1b4242577, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1046242635 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 343497766892490451, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
+  m_PrefabInstance: {fileID: 1436002687}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 554d2d0a4ffcc5340b0fbca4f8009e65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1316776564
@@ -375,7 +375,7 @@ PrefabInstance:
     - target: {fileID: 1585789539774057581, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: inventoryVisualiser
       value: 
-      objectReference: {fileID: 800404710}
+      objectReference: {fileID: 1046242633}
     - target: {fileID: 2649291466847969080, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: uIController
       value: 
@@ -490,7 +490,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7105132573854168177, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: stepDelay
-      value: 0.2
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7105132573854168177, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
+      propertyPath: maxWhileLoop
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8425739223121756488, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_Type

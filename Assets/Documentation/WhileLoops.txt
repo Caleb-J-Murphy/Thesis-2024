@@ -1,0 +1,14 @@
+<style="H1">While Loops</style>
+A <b>while loop</b> is a control flow statement in programming that allows code to be executed repeatedly based on a given <i>Boolean condition</i>. The code within the loop will continue to execute as long as the condition evaluates to true. Once the condition evaluates to false, the loop stops executing, and the program moves on to the next part of the code.
+<style="H2">Example of a While Loop</style>
+<style="Code">while(condition) {
+    action
+ }</style>
+In this example, the <b>while</b> loop starts with a <b>contion</b>. The loop checks if the <b>condition</b> is TRUE. As long as this condition is true, the loop will continue to perform the <b>action</b>. Once the <b>condition</b> is FALSE, the loop stops and continues on in the code.
+<page><style="H1">If Statements</style>
+An <b>if statement</b> is a conditional statement in programming that allows a program to execute certain code based on a specified condition. If the condition evaluates to true, the code inside the if statement is executed. If the condition evaluates to false, the code inside the if statement is skipped.
+<style="H2">Example of an If Statement</style>
+<style="Code">if(condition) {
+    action
+}</style>
+In this example, the <b>if</b> statement starts with a <b>condition</b>. If the <b>condition</b> is TRUE, the <b>action</b> inside the if statement is executed. If the <b>condition</b> is FALSE, the <b>action</b> is skipped, and the program continues to the next part of the code.

@@ -5,6 +5,7 @@ using TMPro;
 
 public class BookContents : MonoBehaviour
 {
+    [SerializeField] private TextAsset guide;
     [TextArea(10, 20)]
     [SerializeField] private string content;
     [Space]
@@ -26,8 +27,10 @@ public class BookContents : MonoBehaviour
     }
 
     private void Awake() {
+        content = guide.text;
         SetupContent();
         UpdatePagination();
+
     }
 
     private void SetupContent()

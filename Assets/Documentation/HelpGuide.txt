@@ -1,3 +1,5 @@
+<style="Title">Help Guide</style>
+
 <style="H1">While Loops</style>
 A <b>while loop</b> is a control flow statement in programming that allows code to be executed repeatedly based on a given <i>Boolean condition</i>. The code within the loop will continue to execute as long as the condition evaluates to true. Once the condition evaluates to false, the loop stops executing, and the program moves on to the next part of the code.
 <style="H2">Example of a While Loop</style>

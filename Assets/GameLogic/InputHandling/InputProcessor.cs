@@ -20,52 +20,31 @@ public class InputProcessor : MonoBehaviour
 
     private Dictionary<string, object> variableValues = new Dictionary<string, object>();
 
+    public int maxWhileLoop = 10;
+    public int maxLoopDepth = 10;
+    private bool stopRequested = false; // Flag to stop execution
+
     void Start()
     {
         gameController = GetComponent<GameController>();
-        if (gameController == null) {
+        if (gameController == null)
+        {
             return;
         }
         string map = gameController.GetMap();
         gameController.Initialise(map, out board, out entities, out entityFunctions);
-        
-        // string input = @"
-        //     int distance = 1
-        //     while(!hero.isTouchingWall()) {
-        //         int steps = 1
-        //         hero.moveForward(steps)
-        //         if(!hero.isTouchingWall()) {
-        //             steps = 2
-        //             hero.moveForward(steps)
-        //         }
-        //     }
-        //     hero.moveForward(1)
-        //     hero.moveDown()
-        //     hero.moveUp()
-        // ";
 
-        if (!textMeshProInputField) {
+        if (!textMeshProInputField)
+        {
             Debug.LogError("Script Editor not attached");
         }
-        
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && entities != null && entityFunctions != null)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            // string input = @"
-            //     int distance = 2
-            //     while(distance > 0) {
-            //         hero.moveForward(distance)
-            //         distance = distance - 1
-            //     }
-            //     hero.moveDown()
-            //     hero.moveDown()
-            //     hero.moveDown()
-            // ";
-            
-            StartExecution();
+            StopExecution();
         }
     }
 
@@ -82,7 +61,14 @@ public class InputProcessor : MonoBehaviour
     public void StartExecution()
     {
         input = textMeshProInputField.text;
+        stopRequested = false; // Reset the stop flag
         StartCoroutine(ExecuteSequentially(input));
+
+    }
+
+    public void StopExecution()
+    {
+        stopRequested = true; // Set the stop flag
     }
 
     private IEnumerator Reset()
@@ -103,7 +89,13 @@ public class InputProcessor : MonoBehaviour
 
     private IEnumerator ProcessInput(string input)
     {
-        if (!HasEvenBrackets(input)) {
+        if (stopRequested)
+        {
+            yield break; // Stop if requested
+        }
+
+        if (!HasEvenBrackets(input))
+        {
             Debug.LogError("You have a mismatched bracket");
             yield return null;
         }
@@ -112,7 +104,6 @@ public class InputProcessor : MonoBehaviour
         variableValues = new Dictionary<string, object>(); // Initialize the scope
         yield return StartCoroutine(ExecuteLines(lines, 0));
     }
-
 
     private IEnumerator ExecuteLines(string[] lines, int depth)
     {
@@ -123,6 +114,11 @@ public class InputProcessor : MonoBehaviour
         int lineNumber = 0;
         while (lineNumber < lines.Length)
         {
+            if (stopRequested)
+            {
+                yield break; // Stop if requested
+            }
+
             var trimmedLine = lines[lineNumber].Trim();
             if (IsControlFlowStart(trimmedLine, out controlType, out controlExpression))
             {
@@ -162,24 +158,24 @@ public class InputProcessor : MonoBehaviour
 
                 object evaluatedValue = EvaluateValue(varType, varValue);
                 variableValues[varName] = evaluatedValue;
-            } else if (isVariableReAssignment(trimmedLine, out varName, out varValue, out varType)) {
-                //Handle is a variable is being reassigned
-                if (!doesVariableExists(varName)) {
+            }
+            else if (isVariableReAssignment(trimmedLine, out varName, out varValue, out varType))
+            {
+                if (!doesVariableExists(varName))
+                {
                     Debug.LogError($"Variable: '{varName}' does not exist in the current scope");
                 }
 
-                //Get the variable type
                 string inferredType = InferVariableType(varValue);
 
-                //Evaluate the assignment
                 object evaluatedValue = EvaluateValue(inferredType, varValue);
 
-                if (variableValues[varName].GetType() != evaluatedValue.GetType()) {
+                if (variableValues[varName].GetType() != evaluatedValue.GetType())
+                {
                     Debug.LogError($"Type mismatch: Cannot assign {evaluatedValue.GetType()} to {variableValues[varName].GetType()}");
                     yield break;
                 }
 
-                //Assign the new value to the variable
                 variableValues[varName] = evaluatedValue;
             }
             else
@@ -190,8 +186,10 @@ public class InputProcessor : MonoBehaviour
         }
     }
 
-    private bool doesVariableExists(string varName) {
-        if (variableValues.ContainsKey(varName)) {
+    private bool doesVariableExists(string varName)
+    {
+        if (variableValues.ContainsKey(varName))
+        {
             return true;
         }
         return false;
@@ -229,7 +227,6 @@ public class InputProcessor : MonoBehaviour
         var commandName = commandPart[0];
         var param = commandPart.Length > 1 ? commandPart[1] : "";
 
-        // Check if param is a variable
         if (variableValues.ContainsKey(param))
         {
             param = variableValues[param].ToString();
@@ -250,17 +247,28 @@ public class InputProcessor : MonoBehaviour
 
     private IEnumerator HandleControlFlow(string controlType, string expression, string[] steps, int depth)
     {
-        if (depth > 200)
+        if (depth > maxLoopDepth)
         {
-            Debug.LogError("TOO MANY LOOPS");
+            Debug.LogError("TOO many recursive loops");
             yield break;
         }
 
         switch (controlType)
         {
             case "while":
+                int loopCount = 0;
                 while (EvaluateExpression(expression))
                 {
+                    if (loopCount >= maxLoopDepth)
+                    {
+                        Debug.LogError($"Infinite Loop Detected, while loop exceded {maxLoopDepth} times");
+                        break;
+                    }
+                    if (stopRequested)
+                    {
+                        yield break; // Stop if requested
+                    }
+                    loopCount++;
                     yield return StartCoroutine(ExecuteLines(steps, depth));
                     yield return new WaitForSeconds(stepDelay);
                 }
@@ -292,7 +300,6 @@ public class InputProcessor : MonoBehaviour
                 expression = expression.Substring(1);
             }
 
-            // Check if the expression is a relational operation
             if (expression.Contains(">") || expression.Contains("<") || expression.Contains("==") || expression.Contains("!="))
             {
                 return EvaluateRelationalExpression(expression);
@@ -301,7 +308,6 @@ public class InputProcessor : MonoBehaviour
             var parts = expression.Split(new[] { '.' }, 2);
             if (parts.Length < 2)
             {
-                // Check if the expression is a variable
                 if (variableValues.ContainsKey(expression))
                 {
                     bool variableResult = (bool)variableValues[expression];

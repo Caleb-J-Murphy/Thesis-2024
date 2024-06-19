@@ -12,9 +12,10 @@ public class GameController : MonoBehaviour
     public GameObject wallPrefab;
     public GameObject heroPrefab;
     public GameObject minePrefab;
-    public GameObject gemPrefab;
+    public GameObject coinPrefab;
     public GameObject doorPrefab;
     public GameObject floorPrefab;
+    public GameObject keyPrefab;
 
     public GameObject winScreen;
 
@@ -27,12 +28,12 @@ public class GameController : MonoBehaviour
 
     public GameObject gameHolder;
 
+    public InventoryVisualiser inventoryVisualiser;
 
     private InputProcessor inputProcessor;
 
     void Awake() {
         boardLevelType = Type.GetType(boardLevel);
-        Debug.Log(boardLevelType);
         if (boardLevelType == null || !typeof(Board).IsAssignableFrom(boardLevelType))
         {
             Debug.LogError($"Invalid board type: {boardLevel}");
@@ -64,7 +65,7 @@ public class GameController : MonoBehaviour
         board = CreateBoardFromMap(map);
         entities = createEntities(board);
         entityFunctions = createEntityFunctions();
-
+        setupInventoryVisualisation(board);
         if (entities == null)
         {
             Debug.LogError("Entities dictionary is null!");
@@ -74,6 +75,15 @@ public class GameController : MonoBehaviour
         {
             Debug.LogError("EntityFunctions dictionary is null!");
         }
+    }
+
+    public void setupInventoryVisualisation(Board board) {
+        if (inventoryVisualiser == null) {
+            Debug.LogError("Inventory Visualisation not set in the Game Controller");
+            return;
+        }
+        inventoryVisualiser.setUpVisualisation(board);
+
     }
 
     public Board CreateBoardWithComponent(Type boardType)
@@ -114,7 +124,6 @@ public class GameController : MonoBehaviour
                 {
                     GameObject wall = Instantiate(wallPrefab, position, Quaternion.identity, gameHolder.transform);
                     board.AddEntity(wall.GetComponent<Wall>(), new Vector2(x, -y));
-
                 }
                 else {
                     GameObject floor = Instantiate(floorPrefab, position, Quaternion.identity, gameHolder.transform);
@@ -128,14 +137,18 @@ public class GameController : MonoBehaviour
                         GameObject hero = Instantiate(heroPrefab, position, Quaternion.identity, gameHolder.transform);
                         hero.GetComponent<Hero>().Initialise(100, 50);
                         board.AddEntity(hero.GetComponent<Hero>(), new Vector2(x, -y));
-                    } else if (cell == 'G')
+                    } else if (cell == 'C')
                     {
-                        GameObject gem = Instantiate(gemPrefab, position, Quaternion.identity, gameHolder.transform);
-                        board.AddEntity(gem.GetComponent<Gem>(), new Vector2(x, -y));
+                        GameObject coin = Instantiate(coinPrefab, position, Quaternion.identity, gameHolder.transform);
+                        board.AddEntity(coin.GetComponent<Coin>(), new Vector2(x, -y));
                     } else if (cell == 'D')
                     {
                         GameObject door = Instantiate(doorPrefab, position, Quaternion.identity, gameHolder.transform);
                         board.AddEntity(door.GetComponent<Door>(), new Vector2(x, -y));
+                    } else if (cell == 'K')
+                    {
+                        GameObject key = Instantiate(keyPrefab, position, Quaternion.identity, gameHolder.transform);
+                        board.AddEntity(key.GetComponent<Key>(), new Vector2(x, -y));
                     }
                 }
             }

@@ -83,17 +83,23 @@ public class Door : Interactable
         setUnlocked(false);
     }
 
-    public void useDoor() {
+    public void useDoor()
+    {
         List<Hero> heros = getBoard().getEntities<Hero>();
-        foreach (Hero hero in heros) {
-            if (getDistance(hero.getPosition()) <= 1.1) {
-                //Check if the player has a key...
-                Collectable key = hero.TakeFromInventory("gem");
-                if (key != null) {
+        foreach (Hero hero in heros)
+        {
+            if (getDistance(hero.getPosition()) <= 1.1)
+            {
+                // Check if the player has a key...
+                Collectable key = hero.TakeFromInventory("key");
+                if (!key)
+                {
                     OpenDoor();
                     board.UpdateBoard();
                     return;
-                } else if (!isUnlocked()) {
+                }
+                else if (!isUnlocked())
+                {
                     LockDoor();
                     return;
                 }

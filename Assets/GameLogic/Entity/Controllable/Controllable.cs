@@ -1,30 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Linq;
 
 public abstract class Controllable : Entity
 {
-    private List<Collectable> inventory = new List<Collectable>();
-
+    private Dictionary<Collectable, int> inventory = new Dictionary<Collectable, int>();
+    public event Action<Dictionary<Collectable, int>> OnInventoryChanged;
     
-
-    public override string getName() {
-        return "interactable";
+    public Dictionary<Collectable, int> Inventory
+    {
+        get { return inventory; }
+        private set
+        {
+            inventory = value;
+            OnInventoryChanged?.Invoke(inventory);
+        }
     }
 
-    public List<Collectable> getInventory() {
+    public override string getName() {
+        return "controllable";
+    }
+
+    public Dictionary<Collectable, int> getInventory() {
         return inventory;
     }
 
-    public void AddToInventory(Collectable item) {
-        inventory.Add(item);
+    public void AddToInventory(Collectable item)
+    {
+        if (inventory.ContainsKey(item))
+        {
+            inventory[item]++;
+        }
+        else
+        {
+            inventory[item] = 1;
+        }
+        OnInventoryChanged?.Invoke(inventory);
     }
 
-    public Collectable TakeFromInventory(string itemName) {
-        foreach (Collectable item in inventory) {
+    public Collectable TakeFromInventory(string itemName)
+    {
+        foreach (Collectable item in inventory.Keys) {
             if (item.getName() == itemName) {
-                inventory.Remove(item);
-                return item;
+                if (inventory[item] > 0)
+                {
+                    inventory[item]--;
+                    if (inventory[item] == 0)
+                    {
+                        inventory.Remove(item);
+                    }
+                    OnInventoryChanged?.Invoke(inventory);
+                    return item;
+                }
+                Debug.LogError("The item held a negative value in the inventory somehow");
+                break;
             }
         }
         return null;
@@ -41,7 +72,7 @@ public abstract class Controllable : Entity
     public override void Reset() {
         Debug.Log($"Reseting position of player to ${originalPosition}");
         base.Reset();
-        inventory = new List<Collectable>();
+        inventory = new Dictionary<Collectable, int>();
     }
 
 }

@@ -18,10 +18,8 @@ public class Board : MonoBehaviour
     }
 
     public void UpdateBoard() {
-        Debug.Log("Updating Board");
         checkPlayerHitMines();
         checkPlayerPickup();
-        Debug.Log($"Check win: {hasWon()}");
     }
 
     public void checkPlayerPickup()

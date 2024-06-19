@@ -7,6 +7,9 @@ public class Hero : Controllable
     public Board board;
     private int health;
     private int stamina;
+
+    private int initialHealth;
+    private int initialStamina;
     private Vector2[] directions = new Vector2[]
     {
         new Vector2(0, 1),
@@ -18,7 +21,18 @@ public class Hero : Controllable
     public void Initialise(int initialHealth, int initialStamina)
     {
         health = initialHealth;
+        this.initialHealth = initialHealth;
         stamina = initialStamina;
+        this.initialStamina = initialStamina;
+
+        //Temporary and just for testing, will remove
+        Coin coin = new Coin();
+        AddToInventory(coin);
+    }
+
+    public override void Reset() {
+        base.Reset();
+        Initialise(initialHealth, initialStamina);
     }
 
     public override string getName() {
@@ -38,8 +52,6 @@ public class Hero : Controllable
     public override void moveUp() {
         if (!isWallAtDirection(Vector2.up)) {
             setPosition(getPosition() + Vector2.up);
-        } else {
-            Debug.Log("You hit a wall...");
         }
         
     }
@@ -59,19 +71,15 @@ public class Hero : Controllable
     public override void moveRight() {
         if (!isWallAtDirection(Vector2.right)) {
             setPosition(getPosition() + Vector2.right);
-        } else {
-            Debug.Log("You hit a wall");
         }
     }
 
     public void turnLeft() {
         transform.Rotate(0, 0, 90); // Rotate counterclockwise by 90 degrees
-        Debug.Log("Turn Left");
     }
 
     public void turnRight() {
         transform.Rotate(0, 0, -90); // Rotate clockwise by 90 degrees
-        Debug.Log("Turn Right");
     }
 
     public void moveForward(int steps)

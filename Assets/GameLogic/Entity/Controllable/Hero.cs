@@ -1,15 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Linq;
 
 public class Hero : Controllable
 {
     public Board board;
-    private int health;
-    private int stamina;
 
+    private int maxHealth = 15;
+    private int health;
     private int initialHealth;
+
+    public event Action<int> OnHealthChanged;
+
+    public int Health
+    {
+        get { return health; }
+        private set
+        {
+            health = value;
+            OnHealthChanged?.Invoke(health);
+        }
+    }
+
+    private int maxStamina = 15;
+    private int stamina;
     private int initialStamina;
+
+    public event Action<int> OnStaminaChanged;
+
+    public int Stamina
+    {
+        get { return stamina; }
+        private set
+        {
+            stamina = value;
+            OnStaminaChanged?.Invoke(stamina);
+        }
+    }
+
     private Vector2[] directions = new Vector2[]
     {
         new Vector2(0, 1),
@@ -20,10 +50,14 @@ public class Hero : Controllable
 
     public void Initialise(int initialHealth, int initialStamina)
     {
-        health = initialHealth;
+        Health = initialHealth;
         this.initialHealth = initialHealth;
-        stamina = initialStamina;
+        Stamina = initialStamina;
         this.initialStamina = initialStamina;
+        
+        maxHealth = initialHealth;
+        maxStamina = initialStamina;
+
 
         //Temporary and just for testing, will remove
         Coin coin = new Coin();
@@ -33,6 +67,8 @@ public class Hero : Controllable
     public override void Reset() {
         base.Reset();
         Initialise(initialHealth, initialStamina);
+        
+        OnHealthChanged?.Invoke(health);
     }
 
     public override string getName() {
@@ -122,18 +158,40 @@ public class Hero : Controllable
     }
 
 
-    public void TakeDamage(int dmg)
+    public void TakeDamage(int damage)
     {
-        health -= dmg;
+        Health = Mathf.Max(0, Health - damage);
+    }
+
+    public void UseStamina(int amount)
+    {
+        Stamina = Mathf.Max(0, Stamina - amount);
+    }
+
+    public void Heal(int amount)
+    {
+        Health = Mathf.Min(maxHealth, Health + amount);
+    }
+
+    public void RegainStamina(int amount)
+    {
+        Stamina = Mathf.Min(maxStamina, Stamina + amount);
     }
 
     public int getHealth() {
-        return health;
+        return Health;
     }
 
     public int getStamina() {
-        return stamina;
+        return Stamina;
     }
 
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public int getMaxStamina() {
+        return maxStamina;
+    }
     
 }

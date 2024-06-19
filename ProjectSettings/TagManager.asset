@@ -16,7 +16,7 @@ TagManager:
   - Water
   - UI
   - Win Screen
-  - 
+  - Settings
   - 
   - 
   - 
@@ -53,4 +53,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3510236055
+    locked: 0
+  - name: UI
+    uniqueID: 3946908441
     locked: 0

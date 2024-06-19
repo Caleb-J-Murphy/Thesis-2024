@@ -24,6 +24,9 @@ public class InputProcessor : MonoBehaviour
     public int maxLoopDepth = 10;
     private bool stopRequested = false; // Flag to stop execution
 
+    
+    public LogsToTextComponent logsToTextComponent;
+
     void Start()
     {
         gameController = GetComponent<GameController>();
@@ -71,10 +74,13 @@ public class InputProcessor : MonoBehaviour
         stopRequested = true; // Set the stop flag
     }
 
+    
+
     private IEnumerator Reset()
     {
         Debug.Log("Running Reset");
         board.Reset();
+        logsToTextComponent.Reset();
         yield return new WaitForSeconds(stepDelay);
     }
 

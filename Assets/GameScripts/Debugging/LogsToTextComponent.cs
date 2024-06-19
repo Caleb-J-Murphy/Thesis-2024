@@ -30,10 +30,8 @@ public class LogsToTextComponent : MonoBehaviour
     {
         if (type == LogType.Error || type == LogType.Exception)
         {
-            Debug.Log("Found an error");
             string message = $"{type}: {logString}\n";
             logText.text += message;
-            Debug.Log($"We just added {message} to the log output");
 
             // Optionally, you can limit the log size to avoid performance issues
             if (logText.text.Length > 5000)

@@ -198,6 +198,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &975983899 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2637525815446810589, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
+  m_PrefabInstance: {fileID: 1436002687}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29578104a1d251c40ae3e8b489b6df87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &975983901 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 465853119609770151, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
@@ -362,6 +373,10 @@ PrefabInstance:
     - target: {fileID: 523206074608629413, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 666
+      objectReference: {fileID: 0}
+    - target: {fileID: 865953026945014562, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 3.649994
       objectReference: {fileID: 0}
     - target: {fileID: 1018386015547140953, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_IsActive
@@ -541,11 +556,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3318662320969591203, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.000024795532
+      value: 0.00011444092
       objectReference: {fileID: 0}
     - target: {fileID: 3318662320969591203, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00050124095
+      value: -0.00013933834
       objectReference: {fileID: 0}
     - target: {fileID: 3416875242213957207, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_text
@@ -735,6 +750,10 @@ PrefabInstance:
       propertyPath: maxWhileLoop
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 7105132573854168177, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
+      propertyPath: logsToTextComponent
+      value: 
+      objectReference: {fileID: 975983899}
     - target: {fileID: 7151973494635292865, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_Type
       value: 1

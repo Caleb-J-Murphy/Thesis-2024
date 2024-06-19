@@ -7,8 +7,7 @@ Used to control the game
 Hold all interactable objects to be then queried
 */
 public class GameController : MonoBehaviour
-{  
-
+{
     public GameObject wallPrefab;
     public GameObject heroPrefab;
     public GameObject minePrefab;
@@ -18,6 +17,8 @@ public class GameController : MonoBehaviour
     public GameObject keyPrefab;
 
     public GameObject winScreen;
+    public ProgressBar healthBar;
+    public ProgressBar staminaBar;
 
     public String boardLevel;
 
@@ -31,6 +32,8 @@ public class GameController : MonoBehaviour
     public InventoryVisualiser inventoryVisualiser;
 
     private InputProcessor inputProcessor;
+
+    private List<Hero> heros;
 
     void Awake() {
         boardLevelType = Type.GetType(boardLevel);
@@ -134,9 +137,7 @@ public class GameController : MonoBehaviour
                     }
                     else if (cell == 'H')
                     {
-                        GameObject hero = Instantiate(heroPrefab, position, Quaternion.identity, gameHolder.transform);
-                        hero.GetComponent<Hero>().Initialise(100, 50);
-                        board.AddEntity(hero.GetComponent<Hero>(), new Vector2(x, -y));
+                        board = CreateHero(board, position, x, -y);
                     } else if (cell == 'C')
                     {
                         GameObject coin = Instantiate(coinPrefab, position, Quaternion.identity, gameHolder.transform);
@@ -153,8 +154,40 @@ public class GameController : MonoBehaviour
                 }
             }
         }
-
+        heros = board.getEntities<Hero>();
         return board;
+    }
+
+
+    private Board CreateHero(Board board, Vector2 position, int x, int y) {
+        Debug.Log("Create hero");
+        GameObject hero = Instantiate(heroPrefab, position, Quaternion.identity, gameHolder.transform);
+        Hero heroComponent = hero.GetComponent<Hero>();
+        heroComponent.OnHealthChanged += updateHealthBar;
+        heroComponent.OnStaminaChanged += updateStaminaBar;
+        heroComponent.Initialise(15, 10);
+        board.AddEntity(heroComponent, new Vector2(x, y));
+        return board;
+    }
+
+
+    private void updateHealthBar(int health) {
+        if (heros == null) {
+            return;
+        }
+        foreach (Hero hero in heros) {
+            Debug.Log($"Updating health to {health}");
+            healthBar.SetProgressPercent(health / hero.getMaxStamina());
+        }
+    }
+
+    private void updateStaminaBar(int stamina) {
+        if (heros == null) {
+            return;
+        }
+        foreach (Hero hero in heros) {
+            staminaBar.SetProgressPercent(stamina / hero.getMaxStamina());
+        }
     }
 
     private void CreateMine(Board board, Vector2 position, int x, int y) {

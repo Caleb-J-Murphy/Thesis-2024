@@ -30,7 +30,7 @@ public class Board : MonoBehaviour
         List<Hero> heroes = getEntities<Hero>();
         foreach (Collectable collectable in collectables) {
             foreach (Hero hero in heroes) {
-                if (hero.getPosition() == collectable.getPosition()) {
+                if (hero.getPosition() == collectable.getPosition() && !collectable.IsCollected()) {
                     hero.AddToInventory(collectable);
                     collectable.Pickup();
                 }

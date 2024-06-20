@@ -1,4 +1,6 @@
 ﻿using OpenAI;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,17 +8,18 @@ namespace Samples.Whisper
 {
     public class Whisper : MonoBehaviour
     {
-        [SerializeField] private Button recordButton;
-        [SerializeField] private Image progressBar;
-        [SerializeField] private Text message;
+        [SerializeField] private Image recordButton;
+        [SerializeField] private Color onColor;
+        [SerializeField] private Color offColor;
         [SerializeField] private Dropdown dropdown;
         
         private readonly string fileName = "output.wav";
         [SerializeField] private readonly int duration = 5;
+
+        [SerializeField] private ChatGPT chatGpt;
         
         private AudioClip clip;
         private bool isRecording;
-        private float time;
         private OpenAIApi openai = new OpenAIApi();
 
         private void Start()
@@ -53,7 +56,7 @@ namespace Samples.Whisper
         {
             Debug.Log("Recording started");
             isRecording = true;
-            recordButton.GetComponent<Image>().color = Color.blue;
+            recordButton.color = onColor;
 
             var index = PlayerPrefs.GetInt("user-mic-device-index");
             
@@ -65,8 +68,6 @@ namespace Samples.Whisper
 
         private async void EndRecording()
         {
-            recordButton.enabled = false;
-            message.text = "Transcripting...";
             Debug.Log("Ended recording");
             var index = PlayerPrefs.GetInt("user-mic-device-index");
             #if !UNITY_WEBGL
@@ -85,28 +86,21 @@ namespace Samples.Whisper
             };
             var res = await openai.CreateAudioTranscription(req);
 
-            progressBar.fillAmount = 0;
-            message.text = res.Text;
-            Debug.Log(message.text);
-            recordButton.enabled = true;
+            AddMessageToFile("\n" + res.Text);
             isRecording = false;
-            recordButton.GetComponent<Image>().color = Color.white;
+            recordButton.color = offColor;
         }
 
-        private void Update()
+        private void AddMessageToFile(string message)
         {
-            // if (isRecording)
-            // {
-            //     time += Time.deltaTime;
-            //     progressBar.fillAmount = time / duration;
-                
-            //     if (time >= duration)
-            //     {
-            //         time = 0;
-            //         isRecording = false;
-            //         EndRecording();
-            //     }
-            // }
+            //Send the reply to ChatGPT
+            if (!chatGpt)
+            {
+                Debug.LogError("ChatGPT is null");
+                return;
+            }
+            Debug.Log($"Sending {message} to chatGPT");
+            chatGpt.SendReply(message);
         }
     }
 }

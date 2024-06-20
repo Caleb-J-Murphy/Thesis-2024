@@ -7,22 +7,31 @@ using Amazon;
 using Amazon.Polly;
 using Amazon.Polly.Model;
 using Amazon.Runtime;
+using OpenAI;
+using UnityEditor;
+using UnityEditor.AssetImporters;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class TextToSpeech : MonoBehaviour
 {
+    [SerializeField] private TextAsset fromChatGPT;
     [SerializeField] private AudioSource audioSource;
+    private AmazonPollyClient client;
 
     // Start is called before the first frame update
     private async void Start()
     {
         var credentials = new BasicAWSCredentials("AKIA3FLD6FTR4EUXNU2M", "flwUC1ewT5Ft0A97/18feWXEOLVa3XbXx+9VvIs7");
-        var client = new AmazonPollyClient(credentials, RegionEndpoint.APSouth1);
+        client = new AmazonPollyClient(credentials, RegionEndpoint.APSouth1);
+    }
 
+    public async void perform(string message)
+    {
         var request = new SynthesizeSpeechRequest()
         {
-            Text = "Testing amazon polly in unity!",
+            Text = message,
             Engine = Engine.Neural,
             VoiceId = VoiceId.Aria,
             OutputFormat = OutputFormat.Mp3
@@ -61,5 +70,10 @@ public class TextToSpeech : MonoBehaviour
                 fileStream.Write(buffer, 0, bytesRead);
             }
         }
+    }
+
+    public void MessageToSpeak(string message)
+    {
+        perform(message);
     }
 }

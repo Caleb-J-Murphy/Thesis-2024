@@ -74,7 +74,6 @@ namespace Samples.Whisper
             #endif
 
             Debug.Log("Filename = " + fileName);
-            
             byte[] data = SaveWav.Save(fileName, clip);
             
             var req = new CreateAudioTranscriptionsRequest

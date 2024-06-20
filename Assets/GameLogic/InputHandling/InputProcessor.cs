@@ -653,7 +653,7 @@ public class InputProcessor : MonoBehaviour
         return "String";
     }
 
-    public void ExecuteEntityFunction(string entityName, Action<Hero> action)
+    public void ExecuteEntityFunctionHero(string entityName, Action<Hero> action)
     {
         if (entities[entityName] is Hero hero) {
             action(hero);

@@ -19,7 +19,6 @@ public class Board : MonoBehaviour
 
     public void UpdateBoard() {
         checkPlayerHitMines();
-        checkPlayerPickup();
     }
 
     public void checkPlayerPickup()

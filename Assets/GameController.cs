@@ -219,20 +219,25 @@ public class GameController : MonoBehaviour
     public Dictionary<string, Action<string>> createEntityFunctions() {
         Dictionary<string, Action<string>> entityFunctions = new Dictionary<string, Action<string>>()
         {
-            { "moveForward",    (param) => inputProcessor.ExecuteEntityFunction("hero", hero => 
+            //Hero Functions
+            { "moveForward",    (param) => inputProcessor.ExecuteEntityFunctionHero("hero", hero => 
                 hero.moveForward(int.Parse(param))) },
-            { "moveUp",         (param) => inputProcessor.ExecuteEntityFunction("hero", hero => 
+            { "moveUp",         (param) => inputProcessor.ExecuteEntityFunctionHero("hero", hero => 
                 hero.moveUp()) },
-            { "moveDown",       (param) => inputProcessor.ExecuteEntityFunction("hero", hero => 
+            { "moveDown",       (param) => inputProcessor.ExecuteEntityFunctionHero("hero", hero => 
                 hero.moveDown()) },
-            { "moveRight",       (param) => inputProcessor.ExecuteEntityFunction("hero", hero => 
+            { "moveRight",       (param) => inputProcessor.ExecuteEntityFunctionHero("hero", hero => 
                 hero.moveRight()) },
-            { "moveLeft",       (param) => inputProcessor.ExecuteEntityFunction("hero", hero => 
+            { "moveLeft",       (param) => inputProcessor.ExecuteEntityFunctionHero("hero", hero => 
                 hero.moveLeft()) },
-            { "turnRight",      (param) => inputProcessor.ExecuteEntityFunction("hero", hero => 
+            { "turnRight",      (param) => inputProcessor.ExecuteEntityFunctionHero("hero", hero => 
                 hero.turnRight()) },
-            { "turnLeft",       (param) => inputProcessor.ExecuteEntityFunction("hero", hero => 
+            { "turnLeft",       (param) => inputProcessor.ExecuteEntityFunctionHero("hero", hero => 
                 hero.turnLeft()) },
+            { "pickUpItem",     (param) => inputProcessor.ExecuteEntityFunctionHero("hero", hero =>
+                hero.PickUpItem()) },
+
+            //Door Functions
             { "useDoor",       (param) => inputProcessor.ExecuteEntityFunctionDoor("door", door => 
                 door.useDoor()) },
         };

@@ -1,4 +1,6 @@
 ﻿using OpenAI;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,17 +8,18 @@ namespace Samples.Whisper
 {
     public class Whisper : MonoBehaviour
     {
-        [SerializeField] private Button recordButton;
-        [SerializeField] private Image progressBar;
-        [SerializeField] private Text message;
+        [SerializeField] private Image recordButton;
+        [SerializeField] private Color onColor;
+        [SerializeField] private Color offColor;
         [SerializeField] private Dropdown dropdown;
         
         private readonly string fileName = "output.wav";
-        private readonly int duration = 5;
+        [SerializeField] private readonly int duration = 5;
+
+        [SerializeField] private ChatGPT chatGpt;
         
         private AudioClip clip;
         private bool isRecording;
-        private float time;
         private OpenAIApi openai = new OpenAIApi();
 
         private void Start()
@@ -28,7 +31,6 @@ namespace Samples.Whisper
             {
                 dropdown.options.Add(new Dropdown.OptionData(device));
             }
-            recordButton.onClick.AddListener(StartRecording);
             dropdown.onValueChanged.AddListener(ChangeMicrophone);
             
             var index = PlayerPrefs.GetInt("user-mic-device-index");
@@ -40,29 +42,39 @@ namespace Samples.Whisper
         {
             PlayerPrefs.SetInt("user-mic-device-index", index);
         }
+
+        public void ToggleRecording() {
+            Debug.Log($"Are we recording: {isRecording}");
+            if (isRecording) {
+                EndRecording();
+            } else {
+                StartRecording();
+            }
+        }
         
         private void StartRecording()
         {
+            Debug.Log("Recording started");
             isRecording = true;
-            recordButton.enabled = false;
+            recordButton.color = onColor;
 
             var index = PlayerPrefs.GetInt("user-mic-device-index");
             
             #if !UNITY_WEBGL
+            Debug.Log("We are making the clip");
             clip = Microphone.Start(dropdown.options[index].text, false, duration, 44100);
             #endif
         }
 
         private async void EndRecording()
         {
-            message.text = "Transcripting...";
             Debug.Log("Ended recording");
+            var index = PlayerPrefs.GetInt("user-mic-device-index");
             #if !UNITY_WEBGL
-            Microphone.End(null);
+            Microphone.End(dropdown.options[index].text);
             #endif
 
             Debug.Log("Filename = " + fileName);
-            
             byte[] data = SaveWav.Save(fileName, clip);
             
             var req = new CreateAudioTranscriptionsRequest
@@ -74,25 +86,21 @@ namespace Samples.Whisper
             };
             var res = await openai.CreateAudioTranscription(req);
 
-            progressBar.fillAmount = 0;
-            message.text = res.Text;
-            recordButton.enabled = true;
+            AddMessageToFile("\n" + res.Text);
+            isRecording = false;
+            recordButton.color = offColor;
         }
 
-        private void Update()
+        private void AddMessageToFile(string message)
         {
-            if (isRecording)
+            //Send the reply to ChatGPT
+            if (!chatGpt)
             {
-                time += Time.deltaTime;
-                progressBar.fillAmount = time / duration;
-                
-                if (time >= duration)
-                {
-                    time = 0;
-                    isRecording = false;
-                    EndRecording();
-                }
+                Debug.LogError("ChatGPT is null");
+                return;
             }
+            Debug.Log($"Sending {message} to chatGPT");
+            chatGpt.SendReply(message);
         }
     }
 }

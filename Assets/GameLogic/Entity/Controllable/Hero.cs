@@ -85,6 +85,7 @@ public class Hero : Controllable
         }
         return false;
     }
+    
     public override void moveUp() {
         if (!isWallAtDirection(Vector2.up)) {
             setPosition(getPosition() + Vector2.up);
@@ -155,6 +156,11 @@ public class Hero : Controllable
             }
         }
         return false;
+    }
+
+    public void PickUpItem()
+    {
+        board.checkPlayerPickup();
     }
 
 

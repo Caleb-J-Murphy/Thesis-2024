@@ -12,7 +12,7 @@ namespace Samples.Whisper
         [SerializeField] private Dropdown dropdown;
         
         private readonly string fileName = "output.wav";
-        private readonly int duration = 5;
+        [SerializeField] private readonly int duration = 5;
         
         private AudioClip clip;
         private bool isRecording;
@@ -28,7 +28,6 @@ namespace Samples.Whisper
             {
                 dropdown.options.Add(new Dropdown.OptionData(device));
             }
-            recordButton.onClick.AddListener(StartRecording);
             dropdown.onValueChanged.AddListener(ChangeMicrophone);
             
             var index = PlayerPrefs.GetInt("user-mic-device-index");
@@ -40,25 +39,38 @@ namespace Samples.Whisper
         {
             PlayerPrefs.SetInt("user-mic-device-index", index);
         }
+
+        public void ToggleRecording() {
+            Debug.Log($"Are we recording: {isRecording}");
+            if (isRecording) {
+                EndRecording();
+            } else {
+                StartRecording();
+            }
+        }
         
         private void StartRecording()
         {
+            Debug.Log("Recording started");
             isRecording = true;
-            recordButton.enabled = false;
+            recordButton.GetComponent<Image>().color = Color.blue;
 
             var index = PlayerPrefs.GetInt("user-mic-device-index");
             
             #if !UNITY_WEBGL
+            Debug.Log("We are making the clip");
             clip = Microphone.Start(dropdown.options[index].text, false, duration, 44100);
             #endif
         }
 
         private async void EndRecording()
         {
+            recordButton.enabled = false;
             message.text = "Transcripting...";
             Debug.Log("Ended recording");
+            var index = PlayerPrefs.GetInt("user-mic-device-index");
             #if !UNITY_WEBGL
-            Microphone.End(null);
+            Microphone.End(dropdown.options[index].text);
             #endif
 
             Debug.Log("Filename = " + fileName);
@@ -76,23 +88,26 @@ namespace Samples.Whisper
 
             progressBar.fillAmount = 0;
             message.text = res.Text;
+            Debug.Log(message.text);
             recordButton.enabled = true;
+            isRecording = false;
+            recordButton.GetComponent<Image>().color = Color.white;
         }
 
         private void Update()
         {
-            if (isRecording)
-            {
-                time += Time.deltaTime;
-                progressBar.fillAmount = time / duration;
+            // if (isRecording)
+            // {
+            //     time += Time.deltaTime;
+            //     progressBar.fillAmount = time / duration;
                 
-                if (time >= duration)
-                {
-                    time = 0;
-                    isRecording = false;
-                    EndRecording();
-                }
-            }
+            //     if (time >= duration)
+            //     {
+            //         time = 0;
+            //         isRecording = false;
+            //         EndRecording();
+            //     }
+            // }
         }
     }
 }

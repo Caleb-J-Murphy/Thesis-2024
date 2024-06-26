@@ -8,6 +8,10 @@ Hold all interactable objects to be then queried
 */
 public class GameController : MonoBehaviour
 {
+
+    LevelController levelController = LevelController.Instance;
+
+
     public GameObject wallPrefab;
     public GameObject heroPrefab;
     public GameObject minePrefab;
@@ -62,6 +66,11 @@ public class GameController : MonoBehaviour
             return string.Empty;
         }
         return mapFile.text;
+    }
+
+    public void RunAttempt()
+    {
+        levelController.addRunAttempt();
     }
 
     public void Initialise(string map, out Board board, out Dictionary<string, Entity> entities, out Dictionary<string, Action<string>> entityFunctions) {

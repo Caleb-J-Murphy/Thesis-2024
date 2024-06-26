@@ -32,36 +32,34 @@ public class Controller : MonoBehaviour
             string functionName = tuple.Item1;
             string functionVariable = tuple.Item2;
             controlQueue.RemoveAt(0);
-            
-            Debug.Log("Function: " + functionName + " with variable " + functionVariable); 
 
             if (functionName == "moveUp") {
                 int number;
                 if (int.TryParse(functionVariable, out number)) {
                     yield return StartCoroutine(MoveUpCoroutine(number));
                 } else {
-                    Debug.Log("Invalid number format for moveUp command: " + functionVariable);
+                    Debug.LogError("Invalid number format for moveUp command: " + functionVariable);
                 }
             } else if (functionName == "moveDown") {
                 int number;
                 if (int.TryParse(functionVariable, out number)) {
                     yield return StartCoroutine(MoveDownCoroutine(number));
                 } else {
-                    Debug.Log("Invalid number format for moveDown command: " + functionVariable);
+                    Debug.LogError("Invalid number format for moveDown command: " + functionVariable);
                 }
             } else if (functionName == "moveRight") {
                 int number;
                 if (int.TryParse(functionVariable, out number)) {
                     yield return StartCoroutine(MoveRightCoroutine(number));
                 } else {
-                    Debug.Log("Invalid number format for moveRight command: " + functionVariable);
+                    Debug.LogError("Invalid number format for moveRight command: " + functionVariable);
                 }
             } else if (functionName == "moveLeft") {
                 int number;
                 if (int.TryParse(functionVariable, out number)) {
                     yield return StartCoroutine(MoveLeftCoroutine(number));
                 } else {
-                    Debug.Log("Invalid number format for moveLeft command: " + functionVariable);
+                    Debug.LogError("Invalid number format for moveLeft command: " + functionVariable);
                 }
             } else if (functionName == "lookUp") {
                 yield return StartCoroutine(LookUpCoroutine());

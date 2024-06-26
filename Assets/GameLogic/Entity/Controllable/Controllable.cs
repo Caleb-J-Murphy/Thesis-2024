@@ -52,7 +52,6 @@ public abstract class Controllable : Entity
                         inventory.Remove(item);
                     }
                     OnInventoryChanged?.Invoke(inventory);
-                    Debug.Log($"Found the {itemName} in inventory");
                     return item;
                 }
                 Debug.LogError("The item held a negative value in the inventory somehow");

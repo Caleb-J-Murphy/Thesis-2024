@@ -1,1 +1,19 @@
 Give me a consise answer
+
+Here is an example answer for the current level:
+"
+int x = 0
+while(x < 46)
+{
+	if(x % 2 == 0)
+	{
+		hero.moveUp()
+		x = x + 1
+		continue
+	}
+	hero.moveRight()
+	x = x + 1
+}
+hero.pickUpItem()
+door.useDoor()
+"

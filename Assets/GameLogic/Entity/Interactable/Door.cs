@@ -64,11 +64,8 @@ public class Door : Interactable
     }
 
     private void OpenDoor() {
-        Debug.Log("Opening Door");
         if (spriteRenderer != null && openDoor != null)
         {
-
-            Debug.Log("Setting Door sprite");
             spriteRenderer.sprite = openDoor;
         } else {
             Debug.LogError("SpriteRenderer or sprite not assigned for the door");
@@ -88,18 +85,15 @@ public class Door : Interactable
 
     public void useDoor()
     {
-        Debug.Log("Using a door");
         List<Hero> heros = getBoard().getEntities<Hero>();
         foreach (Hero hero in heros)
         {
             if (getDistance(hero.getPosition()) <= 1.1)
             {
-                Debug.Log("Using the key...");
                 // Check if the player has a key...
                 Collectable key = hero.TakeFromInventory("key");
                 if (key.getName() == "key")
                 {
-                    Debug.Log("Found the key");
                     OpenDoor();
                     board.UpdateBoard();
                     return;

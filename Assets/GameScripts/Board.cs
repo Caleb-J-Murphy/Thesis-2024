@@ -19,6 +19,7 @@ public class Board : MonoBehaviour
 
     public void UpdateBoard() {
         checkPlayerHitMines();
+        hasWon();
     }
 
     public void checkPlayerPickup()

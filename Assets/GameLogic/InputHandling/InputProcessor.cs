@@ -309,7 +309,7 @@ public class InputProcessor : MonoBehaviour
 
         if (entities.ContainsKey(entityName) && entityFunctions.ContainsKey(commandName))
         {
-            Debug.Log($"Running Command: {commandName} with parameter: {param}");
+            //Debug.Log($"Running Command: {commandName} with parameter: {param}");
             entityFunctions[commandName].Invoke(param);
             board.UpdateBoard();
             yield return new WaitForSeconds(stepDelay);

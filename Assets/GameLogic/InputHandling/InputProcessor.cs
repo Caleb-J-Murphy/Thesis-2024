@@ -355,7 +355,12 @@ public class InputProcessor : MonoBehaviour
             if (expression.Contains(">") || expression.Contains("<") || expression.Contains("==") || expression.Contains("!="))
             {
                 return EvaluateRelationalExpression(expression);
+            } else if (expression.Contains("and") || expression.Contains("or"))
+            {
+                return EvaluateBooleanExpression(expression);
             }
+
+
 
             var parts = expression.Split(new[] { '.' }, 2);
             if (parts.Length < 2)
@@ -396,6 +401,31 @@ public class InputProcessor : MonoBehaviour
         }
     }
 
+    private bool EvaluateBooleanExpression(string expression)
+    {
+        string[] operators = new[] { "and", "or"};
+        foreach (var op in operators)
+        {
+            if (expression.Contains(op))
+            {
+                var parts = expression.Split(new[] { op }, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length != 2)
+                {
+                    throw new FormatException($"Invalid boolean expression format: {expression}");
+                }
+
+                var left = parts[0].Trim();
+                var right = parts[1].Trim();
+                object leftValue = EvaluateExpressionPart(left);
+                object rightValue = EvaluateExpressionPart(right);
+                return EvaluateOperation(leftValue, rightValue, op);
+            }
+        }
+        throw new FormatException($"Unsupported boolean operator in expression: {expression}");
+
+
+    }
+
     private bool EvaluateRelationalExpression(string expression)
     {
         string[] operators = new[] { ">", "<", "==", "!=" };
@@ -417,6 +447,8 @@ public class InputProcessor : MonoBehaviour
             }
         }
         throw new FormatException($"Unsupported relational operator in expression: {expression}");
+
+
     }
 
     private object EvaluateExpressionPart(string part)
@@ -508,6 +540,11 @@ public class InputProcessor : MonoBehaviour
             throw new ArgumentException("Both leftValue and rightValue must be convertible to integers for > and < operators.");
         }
 
+        if ((op == "or" || op == "and") && (!bool.TryParse(leftValue.ToString(), out bool leftBool) || !bool.TryParse(rightValue.ToString(), out bool rightBool)))
+        {
+            throw new ArgumentException("Both leftValue and rightValue must be convertible to integers for 'and' and 'or' operators.");
+        }
+
 
 
         switch (op)
@@ -528,6 +565,10 @@ public class InputProcessor : MonoBehaviour
                     return lsValue != rsValue;
                 }
                 return !leftValue.Equals(rightValue);
+            case "and":
+                return bool.Parse(leftValue.ToString()) && bool.Parse(rightValue.ToString());
+            case "or":
+                return bool.Parse(leftValue.ToString()) || bool.Parse(rightValue.ToString());
             default:
                 throw new InvalidOperationException($"Unsupported operator: {op}");
         }

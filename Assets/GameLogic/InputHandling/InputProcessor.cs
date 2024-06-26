@@ -411,10 +411,8 @@ public class InputProcessor : MonoBehaviour
 
                 var left = parts[0].Trim();
                 var right = parts[1].Trim();
-                Debug.Log($"Evaluating: {left} {op} {right}");
                 object leftValue = EvaluateExpressionPart(left);
                 object rightValue = EvaluateExpressionPart(right);
-                Debug.Log($"Becomes: {leftValue} {op} {rightValue} = {EvaluateOperation(leftValue, rightValue, op)}");
                 return EvaluateOperation(leftValue, rightValue, op);
             }
         }
@@ -461,8 +459,6 @@ public class InputProcessor : MonoBehaviour
             {
                 throw new FormatException($"Invalid right value '{right}' in expression.");
             }
-
-            Debug.Log($"Here with expression: {leftValue} {op} {rightValue} = {leftValue % rightValue}");
 
             // Perform the operation
             switch (op)
@@ -523,7 +519,6 @@ public class InputProcessor : MonoBehaviour
             case "==":
                 if (int.TryParse(leftValue.ToString(),out int lValue) && int.TryParse(rightValue.ToString(), out int rValue))
                 {
-                    Debug.Log($"Converted both to integers correctly: {lValue}, {rValue}");
                     return lValue == rValue;
                 }
                 return leftValue.Equals(rightValue);

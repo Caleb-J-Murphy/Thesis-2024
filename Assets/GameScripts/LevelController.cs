@@ -4,22 +4,6 @@ using System.Collections.Generic;
 
 public class LevelController : MonoBehaviour
 {
-<<<<<<< Updated upstream
-    public static LevelController Instance { get; private set; }
-
-    private Dictionary<string, float> levelTimes = new Dictionary<string, float>();
-    private float startTime;
-    private string currentLevel;
-
-    private void Awake()
-    {
-=======
-<<<<<<< Updated upstream
-    public string sceneName;
-    public void NextLevel()
-    {
-        SceneManager.LoadScene(sceneName);
-=======
     public static LevelController Instance { get; private set; }
 
     public struct LevelStatistics
@@ -34,7 +18,6 @@ public class LevelController : MonoBehaviour
 
     private void Awake()
     {
->>>>>>> Stashed changes
         if (Instance == null)
         {
             Instance = this;
@@ -58,24 +41,6 @@ public class LevelController : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-<<<<<<< Updated upstream
-        if (!string.IsNullOrEmpty(currentLevel))
-        {
-            float timeSpent = Time.time - startTime;
-            if (levelTimes.ContainsKey(currentLevel))
-            {
-                levelTimes[currentLevel] += timeSpent;
-            }
-            else
-            {
-                levelTimes[currentLevel] = timeSpent;
-            }
-        }
-
-        currentLevel = scene.name;
-        startTime = Time.time;
-        Debug.Log(levelTimes);
-=======
         LevelStatistics levelStat;
         //Update the time for the loaded amount
         if (levelStatistics.TryGetValue(currentLevel, out levelStat))
@@ -113,40 +78,10 @@ public class LevelController : MonoBehaviour
         {
             Debug.LogError("This scene does not exist");
         }
->>>>>>> Stashed changes
     }
 
     public void MoveToNextLevel(string nextLevelName)
-    {
-<<<<<<< Updated upstream
-        Debug.Log("Changing Level");
+    {        
         SceneManager.LoadScene(nextLevelName);
-        Debug.Log("Move to next level");
-=======
-        
-        SceneManager.LoadScene(nextLevelName);
-        
-        
->>>>>>> Stashed changes
-    }
-
-    public float GetTimeSpentInLevel(string levelName)
-    {
-<<<<<<< Updated upstream
-        return levelTimes.ContainsKey(levelName) ? levelTimes[levelName] : 0f;
-    }
-
-    public void ResetLevelTimes()
-    {
-        levelTimes.Clear();
-=======
-        return levelStatistics.ContainsKey(levelName) ? levelStatistics[levelName].TimeEnd - levelStatistics[levelName].TimeStart : 0f;
-    }
-
-    public void ResetLevelStatistics()
-    {
-        levelStatistics.Clear();
->>>>>>> Stashed changes
->>>>>>> Stashed changes
     }
 }

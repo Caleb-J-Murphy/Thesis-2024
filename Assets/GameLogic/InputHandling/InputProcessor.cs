@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class InputProcessor : MonoBehaviour
 {
@@ -20,11 +21,14 @@ public class InputProcessor : MonoBehaviour
 
     private Dictionary<string, object> variableValues = new Dictionary<string, object>();
 
-    public int maxWhileLoop = 10;
-    public int maxLoopDepth = 10;
+    [SerializeField] private int maxWhileLoop = 10;
+    [SerializeField] private int maxLoopDepth = 10;
     private bool stopRequested = false; // Flag to stop execution
 
-    
+    [SerializeField] private bool breakWhile = false;
+
+
+
     public LogsToTextComponent logsToTextComponent;
 
     void Start()
@@ -54,7 +58,6 @@ public class InputProcessor : MonoBehaviour
     IEnumerator ExecuteSequentially(string input)
     {
         // Wait for ResetPositions to complete
-        Debug.Log("Starting Reset");
         yield return StartCoroutine(Reset());
 
         // Now run ProcessInput
@@ -81,6 +84,8 @@ public class InputProcessor : MonoBehaviour
         Debug.Log("Running Reset");
         board.Reset();
         logsToTextComponent.Reset();
+        //Reset the variables being used
+        variableValues = new Dictionary<string, object>();
         yield return new WaitForSeconds(stepDelay);
     }
 
@@ -124,8 +129,24 @@ public class InputProcessor : MonoBehaviour
             {
                 yield break; // Stop if requested
             }
+            
 
             var trimmedLine = lines[lineNumber].Trim();
+            //Now we check if there was a break needed to be made.
+            if (isBreak(trimmedLine))
+            {
+                //This needs to cause the while loop to stop.
+                breakWhile = true;
+                Debug.Log("We have used a break");
+                yield break;
+            }
+            else if (isContinue(trimmedLine))
+            {
+                //This exits this loop of lines to be executed but it does not cause the while loop to be broken.
+                yield break;
+            }
+
+
             if (IsControlFlowStart(trimmedLine, out controlType, out controlExpression))
             {
                 inControlFlow = true;
@@ -158,6 +179,7 @@ public class InputProcessor : MonoBehaviour
             {
                 if (variableValues.ContainsKey(varName))
                 {
+                    ListKeyValuePairs();
                     Debug.LogError($"Variable '{varName}' already exists in the current scope.");
                     yield break;
                 }
@@ -192,6 +214,29 @@ public class InputProcessor : MonoBehaviour
         }
     }
 
+    private bool isBreak(string trimmedLine)
+    {
+        if (trimmedLine == "break")
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    private bool isContinue(string trimmedLine)
+    {
+        if (trimmedLine == "continue")
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     private bool doesVariableExists(string varName)
     {
         if (variableValues.ContainsKey(varName))
@@ -205,19 +250,25 @@ public class InputProcessor : MonoBehaviour
     {
         controlType = null;
         controlExpression = null;
-
-        if (line.StartsWith("while("))
+        //Check to see if it should be a while or an if
+        if (line.StartsWith("while") || line.StartsWith("if"))
         {
-            controlType = "while";
-            controlExpression = ExtractExpression(line);
-            return true;
+            if (line.StartsWith("while("))
+            {
+                controlType = "while";
+                controlExpression = ExtractExpression(line);
+                return true;
+            } else if (line.StartsWith("if("))
+            {
+                controlType = "if";
+                controlExpression = ExtractExpression(line);
+                return true;
+            } else
+            {
+                Debug.LogError($"Incorrect declaration of loop: {line}");
+            }
         }
-        if (line.StartsWith("if("))
-        {
-            controlType = "if";
-            controlExpression = ExtractExpression(line);
-            return true;
-        }
+        
 
         return false;
     }
@@ -270,7 +321,7 @@ public class InputProcessor : MonoBehaviour
                         Debug.LogError($"Infinite Loop Detected, while loop exceded {maxLoopDepth} times");
                         break;
                     }
-                    if (stopRequested)
+                    if (stopRequested || breakWhile)
                     {
                         yield break; // Stop if requested
                     }

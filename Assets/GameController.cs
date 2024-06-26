@@ -160,7 +160,6 @@ public class GameController : MonoBehaviour
 
 
     private Board CreateHero(Board board, Vector2 position, int x, int y) {
-        Debug.Log("Create hero");
         GameObject hero = Instantiate(heroPrefab, position, Quaternion.identity, gameHolder.transform);
         Hero heroComponent = hero.GetComponent<Hero>();
         heroComponent.OnHealthChanged += updateHealthBar;
@@ -176,7 +175,6 @@ public class GameController : MonoBehaviour
             return;
         }
         foreach (Hero hero in heros) {
-            Debug.Log($"Updating health to {health}");
             healthBar.SetProgressPercent(health / hero.getMaxStamina());
         }
     }

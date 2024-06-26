@@ -12,7 +12,6 @@ public class LogsToTextComponent : MonoBehaviour
     }
 
     public void Reset() {
-        Debug.Log("Reset logs");
         logText.text = "";
     }
 

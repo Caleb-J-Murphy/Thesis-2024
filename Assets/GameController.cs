@@ -132,7 +132,11 @@ public class GameController : MonoBehaviour
             {
                 char cell = line[x];
                 Vector3 position = new Vector3(x, -y, 0);
-                if (cell == 'W')
+                if(cell == '.')
+                {
+                    //This is just air but still spacing outside the walls.
+                    continue;
+                }else if (cell == 'W')
                 {
                     GameObject wall = Instantiate(wallPrefab, position, Quaternion.identity, gameHolder.transform);
                     board.AddEntity(wall.GetComponent<Wall>(), new Vector2(x, -y));
@@ -164,6 +168,10 @@ public class GameController : MonoBehaviour
             }
         }
         heros = board.getEntities<Hero>();
+        if (heros.Count > 0)
+        {
+            gameHolder.transform.position = new Vector3(heros[0].getPosition().x, heros[0].getPosition().y * -1, 0);
+        }
         return board;
     }
 

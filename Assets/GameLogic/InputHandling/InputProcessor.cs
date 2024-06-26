@@ -246,19 +246,28 @@ public class InputProcessor : MonoBehaviour
         controlType = null;
         controlExpression = null;
         //Check to see if it should be a while or an if
-        if (line.StartsWith("while") || line.StartsWith("if"))
+        if (line.StartsWith("while") || line.StartsWith("if") || line.StartsWith("for"))
         {
             if (line.StartsWith("while("))
             {
                 controlType = "while";
                 controlExpression = ExtractExpression(line);
                 return true;
-            } else if (line.StartsWith("if("))
+            }
+            else if (line.StartsWith("if("))
             {
                 controlType = "if";
                 controlExpression = ExtractExpression(line);
                 return true;
-            } else
+            }
+            else if (line.StartsWith("for("))
+            {
+                controlType = "for";
+
+                controlExpression = ExtractForLoopExpression(line);
+                return true;
+            }
+            else
             {
                 Debug.LogError($"Incorrect declaration of loop: {line}");
             }
@@ -305,10 +314,11 @@ public class InputProcessor : MonoBehaviour
             yield break;
         }
 
+        int loopCount = 0;
         switch (controlType)
         {
             case "while":
-                int loopCount = 0;
+                loopCount = 0;
                 while (EvaluateExpression(expression))
                 {
                     if (loopCount >= maxLoopDepth)
@@ -333,11 +343,45 @@ public class InputProcessor : MonoBehaviour
                     yield return new WaitForSeconds(stepDelay);
                 }
                 break;
+            case "for":
+                loopCount = 0;
+                int i = 0;
+                int range = EvaluateRange(expression);
+                while (i < range) {
+                    if (loopCount >= maxLoopDepth)
+                    {
+                        Debug.LogError($"Infinite Loop Detected, while loop exceded {maxLoopDepth} times");
+                        break;
+                    }
+                    if (stopRequested || breakWhile)
+                    {
+                        yield break; // Stop if requested
+                    }
+                    i++;
+                    yield return StartCoroutine(ExecuteLines(steps, depth));
+                    yield return new WaitForSeconds(stepDelay);
+                }
+                break;
 
             default:
                 Debug.LogError($"Unsupported control type: {controlType}");
                 break;
         }
+    }
+
+    private int EvaluateRange(string expression)
+    {
+        //should either be a number of a variable or something that becomes a number eventually
+        if (int.TryParse(expression, out var range))
+        {
+            return range;
+        }
+        //It needs to be a variable in this case
+        if (variableValues.ContainsKey(expression) && int.TryParse(variableValues[expression].ToString(), out var dicVal))
+        {
+            return int.Parse(variableValues[expression].ToString());
+        }
+        throw new FormatException($"Invalid range format: {expression}");
     }
 
     private bool EvaluateExpression(string expression)
@@ -579,6 +623,32 @@ public class InputProcessor : MonoBehaviour
         int startIndex = line.IndexOf('(') + 1;
         int endIndex = line.IndexOf(')');
         return line.Substring(startIndex, endIndex - startIndex);
+    }
+
+    private string ExtractForLoopExpression(string line)
+    {
+        //In the form of 'for(i in range(10))'
+        // Find the starting index of 'range('
+        int rangeStartIndex = line.IndexOf("range(");
+        if (rangeStartIndex == -1)
+        {
+            throw new InvalidOperationException($"Incorrect format of for loop: {line}, range not implemented correctly");
+        }
+
+        // Calculate the index where the content inside the parentheses starts
+        int expressionStartIndex = rangeStartIndex + "range(".Length;
+
+        // Find the closing parenthesis for 'range(...)'
+        int rangeEndIndex = line.IndexOf(')', expressionStartIndex);
+        if (rangeEndIndex == -1)
+        {
+            throw new InvalidOperationException($"Incorrect format of for loop: {line}, no closing paranthesis");
+        }
+
+        // Extract the content inside the parentheses
+        string expression = line.Substring(expressionStartIndex, rangeEndIndex - expressionStartIndex).Trim();
+
+        return expression;
     }
 
     private bool IsVariableDeclaration(string line, out string varType, out string varName, out string varValue)

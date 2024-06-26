@@ -26,6 +26,8 @@ public class InputProcessor : MonoBehaviour
     private bool stopRequested = false; // Flag to stop execution
 
     [SerializeField] private bool breakWhile = false;
+    [SerializeField] private bool continueInsideIf = false;
+    private bool insideIf = false;
 
 
 
@@ -126,6 +128,13 @@ public class InputProcessor : MonoBehaviour
             {
                 yield break; // Stop if requested
             }
+
+            //Propagates from the nested if statement
+            if(continueInsideIf)
+            {
+                continueInsideIf = false;
+                yield break;
+            }
             
 
             var trimmedLine = lines[lineNumber].Trim();
@@ -140,6 +149,11 @@ public class InputProcessor : MonoBehaviour
             else if (isContinue(trimmedLine))
             {
                 //This exits this loop of lines to be executed but it does not cause the while loop to be broken.
+                if (insideIf)
+                {
+                    continueInsideIf = true;
+                    insideIf = false;
+                }
                 yield break;
             }
 
@@ -157,7 +171,7 @@ public class InputProcessor : MonoBehaviour
                     }
                     else if (trimmedLine == "}")
                     {
-                        if (recursionCheck > 0)
+                        if (recursionCheck > 1)
                         {
                             recursionCheck--;
                         }
@@ -339,12 +353,12 @@ public class InputProcessor : MonoBehaviour
             case "if":
                 if (EvaluateExpression(expression))
                 {
+                    insideIf = true;
                     yield return StartCoroutine(ExecuteLines(steps, depth));
                     yield return new WaitForSeconds(stepDelay);
                 }
                 break;
             case "for":
-                Debug.Log($"It is a for loop with the expression: {expression}");
                 loopCount = 0;
                 int range = EvaluateRange(ExtractForLoopExpression(expression));
                 string counterString = EvaluateCounter(expression);
@@ -396,7 +410,6 @@ public class InputProcessor : MonoBehaviour
 
         // Find the closing parenthesis for 'range(...)'
         int endIndex = expression.IndexOf(' ', startIndex);
-        Debug.Log($"Evaluate counter for expression: {expression}");
         if (endIndex == -1)
         {
             throw new InvalidOperationException($"Incorrect format of for loop: {expression}, no closing paranthesis");
@@ -660,7 +673,6 @@ public class InputProcessor : MonoBehaviour
         //In the form of 'for(i in range(10))'
         // Find the starting index of 'range('
         int rangeStartIndex = line.IndexOf("range(");
-        Debug.Log($"Extracting For Loop Expression: {line}");
         if (rangeStartIndex == -1)
         {
             throw new InvalidOperationException($"Incorrect format of for loop: {line}, range not implemented correctly");

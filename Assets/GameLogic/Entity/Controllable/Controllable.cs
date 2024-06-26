@@ -70,7 +70,6 @@ public abstract class Controllable : Entity
     public abstract void moveRight();
 
     public override void Reset() {
-        Debug.Log($"Reseting position of player to ${originalPosition}");
         base.Reset();
         inventory = new Dictionary<Collectable, int>();
     }

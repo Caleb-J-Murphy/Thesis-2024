@@ -119,9 +119,6 @@ public class InputProcessor : MonoBehaviour
     private IEnumerator ExecuteLines(string[] lines, int depth)
     {
         List<string> currentBlock = new List<string>();
-        bool inControlFlow = false;
-        string controlExpression = "";
-        string controlType = "";
         int lineNumber = 0;
         while (lineNumber < lines.Length)
         {
@@ -132,12 +129,12 @@ public class InputProcessor : MonoBehaviour
             
 
             var trimmedLine = lines[lineNumber].Trim();
+
             //Now we check if there was a break needed to be made.
             if (isBreak(trimmedLine))
             {
                 //This needs to cause the while loop to stop.
                 breakWhile = true;
-                Debug.Log("We have used a break");
                 yield break;
             }
             else if (isContinue(trimmedLine))
@@ -147,9 +144,8 @@ public class InputProcessor : MonoBehaviour
             }
 
 
-            if (IsControlFlowStart(trimmedLine, out controlType, out controlExpression))
+            if (IsControlFlowStart(trimmedLine, out string controlType, out string controlExpression))
             {
-                inControlFlow = true;
                 int recursionCheck = 0;
                 lineNumber++;
                 while (lineNumber < lines.Length)
@@ -203,7 +199,6 @@ public class InputProcessor : MonoBehaviour
                     Debug.LogError($"Type mismatch: Cannot assign {evaluatedValue.GetType()} to {variableValues[varName].GetType()}");
                     yield break;
                 }
-
                 variableValues[varName] = evaluatedValue;
             }
             else
@@ -419,7 +414,6 @@ public class InputProcessor : MonoBehaviour
 
                 object leftValue = EvaluateExpressionPart(left);
                 object rightValue = EvaluateExpressionPart(right);
-
                 return EvaluateOperation(leftValue, rightValue, op);
             }
         }
@@ -513,6 +507,8 @@ public class InputProcessor : MonoBehaviour
             throw new ArgumentException("Both leftValue and rightValue must be convertible to integers for > and < operators.");
         }
 
+
+
         switch (op)
         {
             case ">":
@@ -520,8 +516,16 @@ public class InputProcessor : MonoBehaviour
             case "<":
                 return int.Parse(leftValue.ToString()) < int.Parse(rightValue.ToString());
             case "==":
+                if (int.TryParse(leftValue.ToString(),out int lValue) && int.TryParse(leftValue.ToString(), out int rValue))
+                {
+                    return lValue == rValue;
+                }
                 return leftValue.Equals(rightValue);
             case "!=":
+                if (int.TryParse(leftValue.ToString(), out int lsValue) && int.TryParse(rightValue.ToString(), out int rsValue))
+                {
+                    return lsValue != rsValue;
+                }
                 return !leftValue.Equals(rightValue);
             default:
                 throw new InvalidOperationException($"Unsupported operator: {op}");

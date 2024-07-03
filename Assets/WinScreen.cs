@@ -10,12 +10,13 @@ public class WinScreen : MonoBehaviour
     {
         LevelController levelController = LevelController.Instance;
 
-        if (levelController != null) {
+        if (levelController != null)
+        {
             levelController.MoveToNextLevel(nextLevelName);
-        } else {
+        }
+        else
+        {
             Debug.LogError("LevelController instance not found!");
         }
     }
-
-
 }

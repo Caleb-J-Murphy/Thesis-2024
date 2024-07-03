@@ -1,0 +1,7 @@
+<style="H1">For Loops</style>
+A <b>for loop</b> is a control flow statement in programming used to execute a block of code a certain number of times. The loop iterates over a sequence, such as a range of numbers, and executes the block of code for each item in the sequence.
+<style="H2">Example of a For Loop</style>
+<style="Code">for(variable in range(number)) {
+code
+}</style>
+In this example, the <b>for</b> loop starts by defining a <b>variable</b> that takes on each value in the specified <b>range(number)</b>. The loop executes the <b>code</b> block once for each value in the range, starting from 0 up to but not including the specified number. After completing the iterations, the program continues with the next part of the code.

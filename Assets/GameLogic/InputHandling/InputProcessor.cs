@@ -79,6 +79,11 @@ public class InputProcessor : MonoBehaviour
         stopRequested = true; // Set the stop flag
     }
 
+
+    public void Restart()
+    {
+        StartCoroutine(Reset());
+    }
     
 
     private IEnumerator Reset()

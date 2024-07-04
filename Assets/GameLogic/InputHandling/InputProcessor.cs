@@ -79,11 +79,16 @@ public class InputProcessor : MonoBehaviour
         stopRequested = true; // Set the stop flag
     }
 
+
+    public void Restart()
+    {
+        gameController.RestartMade();
+        StartCoroutine(Reset());
+    }
     
 
     private IEnumerator Reset()
     {
-        Debug.Log("Running Reset");
         board.Reset();
         logsToTextComponent.Reset();
         //Reset the variables being used
@@ -138,7 +143,6 @@ public class InputProcessor : MonoBehaviour
             
 
             var trimmedLine = lines[lineNumber].Trim();
-
             //Now we check if there was a break needed to be made.
             if (isBreak(trimmedLine))
             {

@@ -73,6 +73,11 @@ public class GameController : MonoBehaviour
         levelController.addRunAttempt();
     }
 
+    public void RestartMade()
+    {
+        levelController.restartMade();
+    }
+
     public void Initialise(string map, out Board board, out Dictionary<string, Entity> entities, out Dictionary<string, Action<string>> entityFunctions) {
         board = CreateBoardFromMap(map);
         entities = createEntities(board);

@@ -11,6 +11,7 @@ public class LevelController : MonoBehaviour
         public float TimeStart;
         public float TimeEnd;
         public int RunAttempts;
+        public int Restarts;
     }
 
     [SerializeField] private Dictionary<string, LevelStatistics> levelStatistics = new Dictionary<string, LevelStatistics>();
@@ -41,29 +42,37 @@ public class LevelController : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        LevelStatistics levelStat;
         //Update the time for the loaded amount
-        if (levelStatistics.TryGetValue(currentLevel, out levelStat))
+        if (currentLevel != null)
         {
-            //Anything that needs to be set at the end
-            levelStat.TimeEnd = Time.time;
+            endLevel(currentLevel);
         }
 
-
+        LevelStatistics levelStat;
         currentLevel = scene.name;
         if (levelStatistics.TryGetValue(currentLevel, out levelStat))
         {
             //This means we are going to the same level twice hmmmm
+            Debug.LogError("We are back to the same level we have already been to????");
         }
         else
         {
-            //Any intial things that need to be set.
-            LevelStatistics newLevelStat = new LevelStatistics();
-            newLevelStat.TimeStart = Time.time;
-            newLevelStat.RunAttempts = 0;
-            levelStatistics[currentLevel] = newLevelStat;
+            startLevel(currentLevel);
         }
-        Debug.Log(levelStatistics);
+    }
+
+    private void printLevelStats()
+    {
+        foreach (var entry in levelStatistics)
+        {
+            string level = entry.Key;
+            LevelStatistics stats = entry.Value;
+
+            Debug.Log($"Level: {level}");
+            Debug.Log($"\tStart Time: {stats.TimeStart}");
+            Debug.Log($"\tEnd Time: {stats.TimeEnd}");
+            Debug.Log($"\tRun Attempts: {stats.RunAttempts}");
+        }
     }
 
     public void addRunAttempt()
@@ -71,12 +80,48 @@ public class LevelController : MonoBehaviour
         LevelStatistics levelStat;
         if (levelStatistics.TryGetValue(currentLevel, out levelStat))
         {
-            Debug.Log("Just added an run attempt");
             levelStat.RunAttempts++;
+            levelStatistics[currentLevel] = levelStat;
         }
         else
         {
             Debug.LogError("This scene does not exist");
+        }
+    }
+
+    public void restartMade()
+    {
+        LevelStatistics levelStat;
+        if (levelStatistics.TryGetValue(currentLevel, out levelStat))
+        {
+            levelStat.Restarts++;
+            levelStatistics[currentLevel] = levelStat;
+        }
+        else
+        {
+            Debug.LogError("This scene does not exist");
+        }
+    }
+
+    private void startLevel(string levelName)
+    {
+        LevelStatistics newLevelStat = new LevelStatistics();
+        newLevelStat.RunAttempts = 0;
+        newLevelStat.TimeStart = Time.time;
+        newLevelStat.Restarts = 0;
+        levelStatistics[levelName] = newLevelStat;
+    }
+
+    private void endLevel(string levelName)
+    {
+        LevelStatistics levelStat;
+        if (levelStatistics.TryGetValue(levelName, out levelStat))
+        {
+            levelStat.TimeEnd = Time.time;
+            levelStatistics[levelName] = levelStat;
+        } else
+        {
+            Debug.LogError($"Cannot find the current level: {levelName}");
         }
     }
 

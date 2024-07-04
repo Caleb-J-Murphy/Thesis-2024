@@ -185,7 +185,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3318662320969591203, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000040547993
+      value: -0.000021500815
       objectReference: {fileID: 0}
     - target: {fileID: 3860009830635493181, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_text
@@ -226,6 +226,14 @@ PrefabInstance:
     - target: {fileID: 5554634514367427836, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7105132573854168177, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
+      propertyPath: maxLoopDepth
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 7105132573854168177, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
+      propertyPath: maxWhileLoop
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

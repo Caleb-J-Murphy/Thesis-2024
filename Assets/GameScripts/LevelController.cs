@@ -44,8 +44,6 @@ public class LevelController : MonoBehaviour
         //Update the time for the loaded amount
         if (currentLevel != null)
         {
-            //Anything that needs to be set at the end
-            Debug.Log($"Ending the level: {currentLevel}");
             endLevel(currentLevel);
         }
 
@@ -58,10 +56,8 @@ public class LevelController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Starting new level");
             startLevel(currentLevel);
         }
-        printLevelStats();
     }
 
     private void printLevelStats()
@@ -83,7 +79,6 @@ public class LevelController : MonoBehaviour
         LevelStatistics levelStat;
         if (levelStatistics.TryGetValue(currentLevel, out levelStat))
         {
-            Debug.Log($"Just added an run attempt for the level: {currentLevel}");
             levelStat.RunAttempts++;
             levelStatistics[currentLevel] = levelStat;
         }
@@ -106,12 +101,11 @@ public class LevelController : MonoBehaviour
         LevelStatistics levelStat;
         if (levelStatistics.TryGetValue(levelName, out levelStat))
         {
-            Debug.Log("We found the level: {currentLevel}");
             levelStat.TimeEnd = Time.time;
             levelStatistics[levelName] = levelStat;
         } else
         {
-            Debug.Log($"Cannot find the current level: {levelName}");
+            Debug.LogError($"Cannot find the current level: {levelName}");
         }
     }
 

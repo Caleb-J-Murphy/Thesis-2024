@@ -11,6 +11,7 @@ public class LevelController : MonoBehaviour
         public float TimeStart;
         public float TimeEnd;
         public int RunAttempts;
+        public int Restarts;
     }
 
     [SerializeField] private Dictionary<string, LevelStatistics> levelStatistics = new Dictionary<string, LevelStatistics>();
@@ -88,11 +89,26 @@ public class LevelController : MonoBehaviour
         }
     }
 
+    public void restartMade()
+    {
+        LevelStatistics levelStat;
+        if (levelStatistics.TryGetValue(currentLevel, out levelStat))
+        {
+            levelStat.Restarts++;
+            levelStatistics[currentLevel] = levelStat;
+        }
+        else
+        {
+            Debug.LogError("This scene does not exist");
+        }
+    }
+
     private void startLevel(string levelName)
     {
         LevelStatistics newLevelStat = new LevelStatistics();
         newLevelStat.RunAttempts = 0;
         newLevelStat.TimeStart = Time.time;
+        newLevelStat.Restarts = 0;
         levelStatistics[levelName] = newLevelStat;
     }
 

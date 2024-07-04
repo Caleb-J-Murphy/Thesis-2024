@@ -82,6 +82,7 @@ public class InputProcessor : MonoBehaviour
 
     public void Restart()
     {
+        gameController.RestartMade();
         StartCoroutine(Reset());
     }
     

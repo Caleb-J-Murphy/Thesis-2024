@@ -1,4 +1,4 @@
-<style="Title">Help Guide</style>
+<style="Title">Loops and Statements</style>
 
 <style="H1">While Loops</style>
 A <b>while loop</b> is a control flow statement in programming that allows code to be executed repeatedly based on a given <i>Boolean condition</i>. The code within the loop will continue to execute as long as the condition evaluates to true. Once the condition evaluates to false, the loop stops executing, and the program moves on to the next part of the code.
@@ -7,6 +7,13 @@ A <b>while loop</b> is a control flow statement in programming that allows code 
     action
  }</style>
 In this example, the <b>while</b> loop starts with a <b>contion</b>. The loop checks if the <b>condition</b> is TRUE. As long as this condition is true, the loop will continue to perform the <b>action</b>. Once the <b>condition</b> is FALSE, the loop stops and continues on in the code.
+<page><style="H1">For Loops</style>
+A <b>for loop</b> is a control flow statement in programming used to execute a block of code a certain number of times. The loop iterates over a sequence, such as a range of numbers, and executes the block of code for each item in the sequence.
+<style="H2">Example of a For Loop</style>
+<style="Code">for(variable in range(number)) {
+code
+}</style>
+In this example, the <b>for</b> loop starts by defining a <b>variable</b> that takes on each value in the specified <b>range(number)</b>. The loop executes the <b>code</b> block once for each value in the range, starting from 0 up to but not including the specified number. After completing the iterations, the program continues with the next part of the code.
 <page><style="H1">If Statements</style>
 An <b>if statement</b> is a conditional statement in programming that allows a program to execute certain code based on a specified condition. If the condition evaluates to true, the code inside the if statement is executed. If the condition evaluates to false, the code inside the if statement is skipped.
 <style="H2">Example of an If Statement</style>

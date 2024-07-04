@@ -1,0 +1,61 @@
+<style="Title">Operands</style>
+
+<style="H1">Less Than (<)</style>
+The <b>less than</b> operand (<) is used to compare two values. It returns TRUE if the value on the left is smaller than the value on the right.
+<style="H2">Example of Less Than</style>
+<style="Code">if(a < b) {
+action
+}</style>
+In this example, the <b>if</b> statement checks if <b>a</b> is less than <b>b</b>. If this condition is TRUE, the <b>action</b> is executed.
+
+<page>
+<style="H1">Greater Than (>)</style>
+The <b>greater than</b> operand (>) is used to compare two values. It returns TRUE if the value on the left is greater than the value on the right.
+<style="H2">Example of Greater Than</style>
+<style="Code">if(a > b) {
+action
+}</style>
+In this example, the <b>if</b> statement checks if <b>a</b> is greater than <b>b</b>. If this condition is TRUE, the <b>action</b> is executed.
+
+<page>
+<style="H1">Equal To (==)</style>
+The <b>equal to</b> operand (==) is used to compare two values. It returns TRUE if both values are equal.
+<style="H2">Example of Equal To</style>
+<style="Code">if(a == b) {
+action
+}</style>
+In this example, the <b>if</b> statement checks if <b>a</b> is equal to <b>b</b>. If this condition is TRUE, the <b>action</b> is executed.
+
+<page>
+<style="H1">Less Than or Equal To (<=)</style>
+The <b>less than or equal to</b> operand (<=) is used to compare two values. It returns TRUE if the value on the left is smaller than or equal to the value on the right.
+<style="H2">Example of Less Than or Equal To</style>
+<style="Code">if(a <= b) {
+action
+}</style>
+In this example, the <b>if</b> statement checks if <b>a</b> is less than or equal to <b>b</b>. If this condition is TRUE, the <b>action</b> is executed.
+
+<page>
+<style="H1">Greater Than or Equal To (>=)</style>
+The <b>greater than or equal to</b> operand (>=) is used to compare two values. It returns TRUE if the value on the left is greater than or equal to the value on the right.
+<style="H2">Example of Greater Than or Equal To</style>
+<style="Code">if(a >= b) {
+action
+}</style>
+In this example, the <b>if</b> statement checks if <b>a</b> is greater than or equal to <b>b</b>. If this condition is TRUE, the <b>action</b> is executed.
+
+<page>
+<style="H1">Not Equal To (!=)</style>
+The <b>not equal to</b> operand (!=) is used to compare two values. It returns TRUE if both values are not equal.
+<style="H2">Example of Not Equal To</style>
+<style="Code">if(a != b) {
+action
+}</style>
+In this example, the <b>if</b> statement checks if <b>a</b> is not equal to <b>b</b>. If this condition is TRUE, the <b>action</b> is executed.
+
+<page>
+<style="H1">Modulus (%)</style>
+The <b>modulus</b> operand (%) is used to find the remainder of the division of two numbers. It returns the remainder of the division of the left operand by the right operand.
+<style="H2">Example of Modulus</style>
+<style="Code">result = a % b</style>
+In this example, <b>result</b> will be assigned the remainder of <b>a</b> divided by <b>b</b>.

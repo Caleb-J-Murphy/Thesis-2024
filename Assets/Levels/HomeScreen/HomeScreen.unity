@@ -538,7 +538,7 @@ GameObject:
   - component: {fileID: 676378350}
   - component: {fileID: 676378349}
   m_Layer: 0
-  m_Name: LevelController
+  m_Name: RecordHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

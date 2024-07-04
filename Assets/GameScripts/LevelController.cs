@@ -41,29 +41,41 @@ public class LevelController : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        LevelStatistics levelStat;
         //Update the time for the loaded amount
-        if (levelStatistics.TryGetValue(currentLevel, out levelStat))
+        if (currentLevel != null)
         {
             //Anything that needs to be set at the end
-            levelStat.TimeEnd = Time.time;
+            Debug.Log($"Ending the level: {currentLevel}");
+            endLevel(currentLevel);
         }
 
-
+        LevelStatistics levelStat;
         currentLevel = scene.name;
         if (levelStatistics.TryGetValue(currentLevel, out levelStat))
         {
             //This means we are going to the same level twice hmmmm
+            Debug.LogError("We are back to the same level we have already been to????");
         }
         else
         {
-            //Any intial things that need to be set.
-            LevelStatistics newLevelStat = new LevelStatistics();
-            newLevelStat.TimeStart = Time.time;
-            newLevelStat.RunAttempts = 0;
-            levelStatistics[currentLevel] = newLevelStat;
+            Debug.Log("Starting new level");
+            startLevel(currentLevel);
         }
-        Debug.Log(levelStatistics);
+        printLevelStats();
+    }
+
+    private void printLevelStats()
+    {
+        foreach (var entry in levelStatistics)
+        {
+            string level = entry.Key;
+            LevelStatistics stats = entry.Value;
+
+            Debug.Log($"Level: {level}");
+            Debug.Log($"\tStart Time: {stats.TimeStart}");
+            Debug.Log($"\tEnd Time: {stats.TimeEnd}");
+            Debug.Log($"\tRun Attempts: {stats.RunAttempts}");
+        }
     }
 
     public void addRunAttempt()
@@ -71,12 +83,35 @@ public class LevelController : MonoBehaviour
         LevelStatistics levelStat;
         if (levelStatistics.TryGetValue(currentLevel, out levelStat))
         {
-            Debug.Log("Just added an run attempt");
+            Debug.Log($"Just added an run attempt for the level: {currentLevel}");
             levelStat.RunAttempts++;
+            levelStatistics[currentLevel] = levelStat;
         }
         else
         {
             Debug.LogError("This scene does not exist");
+        }
+    }
+
+    private void startLevel(string levelName)
+    {
+        LevelStatistics newLevelStat = new LevelStatistics();
+        newLevelStat.RunAttempts = 0;
+        newLevelStat.TimeStart = Time.time;
+        levelStatistics[levelName] = newLevelStat;
+    }
+
+    private void endLevel(string levelName)
+    {
+        LevelStatistics levelStat;
+        if (levelStatistics.TryGetValue(levelName, out levelStat))
+        {
+            Debug.Log("We found the level: {currentLevel}");
+            levelStat.TimeEnd = Time.time;
+            levelStatistics[levelName] = levelStat;
+        } else
+        {
+            Debug.Log($"Cannot find the current level: {levelName}");
         }
     }
 

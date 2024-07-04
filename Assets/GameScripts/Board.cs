@@ -87,7 +87,9 @@ public class Board : MonoBehaviour
     protected void setWinScreen(bool win) {
         if (!winScreen) {
             Debug.LogError("Win screen not set on the board");
+            return;
         }
+        Debug.Log("Setting win screen");
         winScreen.SetActive(win);
     }
 

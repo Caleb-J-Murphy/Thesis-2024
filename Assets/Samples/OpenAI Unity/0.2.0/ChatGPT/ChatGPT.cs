@@ -9,6 +9,10 @@ namespace OpenAI
     public class ChatGPT : MonoBehaviour
     {
         [SerializeField] private TextAsset toChatGPT;
+        [SerializeField] private TextAsset responseRequirements;
+        //Includes the solution to the level.
+        [SerializeField] private TextAsset levelExplanation;
+        [SerializeField] private InputProcessor inputProcessor;
 
         [SerializeField] private TextToSpeech textToSpeech;
 
@@ -19,16 +23,12 @@ namespace OpenAI
 
         private void Awake()
         {
-            if (toChatGPT) prompt = toChatGPT.text;
+            if (toChatGPT && responseRequirements && levelExplanation) prompt = responseRequirements.text + levelExplanation.text + toChatGPT.text;
         }
-
-        //private void Start()
-        //{
-        //    button.onClick.AddListener(SendReply);
-        //}
 
         public async void SendReply(string reply)
         {
+            
             Debug.Log($"Creating reply: {reply} to send to chatGPT");
             var newMessage = new ChatMessage()
             {
@@ -36,9 +36,13 @@ namespace OpenAI
                 Content = reply
             };
 
-
+            if (inputProcessor)
+            {
+                //Add the previous attempt to the response.
+                prompt += "\n" + "This is my previous attempt at the problem:\n" + inputProcessor.getPreviousAttempt();
+            }
             if (messages.Count == 0) newMessage.Content = prompt + "\n" + reply;
-
+            
             messages.Add(newMessage);
 
             // Complete the instruction

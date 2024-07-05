@@ -29,7 +29,7 @@ public class InputProcessor : MonoBehaviour
     [SerializeField] private bool continueInsideIf = false;
     private bool insideIf = false;
 
-
+    private string previousAttempt = "I have not attempted anything";
 
     public LogsToTextComponent logsToTextComponent;
 
@@ -69,9 +69,15 @@ public class InputProcessor : MonoBehaviour
     public void StartExecution()
     {
         input = textMeshProInputField.text;
+        previousAttempt = input;
         stopRequested = false; // Reset the stop flag
         StartCoroutine(ExecuteSequentially(input));
 
+    }
+
+    public string getPreviousAttempt()
+    {
+        return previousAttempt;
     }
 
     public void StopExecution()

@@ -1,0 +1,2 @@
+UserID,Level,TimeStart,TimeEnd,PlayPresses,Stars,Completed,Errors,Code
+0,Tutorial_1,0.2064129,3.987732,0,3,True,,hero.moveRight()-hero.moveRight()-hero.pickUpItem()-hero.moveRight()-door.useDoor()

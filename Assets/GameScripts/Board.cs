@@ -99,5 +99,10 @@ public class Board : MonoBehaviour
         }
     }
 
+    public int getStars()
+    {
+        return 3;
+    }
+
 
 }

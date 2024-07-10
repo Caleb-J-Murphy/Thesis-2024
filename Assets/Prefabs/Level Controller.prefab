@@ -710,6 +710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMeshProInputField: {fileID: 4869602555987271462}
+  board: {fileID: 0}
   stepDelay: 0.1
   maxWhileLoop: 10
   maxLoopDepth: 10
@@ -738,6 +739,9 @@ MonoBehaviour:
   winScreen: {fileID: 1018386015547140953}
   healthBar: {fileID: 981133154223021158}
   staminaBar: {fileID: 848613582900762556}
+  starShadow1: {fileID: 6584658847558683343}
+  starShadow2: {fileID: 1660846315629506309}
+  starShadow3: {fileID: 7986317884277060115}
   boardLevel: BoardTest
   mapFile: {fileID: 4900000, guid: 580c6a2fa44ea7147a15c23dabe48de4, type: 3}
   gameHolder: {fileID: 8545706651266775192}
@@ -4655,6 +4659,18 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1132996734967937044}
+          m_TargetAssemblyTypeName: WinScreen, Assembly-CSharp
+          m_MethodName: 
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: 
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 

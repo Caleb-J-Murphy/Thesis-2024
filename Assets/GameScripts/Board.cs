@@ -161,7 +161,6 @@ public class Board : MonoBehaviour
             {
                 if (hero.getPosition() == sign.getPosition())
                 {
-                    Debug.Log("We found a sign at the players position");
                     return sign.currentDirection;
                 }
             }

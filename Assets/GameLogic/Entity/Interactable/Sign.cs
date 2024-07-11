@@ -7,8 +7,8 @@ using UnityEngine;
 public class Sign : Interactable
 {
 
-    private static readonly string[] directions = { "Up", "Down", "Left", "Right" };
-    private static readonly System.Random random = new System.Random();
+    private string[] directions = { "Up", "Down", "Left", "Right" };
+    protected System.Random random = new System.Random();
     public string currentDirection = "Up";
 
     public override string getName()
@@ -16,10 +16,10 @@ public class Sign : Interactable
         return "sign";
     }
 
-    public string GetDirection()
+    public virtual string GetDirection()
     {
-        int index = random.Next(directions.Length);
-        return directions[index];
+        int index = random.Next(this.directions.Length);
+        return this.directions[index];
     }
 
     

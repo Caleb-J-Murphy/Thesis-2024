@@ -190,33 +190,80 @@ public class InputProcessor : MonoBehaviour
             {
                 currentBlock = new List<string>();
                 int recursionCheck = 0;
+                if (trimmedLine.Contains("{"))
+                {
+                    recursionCheck++;
+                }
                 lineNumber++;
                 while (lineNumber < lines.Length)
                 {
                     trimmedLine = lines[lineNumber].Trim();
-                    if (trimmedLine == "{")
+                    if (trimmedLine.Contains('}') || trimmedLine.Contains('{'))
+                    {
+                        if (trimmedLine.Contains("}"))
+                        {
+                            if (recursionCheck > 1)
+                            {
+                                recursionCheck--;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        if (trimmedLine.Contains("{"))
+                        {
+                            recursionCheck++;
+                        }
+                        
+                    }                    
+                    else
+                    {
+                        currentBlock.Add(trimmedLine);
+                    }
+                    lineNumber++;
+                }
+                //Check for an else statement if an if statement was used
+                if (controlType == "if" && trimmedLine.Contains("else"))
+                {
+                    List<string> elseBlock = new List<string>();
+                    recursionCheck = 0;
+                    if (trimmedLine.Contains("{"))
                     {
                         recursionCheck++;
                     }
-                    else if (trimmedLine == "}")
-                    {
-                        if (recursionCheck > 1)
-                        {
-                            recursionCheck--;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                    currentBlock.Add(trimmedLine);
                     lineNumber++;
+                    while (lineNumber < lines.Length)
+                    {
+                        trimmedLine = lines[lineNumber].Trim();
+                        if (trimmedLine == "{")
+                        {
+                            recursionCheck++;
+                        }
+                        else if (trimmedLine == "}")
+                        {
+                            if (recursionCheck > 1)
+                            {
+                                recursionCheck--;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        } else
+                        {
+                            elseBlock.Add(trimmedLine);
+                        }
+                        lineNumber++;
+                    }
+                    yield return StartCoroutine(HandleIfElseStatement(controlExpression, currentBlock.ToArray(), elseBlock.ToArray(), depth + 1));
+                } else
+                {
+                    yield return StartCoroutine(HandleControlFlow(controlType, controlExpression, currentBlock.ToArray(), depth + 1));
                 }
-                yield return StartCoroutine(HandleControlFlow(controlType, controlExpression, currentBlock.ToArray(), depth + 1));
             }
             else if (IsVariableAssignment(trimmedLine, out string varName, out string varValue, out string varType))
             {
-                Debug.Log("This is a variable assignment");
                 if (variableValues.ContainsKey(varName))
                 {
                     ListKeyValuePairs();
@@ -225,7 +272,6 @@ public class InputProcessor : MonoBehaviour
                 }
 
                 object evaluatedValue = EvaluateValue(varType, varValue);
-                Debug.Log($"We got the evaluated value of: {evaluatedValue}");
                 variableValues[varName] = evaluatedValue;
             }
             else if (isVariableReAssignment(trimmedLine, out varName, out varValue, out varType))
@@ -352,7 +398,7 @@ public class InputProcessor : MonoBehaviour
 
         if (entities.ContainsKey(entityName) && entityFunctions.ContainsKey(commandName))
         {
-            //Debug.Log($"Running Command: {commandName} with parameter: {param}");
+            Debug.Log($"Running Command: {commandName} with parameter: {param}");
             entityFunctions[commandName].Invoke(param);
             board.UpdateBoard();
             yield return new WaitForSeconds(stepDelay);
@@ -431,6 +477,28 @@ public class InputProcessor : MonoBehaviour
                 break;
         }
     }
+
+    private IEnumerator HandleIfElseStatement(string expression, string[] ifSteps, string[] elseSteps, int depth)
+    {
+        if (depth > maxLoopDepth)
+        {
+            Debug.LogError("TOO many recursive loops");
+            yield break;
+        }
+
+        if (EvaluateExpression(expression))
+        {
+            insideIf = true;
+            yield return StartCoroutine(ExecuteLines(ifSteps, depth));
+            yield return new WaitForSeconds(stepDelay);
+        } else
+        {
+            insideIf = true;
+            yield return StartCoroutine(ExecuteLines(elseSteps, depth));
+            yield return new WaitForSeconds(stepDelay);
+        }
+    }
+
 
     private int EvaluateRange(string expression)
     {
@@ -565,7 +633,6 @@ public class InputProcessor : MonoBehaviour
         {
             if (expression.Contains(op))
             {
-                Debug.Log($"Contains the operator {op}");
                 var parts = expression.Split(new[] { op }, StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length != 2)
                 {
@@ -574,7 +641,6 @@ public class InputProcessor : MonoBehaviour
 
                 var left = parts[0].Trim();
                 var right = parts[1].Trim();
-                Debug.Log("We are about to evaluate each part");
                 object leftValue = EvaluateExpressionPart(left);
                 object rightValue = EvaluateExpressionPart(right);
                 return EvaluateOperation(leftValue, rightValue, op);
@@ -683,9 +749,6 @@ public class InputProcessor : MonoBehaviour
             throw new ArgumentException("Both leftValue and rightValue must be convertible to integers for 'and' and 'or' operators.");
         }
 
-
-        Debug.Log($"We got to evaluation with leftValue = {leftValue} and right value = {rightValue}" );
-        ListKeyValuePairs();
         switch (op)
         {
             case ">":
@@ -693,8 +756,6 @@ public class InputProcessor : MonoBehaviour
             case "<":
                 return int.Parse(leftValue.ToString()) < int.Parse(rightValue.ToString());
             case "==":
-                Debug.Log("We got to above the attempt");
-                Debug.Log("We got to equals");
                 return leftValue.Equals(rightValue);
             case "!=":
                 return !leftValue.Equals(rightValue);
@@ -803,10 +864,8 @@ public class InputProcessor : MonoBehaviour
     private string EvaluateSignFunction(string functionCall)
     {
         string function = functionCall.Substring("sign.".Length);
-        Debug.Log($"The function ended up being: {function}");
         if (function == "readSign()")
         {
-            Debug.Log("We are about to read the sign");
             string signResult = board.GetSign();
             if(signResult == null)
             {
@@ -822,7 +881,6 @@ public class InputProcessor : MonoBehaviour
     {
         if (isCallingSignFunction(value))
         {
-            Debug.Log("It was a sign function");
             return EvaluateSignFunction(value);
         }
         // Check if the value is an expression like distance - 1
@@ -904,8 +962,7 @@ public class InputProcessor : MonoBehaviour
                 return value;
         }
     }
-
-        
+    
     private string InferVariableType(string value)
     {
         if (variableValues.ContainsKey(value))

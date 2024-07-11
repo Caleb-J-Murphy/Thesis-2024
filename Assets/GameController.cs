@@ -272,7 +272,6 @@ public class GameController : MonoBehaviour
                     {
                         GameObject sign = Instantiate(signPrefab, position, Quaternion.identity, gameHolder.transform);
                         board.AddEntity(sign.GetComponent<Sign>(), new Vector2(x, -y));
-                        board.PrintEntities();
                     }
                 }
             }

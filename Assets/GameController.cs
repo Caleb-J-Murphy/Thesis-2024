@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 /*
 Used to control the game
 Hold all interactable objects to be then queried
@@ -20,6 +21,7 @@ public class GameController : MonoBehaviour
     public GameObject doorPrefab;
     public GameObject floorPrefab;
     public GameObject keyPrefab;
+    public GameObject ladderPrefab;
 
     [Header("UI Objects")]
     public GameObject winScreen;
@@ -84,11 +86,9 @@ public class GameController : MonoBehaviour
 
     public void WinAttempt()
     {
-        Debug.Log("Hey We won");
         //Find out how many stars
         int starNum = inputProcessor.board.getStars();
         levelController.SetStars(starNum);
-        Debug.Log($"You got {starNum} stars");
 
         //Set the stars
         SetStars(starNum);
@@ -107,7 +107,6 @@ public class GameController : MonoBehaviour
         if (starNum > 0)
         {
             starShadow1.SetActive(false);
-            Debug.Log("First star should be inactive");
         } else
         {
             starShadow1.SetActive(true);
@@ -220,7 +219,7 @@ public class GameController : MonoBehaviour
     public Board CreateBoardFromMap(string map)
     {
         Board board = CreateBoardWithComponent(boardLevelType);
-
+        board.inputProcessor = inputProcessor;
         board.winScreen = winScreen;
 
         string[] lines = map.Split('\n');
@@ -264,6 +263,10 @@ public class GameController : MonoBehaviour
                     {
                         GameObject key = Instantiate(keyPrefab, position, Quaternion.identity, gameHolder.transform);
                         board.AddEntity(key.GetComponent<Key>(), new Vector2(x, -y));
+                    } else if (cell == 'L')
+                    {
+                        GameObject ladder = Instantiate(ladderPrefab, position, Quaternion.identity, gameHolder.transform);
+                        board.AddEntity(ladder.GetComponent<Ladder>(), new Vector2(x, -y));
                     }
                 }
             }
@@ -275,7 +278,6 @@ public class GameController : MonoBehaviour
         }
         return board;
     }
-
 
     private Board CreateHero(Board board, Vector2 position, int x, int y) {
         GameObject hero = Instantiate(heroPrefab, position, Quaternion.identity, gameHolder.transform);

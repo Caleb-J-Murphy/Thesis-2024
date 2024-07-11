@@ -73,12 +73,10 @@ public class InputProcessor : MonoBehaviour
         //Did we win? - if not, then end the attempt, otherwise it is sorted out by the other components
         if (!gameController.winScreenShown())
         {
-            Debug.Log("Failed attempt");
             gameController.failedAttempt();
         }
         else
         {
-            Debug.Log("Successful attempt");
             gameController.WinAttempt();
         }
     }

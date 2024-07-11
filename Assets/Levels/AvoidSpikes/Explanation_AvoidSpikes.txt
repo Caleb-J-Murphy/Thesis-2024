@@ -1,0 +1,26 @@
+This is Learn to use key where the objective of the level is to reach to ladder by moving the player to the right but to do so, they need to pick up the key and use it on the door.
+Once they are at the ladder they will have completed the level.
+The layout looks like this: 
+WWWWW
+WHMLW
+W M W
+W C W
+WWWWW
+Where W = Wall, M = Mine, L = Ladder, C = Coin, H = hero (its original position of hero at the beginning of the level), and a space is nothing
+
+In this level, you should discourage the use of manually moving the hero to the door and unlock it. 
+Here is an example solution to help the student:
+hero.moveDown()
+hero.moveDown()
+hero.moveRight()
+hero.pickUpItem()
+hero.moveRight()
+hero.moveUp()
+hero.moveUp()
+
+It does not need to be exactly like this.
+
+The objectives for this level are:
+1. Reach the ladder
+2. Complete the level in 7 or less lines of code
+3. Complete the level with a coin

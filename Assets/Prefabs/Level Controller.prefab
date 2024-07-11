@@ -736,6 +736,7 @@ MonoBehaviour:
   doorPrefab: {fileID: 4098264919594825145, guid: 81308005bdc3960458ba35b0c4fdabac, type: 3}
   floorPrefab: {fileID: 8872396371547061505, guid: 77bc49a1f93735d4693fa64eac3f5a65, type: 3}
   keyPrefab: {fileID: 8680574915367162375, guid: 52ed40b42e0a6514aa0abda54687eab4, type: 3}
+  ladderPrefab: {fileID: 9040413999897176205, guid: 2dc3703a5fe15c04e9392743da18e353, type: 3}
   winScreen: {fileID: 1018386015547140953}
   healthBar: {fileID: 981133154223021158}
   staminaBar: {fileID: 848613582900762556}

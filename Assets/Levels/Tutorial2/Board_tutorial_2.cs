@@ -14,4 +14,22 @@ public class Board_tutorial_2 : Board
         setWinScreen(true);
         return true;
     }
+
+    public override int getStars()
+    {
+        int stars = 0;
+        if (hasWon())
+        {
+            stars += 1;
+        }
+        if (this.usedLoop())
+        {
+            stars += 1;
+        }
+        if (this.numberOfLinesUsed() < 18)
+        {
+            stars += 1;
+        }
+        return stars;
+    }
 }

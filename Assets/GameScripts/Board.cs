@@ -7,6 +7,7 @@ public class Board : MonoBehaviour
     public List<Entity> objects = new List<Entity>();
 
     public GameObject winScreen;
+    public InputProcessor inputProcessor;
 
     public void AddEntity(Entity entity, Vector2 position) {
         Hero specificEntity = entity as Hero;
@@ -99,10 +100,40 @@ public class Board : MonoBehaviour
         }
     }
 
-    public int getStars()
+    public virtual int getStars()
     {
         return 3;
     }
 
+
+    protected int numberOfLinesUsed()
+    {
+        return inputProcessor.GetCode().Split("\n").Length;
+        
+    }
+
+    protected bool usedLoop()
+    {
+        return inputProcessor.GetCode().Contains("while") || inputProcessor.GetCode().Contains("for");
+    }
+
+    protected bool usedStatement()
+    {
+        return inputProcessor.GetCode().Contains("if(");
+    }
+
+    protected int getNumberCoins()
+    {
+        List<Hero> heros = getEntities<Hero>();
+        int numCoins = 0;
+        foreach (Hero hero in heros)
+        {
+            while (hero.TakeFromInventory("coin") != null)
+            {
+                numCoins++;
+            }
+        }
+        return numCoins;
+    }
 
 }

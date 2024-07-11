@@ -4,15 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
+using Amazon.Runtime;
+using System.Linq;
 
 public class InputProcessor : MonoBehaviour
 {
+    LevelController levelController = LevelController.Instance;
+
     public TMP_InputField textMeshProInputField;
 
     private Dictionary<string, Action<string>> entityFunctions;
     private Dictionary<string, Entity> entities;
     private Hero Hero;
-    private Board board;
+    public Board board;
     public float stepDelay = 1f; // Time delay between each step, adjustable in the inspector
     private GameController gameController;
 
@@ -29,7 +33,7 @@ public class InputProcessor : MonoBehaviour
     [SerializeField] private bool continueInsideIf = false;
     private bool insideIf = false;
 
-
+    private string previousAttempt = "I have not attempted anything";
 
     public LogsToTextComponent logsToTextComponent;
 
@@ -64,14 +68,36 @@ public class InputProcessor : MonoBehaviour
 
         // Now run ProcessInput
         yield return StartCoroutine(ProcessInput(input));
+
+        //This is the end of the attempt
+        //Did we win? - if not, then end the attempt, otherwise it is sorted out by the other components
+        if (!gameController.winScreenShown())
+        {
+            gameController.failedAttempt();
+        }
+        else
+        {
+            gameController.WinAttempt();
+        }
     }
 
     public void StartExecution()
     {
         input = textMeshProInputField.text;
+        previousAttempt = input;
         stopRequested = false; // Reset the stop flag
         StartCoroutine(ExecuteSequentially(input));
+        
+    }
 
+    public string GetCode()
+    {
+        return input;
+    }
+
+    public string getPreviousAttempt()
+    {
+        return previousAttempt;
     }
 
     public void StopExecution()
@@ -140,7 +166,6 @@ public class InputProcessor : MonoBehaviour
                 continueInsideIf = false;
                 yield break;
             }
-            
 
             var trimmedLine = lines[lineNumber].Trim();
             //Now we check if there was a break needed to be made.
@@ -164,6 +189,7 @@ public class InputProcessor : MonoBehaviour
 
             if (IsControlFlowStart(trimmedLine, out string controlType, out string controlExpression))
             {
+                currentBlock = new List<string>();
                 int recursionCheck = 0;
                 lineNumber++;
                 while (lineNumber < lines.Length)
@@ -337,6 +363,7 @@ public class InputProcessor : MonoBehaviour
         {
             case "while":
                 loopCount = 0;
+                Debug.Log($"Evaluating this expression: {expression}");
                 while (EvaluateExpression(expression))
                 {
                     if (loopCount >= maxLoopDepth)
@@ -352,6 +379,7 @@ public class InputProcessor : MonoBehaviour
                     yield return StartCoroutine(ExecuteLines(steps, depth));
                     yield return new WaitForSeconds(stepDelay);
                 }
+                Debug.Log($"Finished with the while loop: {expression}");
                 break;
 
             case "if":
@@ -803,17 +831,13 @@ public class InputProcessor : MonoBehaviour
             switch (op)
             {
                 case "-":
-                    value = (leftValue - rightValue).ToString();
-                    break;
+                    return Convert.ToInt32(leftValue - rightValue);
                 case "+":
-                    value = (leftValue + rightValue).ToString();
-                    break;
+                    return Convert.ToInt32(leftValue + rightValue);
                 case "*":
-                    value = (leftValue * rightValue).ToString();
-                    break;
+                    return Convert.ToInt32(leftValue * rightValue);
                 case "/":
-                    value = (leftValue / rightValue).ToString();
-                    break;
+                    return Convert.ToInt32(leftValue / rightValue);
                 default:
                     throw new FormatException($"'{op}' is not a supported calculation.");
             }
@@ -828,11 +852,11 @@ public class InputProcessor : MonoBehaviour
         {
             return variableValues[value];
         }
-
         // Convert the value to the appropriate type
         switch (varType)
         {
             case "Int32":
+            case "int":
                 return int.Parse(value);
             case "Boolean":
                 return bool.Parse(value);
@@ -864,6 +888,31 @@ public class InputProcessor : MonoBehaviour
         {
             return "Single";
         }
+
+        string[] op = { "-", "+", "*", "/", "%" };
+        // Check to see if it is using a name of a variable
+        string[] parts = value.Split(' ');
+        List<String> values = new List<String>();
+        for (int i = 0; i < parts.Length; i++)
+        {
+            if (!op.Contains(parts[i])) {
+                values.Add(InferVariableType(parts[i]));
+            }
+        }
+        bool allEqual = true;
+        for (int i = 0; i < values.Count - 1; i++)
+        {
+            if (values[i] != values[i + 1])
+            {
+                Debug.Log($"They are not equal {values[i]} {values[i + 1]}");
+                allEqual = false;
+            }
+        }
+        if (allEqual && values.Count > 0)
+        {
+            return values[0];
+        }
+        
         return "String";
     }
 

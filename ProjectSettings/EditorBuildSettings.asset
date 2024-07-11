@@ -12,6 +12,12 @@ EditorBuildSettings:
     path: Assets/Levels/HomeScreen/HomeScreen.unity
     guid: 434e8f84a12a77c49834a1bc6ca906ff
   - enabled: 1
+    path: Assets/Levels/Tutorial1/Tutorial_1.unity
+    guid: f6975a486f382c049a2136ce9b5e77ed
+  - enabled: 1
+    path: Assets/Levels/Tutorial2/Tutorial_2.unity
+    guid: 2abb1459c499e7349ad25f337c75bf63
+  - enabled: 1
     path: Assets/Levels/Level1/Level_1.unity
     guid: 67d61c3e59a061442836953f17dcf6db
   - enabled: 1

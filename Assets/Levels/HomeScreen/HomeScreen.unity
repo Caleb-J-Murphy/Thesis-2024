@@ -427,6 +427,18 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
+        - m_Target: {fileID: 676378349}
+          m_TargetAssemblyTypeName: LevelController, Assembly-CSharp
+          m_MethodName: AddUser
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
         - m_Target: {fileID: 494956094}
           m_TargetAssemblyTypeName: WinScreen, Assembly-CSharp
           m_MethodName: NextLevel
@@ -451,7 +463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3facbfcbddb9f80478a53ab30f1ce59a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextLevelName: Level_1
+  nextLevelName: Tutorial_1
 --- !u!1 &605091337
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,6 +568,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcfba79db80035f489c77b3e53c81560, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentUserID: 0
+  textAsset: {fileID: 0}
 --- !u!4 &676378350
 Transform:
   m_ObjectHideFlags: 0

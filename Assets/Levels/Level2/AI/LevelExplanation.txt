@@ -1,0 +1,43 @@
+This is level 2, the objective of this level is to move the player all the way to the end of the corridor, pick up the key and then open the door.
+The layout looks like this: 
+......................WWDWW
+.....................WW KWW
+....................WW  WW
+...................WW  WW
+..................WW  WW
+.................WW  WW
+................WW  WW
+...............WW  WW
+..............WW  WW
+.............WW  WW
+............WW  WW
+...........WW  WW
+..........WW  WW
+.........WW  WW
+........WW  WW
+.......WW  WW
+......WW  WW
+.....WW  WW
+....WW  WW
+...WW  WW
+..WW  WW
+.WW  WW
+WW  WW
+W  WW
+WHWW
+WWW
+Where W = Wall, . = nothing, D = door, k = key, and H = hero (its original position of hero at the beginning of the level)
+
+In this level, you should discourage the use of manually moving the hero to the door and unlock it. 
+Here is an example solution to help the student:
+int distance = 23
+while(distance > 0) 
+{
+    hero.moveUp()
+    hero.moveRight()
+    distance = distance - 1
+}
+hero.pickUpItem()
+hero.useDoor()
+
+It does not need to be exactly like this.

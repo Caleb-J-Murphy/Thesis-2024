@@ -1,0 +1,32 @@
+This is tutorial 2, the objective of this tutorial is to get the player used to using a while loop or for loop. 
+For your information, the player needs to move 15 blocks to the right, move down, pick up the key and the move down again.
+They then need to move 15 blocks to the left to get to the door and then unlock it. 
+You can let the player know of that information.
+The layout looks like this: 
+WWWWWWWWWWWWWWWWWW
+WH               W
+WWWWWWWWWWWWWWWWKW
+W                W
+WDWWWWWWWWWWWWWWWW
+Where W = Wall, . = nothing, D = door, k = key, and H = hero (its original position of hero at the beginning of the level)
+
+In this level, you should discourage the use of manually moving the hero to the door and unlock it. 
+Here is an example solution to help the student:
+int distance = 10
+while(distance > 0)
+{
+	hero.moveRight()
+	distance = distance - 1
+}
+hero.moveDown()
+hero.pickUpItem()
+hero.moveDown()
+distance = 10
+while(distance > 0)
+{
+	hero.moveLeft()
+	distance = distance - 1
+}
+door.useDoor()
+
+It does not need to be exactly like this.

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 /*
 Used to control the game
 Hold all interactable objects to be then queried
@@ -12,6 +13,7 @@ public class GameController : MonoBehaviour
     LevelController levelController = LevelController.Instance;
 
 
+    [Header("Game Prefabs")]
     public GameObject wallPrefab;
     public GameObject heroPrefab;
     public GameObject minePrefab;
@@ -19,10 +21,17 @@ public class GameController : MonoBehaviour
     public GameObject doorPrefab;
     public GameObject floorPrefab;
     public GameObject keyPrefab;
+    public GameObject ladderPrefab;
 
+    [Header("UI Objects")]
     public GameObject winScreen;
     public ProgressBar healthBar;
     public ProgressBar staminaBar;
+
+    [Header("Stars")]
+    public GameObject starShadow1;
+    public GameObject starShadow2;
+    public GameObject starShadow3;
 
     public String boardLevel;
 
@@ -38,6 +47,8 @@ public class GameController : MonoBehaviour
     private InputProcessor inputProcessor;
 
     private List<Hero> heros;
+
+    private string errorLog = "";
 
     void Awake() {
         boardLevelType = Type.GetType(boardLevel);
@@ -68,14 +79,54 @@ public class GameController : MonoBehaviour
         return mapFile.text;
     }
 
-    public void RunAttempt()
-    {
-        levelController.addRunAttempt();
-    }
-
     public void RestartMade()
     {
-        levelController.restartMade();
+        levelController.restartLevel();
+    }
+
+    public void WinAttempt()
+    {
+        //Find out how many stars
+        int starNum = inputProcessor.board.getStars();
+        levelController.SetStars(starNum);
+
+        //Set the stars
+        SetStars(starNum);
+        //Set completed to true
+        levelController.Completed();
+        //Set the error messages
+        levelController.SetError(GetErrorLog());
+        //Set the attempt code
+        levelController.SetCode(inputProcessor.GetCode());
+        //End the attempt
+        levelController.EndAttempt();
+    }
+
+    public void SetStars(int starNum)
+    {
+        if (starNum > 0)
+        {
+            starShadow1.SetActive(false);
+        } else
+        {
+            starShadow1.SetActive(true);
+        }
+        if (starNum > 1)
+        {
+            starShadow2.SetActive(false);
+        }
+        else
+        {
+            starShadow2.SetActive(true);
+        }
+        if (starNum > 2)
+        {
+            starShadow3.SetActive(false);
+        }
+        else
+        {
+            starShadow3.SetActive(true);
+        }
     }
 
     public void Initialise(string map, out Board board, out Dictionary<string, Entity> entities, out Dictionary<string, Action<string>> entityFunctions) {
@@ -103,6 +154,50 @@ public class GameController : MonoBehaviour
 
     }
 
+    void OnEnable()
+    {
+        Application.logMessageReceived += HandleLog;
+    }
+
+    void OnDisable()
+    {
+        Application.logMessageReceived -= HandleLog;
+    }
+
+    void HandleLog(string logString, string stackTrace, LogType type)
+    {
+        if (type == LogType.Error || type == LogType.Exception)
+        {
+            errorLog += logString + "\n";
+        }
+    }
+
+    public string GetErrorLog()
+    {
+        return errorLog;
+    }
+
+
+    public void failedAttempt()
+    {
+        //Set the error messages
+        levelController.SetError(GetErrorLog());
+        //Set the attempt code
+        levelController.SetCode(inputProcessor.GetCode());
+        //End the attempt
+        levelController.EndAttempt();
+
+
+        errorLog = "";
+
+        levelController.StartAttempt();
+    }
+
+    public bool winScreenShown()
+    {
+        return winScreen.activeSelf;
+    }
+
     public Board CreateBoardWithComponent(Type boardType)
     {
         GameObject boardGM = new GameObject("Board");
@@ -124,7 +219,7 @@ public class GameController : MonoBehaviour
     public Board CreateBoardFromMap(string map)
     {
         Board board = CreateBoardWithComponent(boardLevelType);
-
+        board.inputProcessor = inputProcessor;
         board.winScreen = winScreen;
 
         string[] lines = map.Split('\n');
@@ -168,6 +263,10 @@ public class GameController : MonoBehaviour
                     {
                         GameObject key = Instantiate(keyPrefab, position, Quaternion.identity, gameHolder.transform);
                         board.AddEntity(key.GetComponent<Key>(), new Vector2(x, -y));
+                    } else if (cell == 'L')
+                    {
+                        GameObject ladder = Instantiate(ladderPrefab, position, Quaternion.identity, gameHolder.transform);
+                        board.AddEntity(ladder.GetComponent<Ladder>(), new Vector2(x, -y));
                     }
                 }
             }
@@ -179,7 +278,6 @@ public class GameController : MonoBehaviour
         }
         return board;
     }
-
 
     private Board CreateHero(Board board, Vector2 position, int x, int y) {
         GameObject hero = Instantiate(heroPrefab, position, Quaternion.identity, gameHolder.transform);

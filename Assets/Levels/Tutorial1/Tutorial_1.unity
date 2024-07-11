@@ -174,10 +174,10 @@ PrefabInstance:
     - target: {fileID: 1585789539774057581, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: mapFile
       value: 
-      objectReference: {fileID: 4900000, guid: a1dd6f2db11f4644e99e2f310cda9ba3, type: 3}
+      objectReference: {fileID: 4900000, guid: 5197914062bff29478f1c45d6734d40d, type: 3}
     - target: {fileID: 1585789539774057581, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: boardLevel
-      value: Board_level_2
+      value: Board_tutorial_1
       objectReference: {fileID: 0}
     - target: {fileID: 2784178041743830351, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: fromChatGPT
@@ -189,15 +189,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3318662320969591203, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 99.999985
+      value: 100.00045
       objectReference: {fileID: 0}
     - target: {fileID: 3860009830635493181, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_text
-      value: Level 2
+      value: Tutorial 1
       objectReference: {fileID: 0}
     - target: {fileID: 3860009830635493181, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_fontStyle
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3896887878297920377, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
+      propertyPath: nextLevelName
+      value: Tutorial_2
       objectReference: {fileID: 0}
     - target: {fileID: 4585689522144811791, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_AnchorMax.x
@@ -222,7 +226,7 @@ PrefabInstance:
     - target: {fileID: 4691674162936286781, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: levelExplanation
       value: 
-      objectReference: {fileID: 4900000, guid: a5189641f31da4743a6e5a140964a050, type: 3}
+      objectReference: {fileID: 4900000, guid: 1cf166e5541ad674d9183c2d90dbd9d2, type: 3}
     - target: {fileID: 4691674162936286781, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: responseRequirements
       value: 

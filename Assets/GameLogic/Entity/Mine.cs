@@ -23,6 +23,29 @@ public class Mine : Entity
         }
     }
 
+    private void Update()
+    {
+        if (isActivated)
+        {
+            if (spriteRenderer != null && activated != null)
+            {
+                spriteRenderer.sprite = activated;
+            } else {
+                Debug.LogError("SpriteRenderer or sprite not assigned for the mine");
+            }
+        } else
+        {
+            if (spriteRenderer != null && deActivated != null)
+            {
+                spriteRenderer.sprite = deActivated;
+            }
+            else
+            {
+                Debug.LogError("SpriteRenderer or sprite not assigned for the mine");
+            }
+        }
+    }
+
     public override string getName() {
         return "mine";
     }

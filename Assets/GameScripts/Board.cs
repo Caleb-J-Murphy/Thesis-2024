@@ -1,3 +1,4 @@
+using Amazon.Runtime.Internal;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,6 +37,45 @@ public class Board : MonoBehaviour
             //Set the random direction
             sign.currentDirection = sign.GetDirection();
         }
+        updateMines();
+    }
+
+    private void updateMines()
+    {
+        List<Sign> signs = getEntities<Sign>();
+        List<Mine> mines = getEntities<Mine>();
+
+        foreach (Mine mine in mines)
+        {
+            bool isDeactivated = false;
+
+            foreach (Sign sign in signs)
+            {
+                var minePos = mine.getPosition();
+                var signPos = sign.getPosition();
+
+                if (minePos.y == signPos.y)
+                {
+                    if ((minePos.x >= signPos.x && sign.currentDirection == "Right") ||
+                        (minePos.x <= signPos.x && sign.currentDirection == "Left"))
+                    {
+                        isDeactivated = true;
+                        break;
+                    }
+                }
+                else if (minePos.x == signPos.x)
+                {
+                    if ((minePos.y >= signPos.y && sign.currentDirection == "Up") ||
+                        (minePos.y <= signPos.y && sign.currentDirection == "Down"))
+                    {
+                        isDeactivated = true;
+                        break;
+                    }
+                }
+            }
+
+            mine.isActivated = !isDeactivated;
+        }
     }
 
     public void checkPlayerPickup()
@@ -51,7 +91,6 @@ public class Board : MonoBehaviour
             }
         }
     }
-
 
     public void checkPlayerHitMines()
     {
@@ -129,7 +168,12 @@ public class Board : MonoBehaviour
 
     protected bool usedLoop()
     {
-        return inputProcessor.GetCode().Contains("while") || inputProcessor.GetCode().Contains("for");
+        return inputProcessor.GetCode().Contains("while(") || inputProcessor.GetCode().Contains("for(");
+    }
+
+    protected bool usedIfStatement()
+    {
+        return inputProcessor.GetCode().Contains("if(");
     }
 
     protected bool usedStatement()

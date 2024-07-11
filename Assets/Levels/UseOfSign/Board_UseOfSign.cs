@@ -29,7 +29,7 @@ public class Board_UseOfSign : Board
         {
             stars += 1;
         }
-        if (this.numberOfLinesUsed() <= 30)
+        if (this.usedIfStatement())
         {
             stars += 1;
         }

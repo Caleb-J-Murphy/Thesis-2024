@@ -463,7 +463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3facbfcbddb9f80478a53ab30f1ce59a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextLevelName: Tutorial_1
+  nextLevelName: LearnMoveRight
 --- !u!1 &605091337
 GameObject:
   m_ObjectHideFlags: 0

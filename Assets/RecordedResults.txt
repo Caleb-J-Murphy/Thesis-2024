@@ -1,2 +1,10 @@
-UserID,Level,TimeStart,TimeEnd,PlayPresses,Stars,Completed,Errors,Code
-0,Tutorial_1,0.2064129,3.987732,0,3,True,,hero.moveRight()-hero.moveRight()-hero.pickUpItem()-hero.moveRight()-door.useDoor()
+UserID,Level,TimeStart,TimeEnd,Stars,Completed,Errors,Code
+0,LearnMoveRight,1.172471,35.27553,3,True,,hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()
+0,PickUpCoins,35.28949,48.75533,2,True,,hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()
+0,PickUpCoins,51.02374,60.69063,2,True,,hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.pickUpItem()-hero.moveRight()
+0,PickUpCoins,66.22168,95.87454,2,True,,hero.moveRight()-hero.moveRight()-hero.pickUpItem()-hero.moveRight()-hero.moveRight()-hero.pickUpItem()-hero.moveRight()
+0,LearnToUseKey,95.88527,119.0667,0,False,,hero.moveRight()-hero.pickUpItem()-hero.moveRight()-
+0,LearnToUseKey,119.0667,127.5213,0,False,,hero.moveRight()-hero.pickUpItem()-hero.moveRight()-door.useDoor()
+0,LearnToUseKey,127.5213,147.9202,3,True,,hero.moveRight()-hero.pickUpItem()-hero.moveRight()-door.useDoor()-hero.moveRight()-hero.moveRight()-hero.moveRight()
+0,AvoidSpikes,147.9306,183.5465,2,True,,hero.moveDown()-hero.moveDown()-hero.moveRight()-hero.pickUpItem()-hero.moveRight()-hero.moveUp()-hero.moveUp()
+0,UseOfSign,183.5599,279.5551,3,True,,hero.moveRight()-hero.moveRight()-string signReading = sign.readSign()-if(signReading == "Right") {-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-} else {-hero.moveDown()-hero.moveDown()-hero.moveDown()-hero.moveDown()-}

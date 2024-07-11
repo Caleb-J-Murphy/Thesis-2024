@@ -266,15 +266,15 @@ PrefabInstance:
     - target: {fileID: 1585789539774057581, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: mapFile
       value: 
-      objectReference: {fileID: 4900000, guid: ecbb9dfd7fffd1842b9a4142e6017847, type: 3}
+      objectReference: {fileID: 4900000, guid: e408acbbae49d9a43948b26d228fb7ca, type: 3}
     - target: {fileID: 1585789539774057581, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: boardLevel
-      value: Board_LearnMoveRight
+      value: Board_LearnToUseKey
       objectReference: {fileID: 0}
     - target: {fileID: 2784178041743830351, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: fromChatGPT
       value: 
-      objectReference: {fileID: 4900000, guid: 0cf3e30d04d8ec94399607e46630474c, type: 3}
+      objectReference: {fileID: 4900000, guid: ee576f507af42764db51cf1a07cbbb3f, type: 3}
     - target: {fileID: 3302162029656807010, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_Name
       value: Level Controller
@@ -290,6 +290,10 @@ PrefabInstance:
     - target: {fileID: 3860009830635493181, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_fontStyle
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3896887878297920377, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
+      propertyPath: nextLevelName
+      value: AvoidSpikes
       objectReference: {fileID: 0}
     - target: {fileID: 4585689522144811791, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_AnchorMax.x
@@ -310,7 +314,7 @@ PrefabInstance:
     - target: {fileID: 4691674162936286781, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: levelExplanation
       value: 
-      objectReference: {fileID: 4900000, guid: 54c9ca857aecf284eaf82ee66387ad8e, type: 3}
+      objectReference: {fileID: 4900000, guid: 78aeb203d6e1fab42bdffb6c7c45e6f4, type: 3}
     - target: {fileID: 4691674162936286781, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: responseRequirements
       value: 

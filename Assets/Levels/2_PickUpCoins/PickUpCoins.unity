@@ -291,6 +291,10 @@ PrefabInstance:
       propertyPath: m_fontStyle
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3896887878297920377, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
+      propertyPath: nextLevelName
+      value: LearnToUseKey
+      objectReference: {fileID: 0}
     - target: {fileID: 4585689522144811791, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

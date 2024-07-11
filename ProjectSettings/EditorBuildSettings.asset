@@ -6,11 +6,23 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
-    path: Assets/Levels/HomeScreen/HomeScreen.unity
+    path: Assets/Levels/0_HomeScreen/HomeScreen.unity
     guid: 434e8f84a12a77c49834a1bc6ca906ff
+  - enabled: 1
+    path: Assets/Levels/1_LearnMoveRight/LearnMoveRight.unity
+    guid: 8fe7fa4988e62004892be3361aa83c70
+  - enabled: 1
+    path: Assets/Levels/2_PickUpCoins/PickUpCoins.unity
+    guid: 3656c7727e2c8764b81e86503b967b3a
+  - enabled: 1
+    path: Assets/Levels/3_LearnToUseKey/LearnToUseKey.unity
+    guid: 7c462bef1e718ae4ebf3d94efe1852a2
+  - enabled: 1
+    path: Assets/Levels/4_AvoidSpikes/AvoidSpikes.unity
+    guid: a468438f5446f414e994f5b239507021
+  - enabled: 1
+    path: Assets/Levels/5_UseOfSign/UseOfSign.unity
+    guid: f98215ccd269c3c40978a754517c978b
   - enabled: 1
     path: Assets/Levels/Tutorial1/Tutorial_1.unity
     guid: f6975a486f382c049a2136ce9b5e77ed
@@ -23,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Levels/Level2/Level_2.unity
     guid: 1918317442cc744478faa357963687cc
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}

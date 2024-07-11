@@ -266,15 +266,15 @@ PrefabInstance:
     - target: {fileID: 1585789539774057581, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: mapFile
       value: 
-      objectReference: {fileID: 4900000, guid: e408acbbae49d9a43948b26d228fb7ca, type: 3}
+      objectReference: {fileID: 4900000, guid: 0df1048b1adee024b96f3602e7ab6d98, type: 3}
     - target: {fileID: 1585789539774057581, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: boardLevel
-      value: Board_LearnToUseKey
+      value: Board_AvoidSpikes
       objectReference: {fileID: 0}
     - target: {fileID: 2784178041743830351, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: fromChatGPT
       value: 
-      objectReference: {fileID: 4900000, guid: ee576f507af42764db51cf1a07cbbb3f, type: 3}
+      objectReference: {fileID: 4900000, guid: 3a8ae193734c6074894eac520a49b299, type: 3}
     - target: {fileID: 3302162029656807010, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_Name
       value: Level Controller
@@ -290,6 +290,10 @@ PrefabInstance:
     - target: {fileID: 3860009830635493181, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_fontStyle
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3896887878297920377, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
+      propertyPath: nextLevelName
+      value: UseOfSign
       objectReference: {fileID: 0}
     - target: {fileID: 4585689522144811791, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_AnchorMax.x
@@ -310,7 +314,7 @@ PrefabInstance:
     - target: {fileID: 4691674162936286781, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: levelExplanation
       value: 
-      objectReference: {fileID: 4900000, guid: 78aeb203d6e1fab42bdffb6c7c45e6f4, type: 3}
+      objectReference: {fileID: 4900000, guid: 6455ee2a4998c624f8f453ce33e54c9e, type: 3}
     - target: {fileID: 4691674162936286781, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: responseRequirements
       value: 

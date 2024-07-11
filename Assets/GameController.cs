@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour
     public GameObject floorPrefab;
     public GameObject keyPrefab;
     public GameObject ladderPrefab;
+    public GameObject signPrefab;
 
     [Header("UI Objects")]
     public GameObject winScreen;
@@ -267,6 +268,11 @@ public class GameController : MonoBehaviour
                     {
                         GameObject ladder = Instantiate(ladderPrefab, position, Quaternion.identity, gameHolder.transform);
                         board.AddEntity(ladder.GetComponent<Ladder>(), new Vector2(x, -y));
+                    } else if (cell == 'S')
+                    {
+                        GameObject sign = Instantiate(signPrefab, position, Quaternion.identity, gameHolder.transform);
+                        board.AddEntity(sign.GetComponent<Sign>(), new Vector2(x, -y));
+                        board.PrintEntities();
                     }
                 }
             }

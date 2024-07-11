@@ -23,6 +23,21 @@ public class Board : MonoBehaviour
         hasWon();
     }
 
+    /*
+     * Called when the user presses the player button
+     * This is used for random events that get set each time they user presses play
+     */
+    public void startPlay()
+    {
+        //Update the signs
+        List<Sign> signs = getEntities<Sign>();
+        foreach (Sign sign in signs)
+        {
+            //Set the random direction
+            sign.currentDirection = sign.GetDirection();
+        }
+    }
+
     public void checkPlayerPickup()
     {
         List<Collectable> collectables = getEntities<Collectable>();
@@ -134,6 +149,33 @@ public class Board : MonoBehaviour
             }
         }
         return numCoins;
+    }
+
+    public virtual string GetSign()
+    {
+        List<Hero> heros = getEntities<Hero>();
+        List<Sign> signs = getEntities<Sign>();
+        foreach (Hero hero in heros)
+        {
+            foreach (Sign sign in signs)
+            {
+                if (hero.getPosition() == sign.getPosition())
+                {
+                    Debug.Log("We found a sign at the players position");
+                    return sign.currentDirection;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void PrintEntities()
+    {
+        List<Entity> entities = getEntities<Entity>();
+        foreach (Entity entity in entities)
+        {
+            Debug.Log($"\t{entity.getName()}");
+        }
     }
 
 }

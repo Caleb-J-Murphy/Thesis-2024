@@ -15,15 +15,13 @@ public class InputProcessor : MonoBehaviour
 
     private Dictionary<string, Action<string>> entityFunctions;
     private Dictionary<string, Entity> entities;
-    private Hero Hero;
     public Board board;
     public float stepDelay = 1f; // Time delay between each step, adjustable in the inspector
     private GameController gameController;
 
     private string input = "";
-    private string map = "";
 
-    private Dictionary<string, object> variableValues = new Dictionary<string, object>();
+    [SerializeField] private Dictionary<string, object> variableValues = new Dictionary<string, object>();
 
     [SerializeField] private int maxWhileLoop = 10;
     [SerializeField] private int maxLoopDepth = 10;
@@ -86,6 +84,7 @@ public class InputProcessor : MonoBehaviour
         input = textMeshProInputField.text;
         previousAttempt = input;
         stopRequested = false; // Reset the stop flag
+        board.startPlay();
         StartCoroutine(ExecuteSequentially(input));
         
     }
@@ -217,6 +216,7 @@ public class InputProcessor : MonoBehaviour
             }
             else if (IsVariableAssignment(trimmedLine, out string varName, out string varValue, out string varType))
             {
+                Debug.Log("This is a variable assignment");
                 if (variableValues.ContainsKey(varName))
                 {
                     ListKeyValuePairs();
@@ -225,6 +225,7 @@ public class InputProcessor : MonoBehaviour
                 }
 
                 object evaluatedValue = EvaluateValue(varType, varValue);
+                Debug.Log($"We got the evaluated value of: {evaluatedValue}");
                 variableValues[varName] = evaluatedValue;
             }
             else if (isVariableReAssignment(trimmedLine, out varName, out varValue, out varType))
@@ -244,13 +245,25 @@ public class InputProcessor : MonoBehaviour
                     yield break;
                 }
                 variableValues[varName] = evaluatedValue;
-            }
-            else
+            } else if (isCallingSignFunction(trimmedLine))
+            {
+                Debug.LogError($"Nothing to assign the response to for line `{trimmedLine}`");
+                
+            } else
             {
                 yield return StartCoroutine(ExecuteLine(trimmedLine));
             }
             lineNumber++;
         }
+    }
+    
+    private bool isCallingSignFunction(string trimmedLine)
+    {
+        if (trimmedLine.StartsWith("sign."))
+        {
+            return true;
+        }
+        return false;
     }
 
     private bool isBreak(string trimmedLine)
@@ -552,6 +565,7 @@ public class InputProcessor : MonoBehaviour
         {
             if (expression.Contains(op))
             {
+                Debug.Log($"Contains the operator {op}");
                 var parts = expression.Split(new[] { op }, StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length != 2)
                 {
@@ -560,6 +574,7 @@ public class InputProcessor : MonoBehaviour
 
                 var left = parts[0].Trim();
                 var right = parts[1].Trim();
+                Debug.Log("We are about to evaluate each part");
                 object leftValue = EvaluateExpressionPart(left);
                 object rightValue = EvaluateExpressionPart(right);
                 return EvaluateOperation(leftValue, rightValue, op);
@@ -647,8 +662,12 @@ public class InputProcessor : MonoBehaviour
         {
             return boolValue;
         }
+        if (part.StartsWith("\"") && part.EndsWith("\""))
+        {
+            return part.Substring(1, part.Length - 2);
+        }
         // Add more types if needed
-        Debug.LogError($"No value value able to be associated with {part}");
+        Debug.LogError($"No value able to be associated with {part}");
         return part;
     }
 
@@ -665,7 +684,8 @@ public class InputProcessor : MonoBehaviour
         }
 
 
-
+        Debug.Log($"We got to evaluation with leftValue = {leftValue} and right value = {rightValue}" );
+        ListKeyValuePairs();
         switch (op)
         {
             case ">":
@@ -673,16 +693,10 @@ public class InputProcessor : MonoBehaviour
             case "<":
                 return int.Parse(leftValue.ToString()) < int.Parse(rightValue.ToString());
             case "==":
-                if (int.TryParse(leftValue.ToString(),out int lValue) && int.TryParse(rightValue.ToString(), out int rValue))
-                {
-                    return lValue == rValue;
-                }
+                Debug.Log("We got to above the attempt");
+                Debug.Log("We got to equals");
                 return leftValue.Equals(rightValue);
             case "!=":
-                if (int.TryParse(leftValue.ToString(), out int lsValue) && int.TryParse(rightValue.ToString(), out int rsValue))
-                {
-                    return lsValue != rsValue;
-                }
                 return !leftValue.Equals(rightValue);
             case "and":
                 return bool.Parse(leftValue.ToString()) && bool.Parse(rightValue.ToString());
@@ -786,8 +800,31 @@ public class InputProcessor : MonoBehaviour
         return false;
     }
 
+    private string EvaluateSignFunction(string functionCall)
+    {
+        string function = functionCall.Substring("sign.".Length);
+        Debug.Log($"The function ended up being: {function}");
+        if (function == "readSign()")
+        {
+            Debug.Log("We are about to read the sign");
+            string signResult = board.GetSign();
+            if(signResult == null)
+            {
+                Debug.LogError("There is no sign at this location");
+            }
+            return signResult;
+        }
+        Debug.Log($"the function `{function}` was not a known function of sign");
+        return null;
+    }
+
     private object EvaluateValue(string varType, string value)
     {
+        if (isCallingSignFunction(value))
+        {
+            Debug.Log("It was a sign function");
+            return EvaluateSignFunction(value);
+        }
         // Check if the value is an expression like distance - 1
         var additionalParts = value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         if (additionalParts.Length == 3)

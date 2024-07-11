@@ -1,0 +1,36 @@
+This is Learn to use key where the objective of the level is to reach to ladder by moving the player to the right but to do so, they need to pick up the key and use it on the door.
+Once they are at the ladder they will have completed the level.
+The layout looks like this: 
+WWWWWWWWW
+WH S M LW
+WWW WWWWW
+..WMW
+..W W
+..WLW
+..WWW
+Where W = Wall, S = Sign (Which returns either Down or Right), M = Mine, L = Ladder, H = hero (its original position of hero at the beginning of the level), and a space or a . is nothing
+
+In this level, you should discourage the use of manually moving the hero to the door and unlock it. 
+Here is an example solution to help the student:
+hero.moveRight()
+hero.moveRight()
+string signResponse = sign.readSign()
+if(signResponse == "Down")
+{
+	hero.moveDown()
+	hero.moveDown()
+	hero.moveDown()
+	hero.moveDown()
+} else {
+	hero.moveRight()
+	hero.moveRight()
+	hero.moveRight()
+	hero.moveRight()
+}
+
+It does not need to be exactly like this.
+
+The objectives for this level are:
+1. Reach the ladder
+2. Complete the level in 30 or less lines of code
+3. Complete the level in 15 or less lines of code

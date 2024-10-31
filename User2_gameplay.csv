@@ -1,0 +1,23 @@
+2,LearnMoveRight,2.27134,17.25432,0,False,,hero.moveRight()
+2,LearnMoveRight,17.25432,37.23198,0,False,Invalid command: hero.moveRIght()-hero.moveRight()-hero.moveRight()-hero.moveRIght()-hero.moveRight()
+2,LearnMoveRight,37.23198,45.69691,0,False,Invalid command: hero.moveRIght()-hero.moveRight()-hero.moveRight()-hero.moveRIght()-hero.moveRight()-hero.moveRight()
+2,LearnMoveRight,45.69691,54.30529,3,True,,hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()
+2,PickUpCoins,54.31446,113.1439,2,True,,hero.moveRight()-hero.moveRight()-hero.pickUpItem()-hero.moveRight()-hero.moveRight()-hero.pickUpItem()-hero.moveRight()
+2,LearnToUseKey,113.1524,127.7956,0,False,,hero.moveRight()-hero.pickUpItem()
+2,LearnToUseKey,127.7956,137.0451,0,False,,hero.moveRight()-hero.pickUpItem()-door.useDoor()
+2,LearnToUseKey,137.0451,139.7381,0,False,,hero.moveRight()-hero.pickUpItem()-door.useDoor()
+2,LearnToUseKey,139.7381,148.9787,0,False,,hero.moveRight()-hero.pickUpItem()-hero.moveRight()-door.useDoor()
+2,LearnToUseKey,148.9787,163.129,0,False,,hero.moveRight()-hero.pickUpItem()-hero.moveRight()-door.useDoor()-hero.moveRight()-hero.moveRight()
+2,LearnToUseKey,163.129,178.4004,3,True,,hero.moveRight()-hero.pickUpItem()-hero.moveRight()-door.useDoor()-hero.moveRight()-hero.moveRight()-hero.moveRight()
+2,AvoidSpikes,178.4094,185.8448,0,False,You can't go over a spike, you will die NullReferenceException: Object reference not set to an instance of an object,hero.moveRight()
+2,AvoidSpikes,185.8448,205.3809,0,False,,hero.moveDown()-hero.moveDown()-hero.moveRight()
+2,AvoidSpikes,205.3809,215.2643,0,False,Invalid command: hero.pickItem()-hero.moveDown()-hero.moveDown()-hero.moveRight()-hero.pickItem()
+2,AvoidSpikes,215.2643,229.0803,0,False,,hero.moveDown()-hero.moveDown()-hero.moveRight()-hero.pickUpItem()
+2,AvoidSpikes,229.0803,242.3177,0,False,,hero.moveDown()-hero.moveDown()-hero.moveRight()-hero.pickUpItem()-hero.moveRight()
+2,AvoidSpikes,242.3177,259.8148,2,True,,hero.moveDown()-hero.moveDown()-hero.moveRight()-hero.pickUpItem()-hero.moveRight()-hero.moveUp()-hero.moveUp()
+2,UseOfSign,259.8246,297.7291,0,False,Nothing to assign the response to for line `sign.readSign()', hero.moveRight()-hero.moveRight()-sign.readSign()
+2,UseOfSign,297.7291,381.2094,0,False,,hero.moveRight()-hero.moveRight()-string direction = sign.readSign()-if(direction == "Right") {-hero.moveRight()-hero.moveRight()-hero.moveRight()-} else {-hero.moveDown()-hero.moveDown()-hero.moveDown()-}
+2,UseOfSign,381.2094,421.2545,3,True,,hero.moveRight()-hero.moveRight()-string direction = sign.readSign()-if(direction == "Right") {-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-} else {-hero.moveDown()-hero.moveDown()-hero.moveDown()-hero.moveDown()-}
+2,StairMapLevel,421.2658,442.6278,0,False,,hero.moveUp()-hero.moveRight()
+2,StairMapLevel,442.6278,512.3983,0,False,,int distance = 0-while(distance < 8) {-hero.moveUp()-hero.moveRight()-distance = distance + 1-}
+2,StairMapLevel,512.3983,529.1844,3,True,,int distance = 0-while(distance < 8) {-hero.moveUp()-hero.moveRight()-distance = distance + 1-}-hero.moveRight()

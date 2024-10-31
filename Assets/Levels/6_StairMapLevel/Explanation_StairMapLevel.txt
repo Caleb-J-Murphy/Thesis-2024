@@ -1,0 +1,30 @@
+This is teaching the player how to use a for loop or a while loop. They should only need to move up and to the right multiple times to complete the level.
+Once they are at the ladder they will have completed the level.
+The layout looks like this: 
+.......WWWWW
+......WW  LW
+.....WW  WWW
+....WW  WW
+...WW  WW
+..WW  WW
+.WW  WW  
+WW  WW
+W  WW
+WHWW
+WWW
+Where W = Wall, L = Ladder, H = hero (its original position of hero at the beginning of the level), and a space or a . is nothing
+
+In this level, you should discourage the use of manually moving the hero to the door and unlock it. 
+Here is an example solution to help the student:
+for(i in range(8)) {
+hero.moveUp()
+hero.moveRight()
+}
+hero.moveRight()
+
+It does not need to be exactly like this.
+
+The objectives for this level are:
+1. Reach the ladder
+2. Uses a while loop or a for loop
+3. Complete the level in 7 or less lines of code

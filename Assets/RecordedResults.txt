@@ -1,10 +1,61 @@
 UserID,Level,TimeStart,TimeEnd,Stars,Completed,Errors,Code
-0,LearnMoveRight,1.172471,35.27553,3,True,,hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()
-0,PickUpCoins,35.28949,48.75533,2,True,,hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()
-0,PickUpCoins,51.02374,60.69063,2,True,,hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.pickUpItem()-hero.moveRight()
-0,PickUpCoins,66.22168,95.87454,2,True,,hero.moveRight()-hero.moveRight()-hero.pickUpItem()-hero.moveRight()-hero.moveRight()-hero.pickUpItem()-hero.moveRight()
-0,LearnToUseKey,95.88527,119.0667,0,False,,hero.moveRight()-hero.pickUpItem()-hero.moveRight()-
-0,LearnToUseKey,119.0667,127.5213,0,False,,hero.moveRight()-hero.pickUpItem()-hero.moveRight()-door.useDoor()
-0,LearnToUseKey,127.5213,147.9202,3,True,,hero.moveRight()-hero.pickUpItem()-hero.moveRight()-door.useDoor()-hero.moveRight()-hero.moveRight()-hero.moveRight()
-0,AvoidSpikes,147.9306,183.5465,2,True,,hero.moveDown()-hero.moveDown()-hero.moveRight()-hero.pickUpItem()-hero.moveRight()-hero.moveUp()-hero.moveUp()
-0,UseOfSign,183.5599,279.5551,3,True,,hero.moveRight()-hero.moveRight()-string signReading = sign.readSign()-if(signReading == "Right") {-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-} else {-hero.moveDown()-hero.moveDown()-hero.moveDown()-hero.moveDown()-}
+1,LearnMoveRight,2.002864,17.02751,0,False,Invalid command: her.moveRight()
+,her.moveRight()
+1,LearnMoveRight,17.02751,37.3527,0,False,,hero.moveRight()
+1,LearnMoveRight,37.3527,57.11234,0,False,,hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()
+1,LearnMoveRight,57.11234,71.74789,2,True,,hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()--hero.moveRight()
+1,LearnMoveRight,73.79211,86.40628,3,True,,hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()
+1,PickUpCoins,86.42443,94.97665,0,False,,-hero.moveRight()-hero.moveRight()-hero.moveRight()
+1,PickUpCoins,94.97665,106.1785,0,False,,-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.pickUpItem()
+1,PickUpCoins,106.1785,119.2802,0,False,,hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.pickUpItem()
+1,PickUpCoins,119.2802,128.7198,0,False,,hero.moveRight()-hero.moveRight()-hero.pickUpItem()-hero.moveRight()-hero.moveRight()-hero.pickUpItem()
+1,PickUpCoins,128.7198,138.8712,2,True,,hero.moveRight()-hero.moveRight()-hero.pickUpItem()-hero.moveRight()-hero.moveRight()-hero.pickUpItem()-hero.moveRight()
+1,LearnToUseKey,138.8927,155.0538,0,False,Invalid command: hero.pickUpkey()
+,hero.moveRight()-hero.pickUpkey()
+1,LearnToUseKey,155.0538,173.1369,0,False,,hero.moveRight()-hero.pickUpItem()-hero.moveRight()-hero.moveRight()-hero.moveRight()
+1,LearnToUseKey,173.1369,187.3882,0,False,,hero.moveRight()-hero.pickUpItem()-hero.moveRight()-hero.moveRight()-hero.moveRight()-door.useDoor()
+1,LearnToUseKey,187.3882,202.2149,2,True,,hero.moveRight()-hero.pickUpItem()-hero.moveRight()-hero.moveRight()-hero.moveRight()-door.useDoor()-hero.moveRight()-hero.moveRight()-hero.moveRight()
+1,AvoidSpikes,202.2406,220.3559,0,False,,hero.moveDown()-hero.moveDown()-hero.moveRight()
+1,AvoidSpikes,220.3559,228.7413,0,False,,hero.moveDown()-hero.moveDown()-hero.moveRight()-hero.pickUpItem()
+1,AvoidSpikes,228.7413,234.9439,0,False,You can't go over a spike, you will die
+NullReferenceException: Object reference not set to an instance of an object
+,hero.moveDown()-hero.moveDown()-hero.moveRight()-hero.pickUpItem()-hero.moveUp()
+1,AvoidSpikes,234.9439,249.4155,0,False,You have a mismatched bracket
+Invalid command: hero.mpveRight()
+You can't go over a spike, you will die
+NullReferenceException: Object reference not set to an instance of an object
+,hero.moveDown()-hero.moveDown()-hero.moveRight()-hero.pickUpItem(-hero.mpveRight()-hero.moveUp()
+1,AvoidSpikes,249.4155,267.7159,0,False,You have a mismatched bracket
+,hero.moveDown()-hero.moveDown()-hero.moveRight()-hero.pickUpItem(-hero.moveRight()-hero.moveUp()
+1,AvoidSpikes,267.7159,277.3559,0,False,You have a mismatched bracket
+Invalid command: hero.mmoveUp()
+,hero.moveDown()-hero.moveDown()-hero.moveRight()-hero.pickUpItem(-hero.moveRight()-hero.moveUp()-hero.mmoveUp()
+1,AvoidSpikes,277.3559,283.5545,0,False,You have a mismatched bracket
+Invalid command: hero.mmoveUp()
+,hero.moveDown()-hero.moveDown()-hero.moveRight()-hero.pickUpItem(-hero.moveRight()-hero.moveUp()-hero.mmoveUp()
+1,AvoidSpikes,283.5545,287.6345,2,True,You have a mismatched bracket
+,hero.moveDown()-hero.moveDown()-hero.moveRight()-hero.pickUpItem(-hero.moveRight()-hero.moveUp()-hero.moveUp()
+1,UseOfSign,287.6504,294.3989,0,False,,hero.moveRight()
+1,UseOfSign,294.3989,302.9316,0,False,,hero.moveRight()-hero.moveRight()
+1,UseOfSign,302.9316,327.0605,0,False,,hero.moveRight()-hero.moveRight()-hero.moveDown()
+1,UseOfSign,327.0605,334.3535,0,False,You can't go over a spike, you will die
+NullReferenceException: Object reference not set to an instance of an object
+,hero.moveRight()-hero.moveRight()-hero.moveDown()-hero.moveDown()
+1,UseOfSign,334.3535,365.3013,0,False,,hero.moveRight()-hero.moveRight()-if(1 == 1){-hero.moveDown()-hero.moveDown()-}
+1,UseOfSign,365.3013,375.5751,3,True,,hero.moveRight()-hero.moveRight()-if(1 == 1){-hero.moveDown()-hero.moveDown()-hero.moveDown()-hero.moveDown()-}
+1,StairMapLevel,375.596,429.2252,3,True,Infinite Loop Detected, while loop exceded 10 times
+,int distance = 1-while(distance < 5){-hero.moveUp()-hero.moveRight()-}
+1,LearnMoveRight,1.050455,21.68944,3,True,,hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()
+1,LearnMoveRight,1.050455,22.68917,3,True,,hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()
+1,LearnMoveRight,1.050455,22.68917,3,True,,hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()
+1,PickUpCoins,22.69551,32.7646,2,True,,-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()
+1,LearnMoveRight,1.050455,22.68917,3,True,,hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()
+1,PickUpCoins,22.69551,33.53672,2,True,,-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()
+1,LearnMoveRight,3.157668,71.59356,0,False,,hero.moveDown()
+1,LearnMoveRight,3.157668,71.59356,0,False,,hero.moveDown()
+1,LearnMoveRight,71.59356,118.7966,3,True,,hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()
+1,LearnMoveRight,3.157668,71.59356,0,False,,hero.moveDown()
+1,LearnMoveRight,71.59356,120.3845,3,True,,hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()
+1,LearnMoveRight,3.157668,71.59356,0,False,,hero.moveDown()
+1,LearnMoveRight,71.59356,120.3845,3,True,,hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()-hero.moveRight()
+1,PickUpCoins,120.3906,135.6682,0,False,,-hero.moveRight()-hero.moveRight()-hero.pickUpItem()-hero.moveRight()

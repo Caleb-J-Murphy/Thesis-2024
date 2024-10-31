@@ -79,13 +79,13 @@ public class Hero : Controllable
         Vector2 pos = getPosition() + direction;
         List<Entity>entities = board.getEntitisAt(pos);
         foreach (Entity ent in entities) {
-            if (ent is Wall) {
+            if (ent is Wall || (ent is Door && !((Door)ent).isUnlocked())) {
                 return true;
             }
         }
         return false;
     }
-    
+
     public override void moveUp() {
         if (!isWallAtDirection(Vector2.up)) {
             setPosition(getPosition() + Vector2.up);

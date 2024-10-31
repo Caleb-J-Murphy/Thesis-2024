@@ -7,6 +7,7 @@ using System.Linq;
 using System.IO;
 using UnityEditor.PackageManager;
 using UnityEngine.Windows;
+using UnityEngine.UI;
 
 public class LevelController : MonoBehaviour
 {
@@ -23,10 +24,14 @@ public class LevelController : MonoBehaviour
     }
 
     [SerializeField] private Dictionary<int, Dictionary<string, List<Attempt>>> statistics = new Dictionary<int, Dictionary<string, List<Attempt>>>();
-    [SerializeField] private int currentUserID;
+    [SerializeField] public int currentUserID;
     [SerializeField] private TextAsset textAsset;
+    [SerializeField] private GameController gameController;
 
     private string currentLevel;
+
+    [SerializeField] private Toggle aiToggle;
+    [SerializeReference] public bool isUsingAI;
 
     private void Awake()
     {
@@ -40,6 +45,12 @@ public class LevelController : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void Start()
+    {
+        isUsingAI = aiToggle.isOn;
+    }
+
     /*
      * Called when creating a new user at the beginning of the game
      */
@@ -88,6 +99,8 @@ public class LevelController : MonoBehaviour
      */
     public void StartAttempt()
     {
+        gameController = FindObjectOfType<GameController>();
+
         //Check the user exists
         if (!statistics.ContainsKey(currentUserID) || !statistics[currentUserID].ContainsKey(currentLevel))
         {
@@ -132,10 +145,17 @@ public class LevelController : MonoBehaviour
 
     private void WriteStatisticsToCsv(string filePath)
     {
-        using (StreamWriter writer = new StreamWriter(filePath))
+        bool fileExists = System.IO.File.Exists(filePath);
+        bool isFileEmpty = fileExists && new FileInfo(filePath).Length == 0;
+
+        // Open the file is append mode
+        using (StreamWriter writer = new StreamWriter(filePath, true))
         {
-            // Write the header
-            writer.WriteLine("UserID,Level,TimeStart,TimeEnd,Stars,Completed,Errors,Code");
+            // Write the header only if the file is empty
+            if (!fileExists || isFileEmpty)
+            {
+                writer.WriteLine("UserID,Level,TimeStart,TimeEnd,Stars,Completed,Errors,Code");
+            }
 
             // Iterate through the statistics dictionary and write the data
             foreach (var userEntry in statistics)
@@ -154,7 +174,7 @@ public class LevelController : MonoBehaviour
         }
 
         Debug.Log($"Statistics written to {filePath}");
-    }  
+    }
 
     /*
      * Called if the level is completed successfully by the player

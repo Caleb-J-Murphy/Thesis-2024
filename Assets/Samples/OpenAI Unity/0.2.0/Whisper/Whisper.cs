@@ -34,7 +34,9 @@ namespace Samples.Whisper
             dropdown.onValueChanged.AddListener(ChangeMicrophone);
             
             var index = PlayerPrefs.GetInt("user-mic-device-index");
+            Debug.Log("Index is:" + index);
             dropdown.SetValueWithoutNotify(index);
+            
             #endif
         }
 
@@ -58,11 +60,12 @@ namespace Samples.Whisper
             isRecording = true;
             recordButton.color = onColor;
 
-            var index = PlayerPrefs.GetInt("user-mic-device-index");
-            
+
             #if !UNITY_WEBGL
+            string defaultMic = Microphone.devices[0];
+            Debug.Log("Using microphone: " + defaultMic);
             Debug.Log("We are making the clip");
-            clip = Microphone.Start(dropdown.options[index].text, false, duration, 44100);
+            clip = Microphone.Start(defaultMic, false, duration, 44100);
             #endif
         }
 

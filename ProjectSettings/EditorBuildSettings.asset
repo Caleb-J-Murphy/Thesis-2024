@@ -38,4 +38,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Levels/6_StairMapLevel/StairMapLevel.unity
+    guid: 64018bd7ce454c240936f928d242df05
   m_configObjects: {}

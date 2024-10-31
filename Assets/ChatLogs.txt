@@ -1,0 +1,7 @@
+ChatGPT chat logs
+User ID: 1 -> 
+How would I make the player move?
+User ID: 1 -> Response: ==> Great question! To make the player move in the game, consider how you might give an instruction for movement. Think about using a specific 'move' command to progress in the desired direction. What single 'move' command might help you get the hero closer to the ladder?
+User ID: 1 -> 
+Why did the hero not move down?
+User ID: 1 -> Response: ==> Ah, it seems like you might be using the wrong direction for movement. Remember, the objective is to move the hero towards the ladder, which is to the right. Consider using the 'moveRight' command to see if that advances the hero in the correct direction.

@@ -1,3 +1,4 @@
+using OpenAI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -39,6 +40,8 @@ public class GameController : MonoBehaviour
     public Type boardLevelType;
 
     public TextAsset mapFile;
+
+    [SerializeField] private ChatGPT chatGPT;
 
 
     public GameObject gameHolder;
@@ -102,6 +105,8 @@ public class GameController : MonoBehaviour
         //End the attempt
         levelController.EndAttempt();
     }
+
+    
 
     public void SetStars(int starNum)
     {

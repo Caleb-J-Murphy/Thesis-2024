@@ -266,15 +266,19 @@ PrefabInstance:
     - target: {fileID: 1585789539774057581, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: mapFile
       value: 
-      objectReference: {fileID: 4900000, guid: 09f507d01c2e81f429009cbb87e3ee26, type: 3}
+      objectReference: {fileID: 4900000, guid: ad600387a7e46bf46a7131625ec1fadd, type: 3}
     - target: {fileID: 1585789539774057581, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: boardLevel
-      value: Board_PickUpCoin
+      value: Board_StairMapLevel
       objectReference: {fileID: 0}
+    - target: {fileID: 1585789539774057581, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
+      propertyPath: signPrefab
+      value: 
+      objectReference: {fileID: 3932284075153349650, guid: 32060e04f6e14d1458d8be3377210f9c, type: 3}
     - target: {fileID: 2784178041743830351, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: fromChatGPT
       value: 
-      objectReference: {fileID: 4900000, guid: 7c9a99eefa0e1fd42bf91fea0767b3ee, type: 3}
+      objectReference: {fileID: 4900000, guid: 3a8ae193734c6074894eac520a49b299, type: 3}
     - target: {fileID: 3302162029656807010, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_Name
       value: Level Controller
@@ -285,15 +289,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3860009830635493181, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_text
-      value: Get the Money
+      value: Stairs Galore
       objectReference: {fileID: 0}
     - target: {fileID: 3860009830635493181, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_fontStyle
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3896887878297920377, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
-      propertyPath: nextLevelName
-      value: LearnToUseKey
       objectReference: {fileID: 0}
     - target: {fileID: 4585689522144811791, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_AnchorMax.x
@@ -314,7 +314,7 @@ PrefabInstance:
     - target: {fileID: 4691674162936286781, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: levelExplanation
       value: 
-      objectReference: {fileID: 4900000, guid: 57a17b9911dad8b4597597ae499fd926, type: 3}
+      objectReference: {fileID: 4900000, guid: b0bc161e48f8f52408ecef380928501a, type: 3}
     - target: {fileID: 4691674162936286781, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: responseRequirements
       value: 

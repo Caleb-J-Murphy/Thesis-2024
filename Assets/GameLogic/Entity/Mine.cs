@@ -1,9 +1,12 @@
+using Amazon.Runtime.Internal;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Mine : Entity
 {
+    InputProcessor inputProcessor = InputProcessor.Instance;
     public bool isActivated = true;
     public int damage = 10;
 
@@ -82,10 +85,8 @@ public class Mine : Entity
         if (isActivated)
         {
             Debug.Log("Mine triggered, dealing " + damage + " damage!");
-            hero.TakeDamage(damage);
-            Deactivate();
-            //Somehow need to change the color of the sprite beneath it to be blue
-            spriteRenderer.color = Color.blue;
+            Debug.LogError("You can't go over a spike, you will die");
+            inputProcessor.setPlay(false);
         }
     }
 }

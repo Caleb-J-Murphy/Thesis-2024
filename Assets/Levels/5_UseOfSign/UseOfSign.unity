@@ -289,11 +289,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3860009830635493181, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_text
-      value: Learn To Move Right
+      value: Using the Sign
       objectReference: {fileID: 0}
     - target: {fileID: 3860009830635493181, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_fontStyle
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3896887878297920377, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
+      propertyPath: nextLevelName
+      value: StairMapLevel
       objectReference: {fileID: 0}
     - target: {fileID: 4585689522144811791, guid: 6e9119b16e74bc1488f4df4d1de3aa3b, type: 3}
       propertyPath: m_AnchorMax.x

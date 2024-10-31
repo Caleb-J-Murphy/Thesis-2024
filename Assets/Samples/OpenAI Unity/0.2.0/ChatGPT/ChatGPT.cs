@@ -8,6 +8,8 @@ namespace OpenAI
 {
     public class ChatGPT : MonoBehaviour
     {
+        LevelController levelController = LevelController.Instance;
+        [SerializeField] private string chatLogsFilePath;
         [SerializeField] private TextAsset toChatGPT;
         [SerializeField] private TextAsset responseRequirements;
         //Includes the solution to the level.
@@ -26,10 +28,41 @@ namespace OpenAI
             if (toChatGPT && responseRequirements && levelExplanation) prompt = responseRequirements.text + levelExplanation.text + toChatGPT.text;
         }
 
+        //Need to add each reply to a text file to be added in the response
+        public void AddMessegeToChatLog(string messege)
+        {
+            if (levelController == null || levelController.isUsingAI)
+            {
+                bool fileExists = System.IO.File.Exists(chatLogsFilePath);
+                bool isFileEmpty = fileExists && new FileInfo(chatLogsFilePath).Length == 0;
+
+
+                using (StreamWriter writer = new StreamWriter(chatLogsFilePath, true))
+                {
+                    // Write the header only if the file is empty
+                    if (!fileExists || isFileEmpty)
+                    {
+                        writer.WriteLine("ChatGPT chat logs");
+                    }
+                    if (levelController)
+                    {
+                        writer.WriteLine("User ID: " + levelController.currentUserID + " -> " + messege);
+                    } else
+                    {
+                        writer.WriteLine("User ID: None" + " -> " + messege);
+                    }
+                    
+                    Debug.Log(messege);
+                }
+            }
+            
+        }
+
         public async void SendReply(string reply)
         {
             
             Debug.Log($"Creating reply: {reply} to send to chatGPT");
+            AddMessegeToChatLog(reply);
             var newMessage = new ChatMessage()
             {
                 Role = "user",
@@ -48,7 +81,7 @@ namespace OpenAI
             // Complete the instruction
             var completionResponse = await openai.CreateChatCompletion(new CreateChatCompletionRequest()
             {
-                Model = "gpt-3.5-turbo-0613",
+                Model = "gpt-4o",
                 Messages = messages
             });
 
@@ -63,6 +96,7 @@ namespace OpenAI
                 {
                     Debug.Log($"Sending {message.Content} to be spoken in text to speech");
                     textToSpeech.MessageToSpeak(message.Content);
+                    AddMessegeToChatLog("Response: ==> " + message.Content);
                 }
                 
             }

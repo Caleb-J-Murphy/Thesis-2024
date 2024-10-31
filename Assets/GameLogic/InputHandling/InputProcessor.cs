@@ -9,6 +9,7 @@ using System.Linq;
 
 public class InputProcessor : MonoBehaviour
 {
+    public static InputProcessor Instance { get; private set; }
     LevelController levelController = LevelController.Instance;
 
     public TMP_InputField textMeshProInputField;
@@ -30,6 +31,7 @@ public class InputProcessor : MonoBehaviour
     [SerializeField] private bool breakWhile = false;
     [SerializeField] private bool continueInsideIf = false;
     private bool insideIf = false;
+    [SerializeField] private bool keepPlaying = true;
 
     private string previousAttempt = "I have not attempted anything";
 
@@ -51,6 +53,11 @@ public class InputProcessor : MonoBehaviour
         }
     }
 
+    public void setPlay(bool play)
+    {
+        keepPlaying = play;
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -63,6 +70,7 @@ public class InputProcessor : MonoBehaviour
     {
         // Wait for ResetPositions to complete
         yield return StartCoroutine(Reset());
+        keepPlaying = true;
 
         // Now run ProcessInput
         yield return StartCoroutine(ProcessInput(input));
@@ -152,7 +160,7 @@ public class InputProcessor : MonoBehaviour
     {
         List<string> currentBlock = new List<string>();
         int lineNumber = 0;
-        while (lineNumber < lines.Length)
+        while (lineNumber < lines.Length && keepPlaying)
         {
             if (stopRequested)
             {
@@ -399,7 +407,13 @@ public class InputProcessor : MonoBehaviour
         if (entities.ContainsKey(entityName) && entityFunctions.ContainsKey(commandName))
         {
             Debug.Log($"Running Command: {commandName} with parameter: {param}");
-            entityFunctions[commandName].Invoke(param);
+            try
+            {
+                entityFunctions[commandName].Invoke(param);
+            } catch (Exception e)
+            {
+                keepPlaying = false;
+            }
             board.UpdateBoard();
             yield return new WaitForSeconds(stepDelay);
         }
@@ -1010,13 +1024,20 @@ public class InputProcessor : MonoBehaviour
         return "String";
     }
 
-    public void ExecuteEntityFunctionHero(string entityName, Action<Hero> action)
+    public bool ExecuteEntityFunctionHero(string entityName, Action<Hero> action)
     {
         if (entities[entityName] is Hero hero) {
-            action(hero);
+            try
+            {
+                action(hero);
+            } catch (Exception e)
+            {
+                return false;
+            }
         } else {
             throw new InvalidOperationException("Only heroes can perform this action.");
         }
+        return true;
     }
 
     public void ExecuteEntityFunctionDoor(string entityName, Action<Door> action)
